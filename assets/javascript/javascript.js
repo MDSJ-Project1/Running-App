@@ -2,6 +2,8 @@
 
 (function() {
 // Firebase set up /////////////////////////////////////////
+
+
 var config = {
     apiKey: "AIzaSyCEHUOLj9sQo4PFvEtbI0uDOktzzroLcYQ",
     authDomain: "running-app-58fcf.firebaseapp.com",
@@ -22,7 +24,8 @@ var database = firebase.database();
             var longitude = geoLocation.coords.longitude
             var location = latitude + "," + longitude;
             //example using places api
-
+        })
+    }
             $("#button_submit").on("click", function(e) {
                 e.preventDefault()
 
@@ -69,49 +72,116 @@ var database = firebase.database();
 
             })
 
-            $('#address_button').on('click', function() {
-                var databaseAddressInput = $('#address_field').val().trim();
-                var databaseCityInput = $('#city_field').val().trim();
-                var databaseStateInput = $('#state_field').val().trim();
-                var databaseZipInput = $('#zip_field').val().trim();
-                console.log(databaseAddressInput, databaseCityInput, databaseStateInput, databaseZipInput);
-
-                database.ref().push({
-                    name: databaseAddressInput,
-                    weight: databaseCityInput,
-                    startTime: databaseStateInput,
-                    calorie: databaseZipInput
-                })
-
-
-            })
-
-
-        })
-
-
-    }
-
-
 
 })()
 
-function initMap() {
-      var uluru = {lat: -25.363, lng: 131.044};
-      var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 4,
-        center: uluru
-      });
-      var marker = new google.maps.Marker({
-        position: uluru,
-        map: map
-      });
+// Google MAP
+// 
+// Google MAP
+// 
+// Google MAP
+// 
+// Google MAP
+// //////////////////////////////////////////////////////////////
 
+function initMap() {
+  var uluru = {lat: -25.363, lng: 131.044};
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 4,
+    center: uluru
+  });
+  var marker = new google.maps.Marker({
+    position: uluru,
+    map: map
+  });
 }
 
+// 
+// Address Button Click function
+// change map location to address
+// 
+
+$('#address_button').on('click', function() {
+    var addressInput = $('#address_field').val().trim();
+    var cityInput = $('#city_field').val().trim();
+    var stateInput = $('#state_field').val().trim();
+    var zipInput = $('#zip_field').val().trim();
+    console.log(addressInput, cityInput, stateInput, zipInput);
+
+    var key = "AIzaSyDI4WkP2aEnUvW-xJTF5udyKKnTx2Z5cio";
+    var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" +
+     addressInput + "," + cityInput + "," + stateInput + "&key=" + key;
+
+    $.ajax({method:"GET", 
+        url: url}).done(function(response){
+      console.log("done");
+      console.log(response);
+
+      var location = response.results[0].geometry.location;
+      console.log(location);
+
+ // html the start address to the map ////////////////////
+
+      $('#address_html').html('Start Address:' + '<p>' + response.results[0].formatted_address);
+      
+      //   + addressInput + '<br>' + cityInput +
+      // '<br>' + stateInput + '<br>' + zipInput + '</p>');
 
 
+      function initMap() {
+        console.log("new initMap function run");
+          var myLatLng = location;
+
+          // Create a map object and specify the DOM element for display.
+          var map = new google.maps.Map(document.getElementById('map'), {
+            center: myLatLng,
+            zoom: 14
+          });
+
+          // Create a marker and set its position.
+          var marker = new google.maps.Marker({
+            map: map,
+            position: myLatLng,
+            title: 'Start'
+          });
+      }
+    initMap();
+    })
+
+})
+
+
+$('#dest_address_button').on('click', function() {
+  console.log('clicked')
+    var addressInput = $('#dest_address_field').val().trim();
+    var cityInput = $('#dest_city_field').val().trim();
+    var stateInput = $('#dest_state_field').val().trim();
+    var zipInput = $('#dest_zip_field').val().trim();
+    console.log(addressInput, cityInput, stateInput, zipInput);
+
+    var key = "AIzaSyDI4WkP2aEnUvW-xJTF5udyKKnTx2Z5cio";
+    var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" +
+    addressInput + "," + cityInput + "," + stateInput + "&key=" + key;
+    console.log(key);
+    console.log(url);
+    // $.ajax({method:"GET", 
+    //     url: url}).done(function(destResponse){
+    //   console.log("done");
+    //   console.log(destResponse);
+})
+//       var location = response.results[0].geometry.location;
+//       console.log(location);
+// })
+
+// Login
+// And
+// Authentication
+// Section
+// 
+// 
+//     
 // initialize authentication ////////////////////////////////////
+
 var uiConfig = {
     callbacks: {
         signInSuccess: function(currentUser, credential, redirectUrl) {
