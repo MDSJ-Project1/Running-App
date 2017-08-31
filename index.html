@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Project 1</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- 	bootstrap cdn-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!--   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"> -->
+  <!--   google font -->
+  <link href="https://fonts.googleapis.com/css?family=Pathway+Gothic+One" rel="stylesheet">
+  <!-- mapbox css -->
+  <link href='https://api.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.css' rel='stylesheet'/>
+  <!--   css -->
+  <link href="assets/css/stylesheet.css" rel="stylesheet">
+  <!-- firebase cdn -->
+  <script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
+	<!-- Firebase UI -->
+	<script src="https://cdn.firebase.com/libs/firebaseui/2.3.0/firebaseui.js"></script>
+	<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.3.0/firebaseui.css" />
+  <!--   jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+	<!-- Team 2 Header -->
+	<div class="row">
+		<div class="col-lg-6">
+			<div class="page-header">
+			  <h1>Team 2<br><small>Running App</small></h1>
+			</div> <!-- page-header -->
+		</div> <!-- col-lg-6 -->
+		<div class="col-lg-6">
+			<ul class="nav nav-tabs">
+			  <li role="presentation" class="active"><a href="#">Home</a></li>
+			  <li role="presentation"><a href="#">Profile</a></li>
+			  <li role="presentation"><a href="#">Messages</a></li>
+			</ul>
+			<div id="firebaseui-auth-container"></div>
+    	<div id="loader">Loading...</div>
+		</div>
+	</div> <!-- row -->
+	<!-- Team 2 Header -->
+
+	<!-- jumbrotron -->
+<!-- 	<div class="row">
+		 <div class="col-lg-12">
+			<div class="jumbotron">
+			  <h1 class="display-3">Hello, world!</h1>
+			  <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+			  <hr class="my-4">
+			  <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+			  <p class="lead">
+			    <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+			  </p>
+			</div>
+		 </div>
+	</div> --> <!-- row -->
+
+	<!-- Submit form -->
+	<div class="row">
+		<div class="col-lg-6">
+				<div class="panel-group">
+		      			<div class="panel panel-primary">
+		      				<div class="panel-heading">
+		      				    <h3 class="panel-title">Weight Control</h3>
+		      				</div>
+		      				<div class="panel-body">
+		          				<form class="navbar-form navbar-left" role="search">
+		          				<div class="form-group" id="myForm">
+		                        <label>Name</label>
+		                        <br>
+		          				<input type="text" class="form-control" id="name_field" placeholder="John Smith">
+		                        <br>
+		                        <label>Weight</label>
+		                        <br>
+		          				<input type="text" class="form-control" id="weight_field" placeholder="160lb">
+		                        <br>
+		                        <label>Start Time</label>
+		                        <br>
+		          				<input type="number" class="form-control" id="start_date_field" placeholder="00:00">
+		                        <br>
+		                        <label>Calorie</label>
+		                        <br>
+		          				<input type="number" class="form-control" id="calorie_field" placeholder="">
+		                        <br>
+		                          <button type="button" class="btn btn-primary" id="button_submit">Submit</button>
+		                        <br>
+
+
+		                        <label>Address</label>
+		                        <br>
+		                        <input type="text" class="form-control" id="address_field">
+		                        <br>
+		                        <label>City</label>
+		                        <br>
+		                        <input type="text" class="form-control" id="city_field">
+		                        <br>
+		                        <label>State</label>
+		                        <br>
+		                        <input type="text" class="form-control" id="state_field" placeholder="CA">
+		                        <br>
+		                        <label>Zip-Code</label>
+		                        <br>
+		                        <input type="number" class="form-control" id="zip_field" placeholder="94611">
+		                        <br>	
+		                        <button type="button" class="btn btn-primary" id="address_button">Submit Address</button>
+		          				</div>
+		          				</form>
+		      				</div> <!-- panel-body -->
+		      			</div> <!-- panel-primary -->
+		        </div> <!-- panel-group -->
+		</div>
+		<!-- Submit form -->
+
+		<!-- Google Map -->
+		<div class="col-lg-6">
+			<div class="panel panel-primary">
+			  <div class="panel-heading">
+			    <h3 class="panel-title">Google Route</h3>
+			  </div>
+			  <div class="panel-body">
+			  	<div id="google_map">
+			  		<div id='map' style='width: 400px; height: 300px;'></div>
+			  	</div>
+			  </div>
+			</div>`
+		</div>
+
+	</div> <!-- row -->
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="panel panel-primary">
+                <div class="panel-heading">
+                  <h3 class="panel-title">Current Runner</h3>
+                </div>
+                  <div class="panel-body">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Weight</th>
+                          <th>Location</th>
+                          <th>Start Time</th>
+                          <th>End Time</th>
+                          <th>Calorie</th>
+                          <th>Miles</th>
+                        </tr>
+                      </thead>
+                      <tbody class="employee-data-body">
+                        <tr class="employee-data-row">
+                          <td class="name">Example</td>
+                          <td class="weight">160lb</td>
+                          <td class="location">Location</td>
+                          <td class="start-time">00:00</td>
+                          <td class="end-time">00:00</td>
+                          <td class="calorie">100</td>
+                          <td class="total-miles">6000</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div> <!-- panel-body -->
+            </div> <!-- panel-primary -->
+		</div>
+	</div>
+
+
+	<script src="assets/javascript/javascript.js"></script>
+  <!-- Google Maps -->
+  <script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDI4WkP2aEnUvW-xJTF5udyKKnTx2Z5cio&callback=initMap">
+</script>
+
+</body>
+</html>
