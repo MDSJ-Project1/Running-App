@@ -164,14 +164,35 @@ $('#dest_address_button').on('click', function() {
     addressInput + "," + cityInput + "," + stateInput + "&key=" + key;
     console.log(key);
     console.log(url);
-    // $.ajax({method:"GET", 
-    //     url: url}).done(function(destResponse){
-    //   console.log("done");
-    //   console.log(destResponse);
+    
+    $.ajax({method:"GET", 
+        url: url}).done(function(destResponse){
+      console.log("done");
+      console.log(destResponse);
+
+  $('#destination_address_html').html('Destination Address:' + '<p>' + destResponse.results[0].formatted_address);
+
+    var location = destResponse.results[0].geometry.location;
+    console.log(location);
+
+  function initMap() {
+    console.log("destination function activated");
+    console.log(location);
+    // sets destination waypoint
+    
+    // expands map view to include both waypoints
+    // shows walking directions
+  };
 })
 //       var location = response.results[0].geometry.location;
 //       console.log(location);
 // })
+
+// AJAX Erorr message, doesnt work /////////////////////////
+$(document).ajaxError(function() {
+  console.log('ajax error message');
+})
+
 
 // Login
 // And
