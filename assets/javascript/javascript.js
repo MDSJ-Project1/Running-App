@@ -156,15 +156,15 @@ $('#address_button').on('click', function() {
 
 $('#dest_address_button').on('click', function() {
   console.log('clicked')
-    var addressInput = $('#dest_address_field').val().trim();
-    var cityInput = $('#dest_city_field').val().trim();
-    var stateInput = $('#dest_state_field').val().trim();
-    var zipInput = $('#dest_zip_field').val().trim();
-    console.log(addressInput, cityInput, stateInput, zipInput);
+    var addressInput2 = $('#dest_address_field').val().trim();
+    var cityInput2 = $('#dest_city_field').val().trim();
+    var stateInput2 = $('#dest_state_field').val().trim();
+    var zipInput2 = $('#dest_zip_field').val().trim();
+    console.log(addressInput2, cityInput2, stateInput2, zipInput2);
 
     var key = "AIzaSyDI4WkP2aEnUvW-xJTF5udyKKnTx2Z5cio";
     var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" +
-    addressInput + "," + cityInput + "," + stateInput + "&key=" + key;
+    addressInput2 + "," + cityInput2 + "," + stateInput2 + "&key=" + key;
     console.log(key);
     console.log(url);
 
