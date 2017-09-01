@@ -84,6 +84,13 @@ var database = firebase.database();
 // Google MAP
 // //////////////////////////////////////////////////////////////
 
+
+var initMain() = function() {
+    console.log('main map function works');
+    initMap();
+    initStart();
+}
+
 function initMap() {
   var uluru = {lat: -25.363, lng: 131.044};
   var map = new google.maps.Map(document.getElementById('map'), {
@@ -106,7 +113,6 @@ $('#address_button').on('click', function() {
     var cityInput = $('#city_field').val().trim();
     var stateInput = $('#state_field').val().trim();
     var zipInput = $('#zip_field').val().trim();
-    console.log(addressInput, cityInput, stateInput, zipInput);
 
     var key = "AIzaSyDI4WkP2aEnUvW-xJTF5udyKKnTx2Z5cio";
     var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" +
@@ -114,11 +120,8 @@ $('#address_button').on('click', function() {
 
     $.ajax({method:"GET", 
         url: url}).done(function(response){
-      console.log("done");
-      console.log(response);
 
-      var location = response.results[0].geometry.location;
-      console.log(location);
+      var startLocation = response.results[0].geometry.location;
 
  // html the start address to the map ////////////////////
 
@@ -128,24 +131,23 @@ $('#address_button').on('click', function() {
       // '<br>' + stateInput + '<br>' + zipInput + '</p>');
 
 
-      function initMap() {
-        console.log("new initMap function run");
-          var myLatLng = location;
+      function initStart() {
+        console.log("initStart function run");
 
           // Create a map object and specify the DOM element for display.
           var map = new google.maps.Map(document.getElementById('map'), {
-            center: myLatLng,
+            center: startLocation,
             zoom: 14
           });
 
           // Create a marker and set its position.
           var marker = new google.maps.Marker({
             map: map,
-            position: myLatLng,
+            position: startLocation,
             title: 'Start'
           });
       }
-    initMap();
+    init();
     })
 
 })
@@ -164,29 +166,73 @@ $('#dest_address_button').on('click', function() {
     addressInput + "," + cityInput + "," + stateInput + "&key=" + key;
     console.log(key);
     console.log(url);
-    
+
     $.ajax({method:"GET", 
         url: url}).done(function(destResponse){
       console.log("done");
       console.log(destResponse);
 
-  $('#destination_address_html').html('Destination Address:' + '<p>' + destResponse.results[0].formatted_address);
+    $('#destination_address_html').html('Destination Address:' + '<p>' + destResponse.results[0].formatted_address);
 
-    var location = destResponse.results[0].geometry.location;
-    console.log(location);
+    var destLocation = destResponse.results[0].geometry.location;
+    console.log(destLocation);
 
-  function initMap() {
-    console.log("destination function activated");
-    console.log(location);
-    // sets destination waypoint
-    
-    // expands map view to include both waypoints
-    // shows walking directions
-  };
-})
+    function initMap() {
+        console.log("destination function activated");
+        console.log(destLocation);
+        // sets destination waypoint
+        var map = new google.maps.Map(document.getElementById('map'), {
+        center: destLocation,
+        zoom: 12
+        });       
+
+
+        var marker = new google.maps.Marker({
+        map: map,
+        position: destLocation,
+        title: 'destination'
+        });
+
+        // var latlng = [
+        // new google.maps.
+        // ]
+
+        // var latlngbounds = new google.maps.LatLngBounds();
+        // for (var i = 0; i < latlng.length; i++) {
+        // latlngbounds.extend(latlng[i]);
+        // }
+        // map.fitBounds(latlngbounds);
+    };
+
+    //     // expands map view to include both waypoints
+    //     // shows walking directions
+
+    //     var directionsDisplay = new google.maps.DirectionsRenderer({
+    //       map: map
+    //     });
+
+    //     // Set destination, origin and travel mode.
+    //     var request = {
+    //       destination: indianapolis,
+    //       origin: chicago,
+    //       travelMode: 'DRIVING'
+    //     };
+
+    //     // Pass the directions request to the directions service.
+    //     var directionsService = new google.maps.DirectionsService();
+    //     directionsService.route(request, function(response, status) {
+    //       if (status == 'OK') {
+    //         // Display the route on the map.
+    //         directionsDisplay.setDirections(response);
+    //       }
+    //     });
+
+    // };
+});
 //       var location = response.results[0].geometry.location;
 //       console.log(location);
-// })
+initMap();
+});
 
 // AJAX Erorr message, doesnt work /////////////////////////
 $(document).ajaxError(function() {
