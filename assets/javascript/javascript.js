@@ -85,14 +85,15 @@ var database = firebase.database();
 // //////////////////////////////////////////////////////////////
 
 
-var initMain() = function() {
-    console.log('main map function works');
-    initMap();
-    initStart();
-}
+// var initMain() = function() {
+//     console.log('main map function works');
+//     initMap();
+//     initStart();
+// }
 
 function initMap() {
-  var uluru = {lat: -25.363, lng: 131.044};
+    console.log('original initMap function run')
+  var uluru = {lat: 0, lng: 0};
   var map = new google.maps.Map(document.getElementById('map'), {
     zoom: 4,
     center: uluru
@@ -131,8 +132,8 @@ $('#address_button').on('click', function() {
       // '<br>' + stateInput + '<br>' + zipInput + '</p>');
 
 
-      function initStart() {
-        console.log("initStart function run");
+      function initMap() {
+        console.log("start address function run");
 
           // Create a map object and specify the DOM element for display.
           var map = new google.maps.Map(document.getElementById('map'), {
@@ -147,7 +148,7 @@ $('#address_button').on('click', function() {
             title: 'Start'
           });
       }
-    init();
+    initMap();
     })
 
 })
@@ -203,7 +204,7 @@ $('#dest_address_button').on('click', function() {
         // }
         // map.fitBounds(latlngbounds);
     };
-
+    initMap();
     //     // expands map view to include both waypoints
     //     // shows walking directions
 
@@ -231,7 +232,7 @@ $('#dest_address_button').on('click', function() {
 });
 //       var location = response.results[0].geometry.location;
 //       console.log(location);
-initMap();
+
 });
 
 // AJAX Erorr message, doesnt work /////////////////////////
