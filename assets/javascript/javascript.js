@@ -84,10 +84,18 @@ var database = firebase.database();
 // Google MAP
 // //////////////////////////////////////////////////////////////
 
+
+// var initMain() = function() {
+//     console.log('main map function works');
+//     initMap();
+//     initStart();
+// }
+
 function initMap() {
-  var uluru = {lat: -25.363, lng: 131.044};
+    console.log('original initMap function run')
+  var uluru = {lat: 0, lng: 0};
   var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 4,
+    zoom: 1,
     center: uluru
   });
   var marker = new google.maps.Marker({
@@ -106,7 +114,6 @@ $('#address_button').on('click', function() {
     var cityInput = $('#city_field').val().trim();
     var stateInput = $('#state_field').val().trim();
     var zipInput = $('#zip_field').val().trim();
-    console.log(addressInput, cityInput, stateInput, zipInput);
 
     var key = "AIzaSyDI4WkP2aEnUvW-xJTF5udyKKnTx2Z5cio";
     var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" +
@@ -114,11 +121,8 @@ $('#address_button').on('click', function() {
 
     $.ajax({method:"GET", 
         url: url}).done(function(response){
-      console.log("done");
-      console.log(response);
 
-      var location = response.results[0].geometry.location;
-      console.log(location);
+      var startLocation = response.results[0].geometry.location;
 
  // html the start address to the map ////////////////////
 
@@ -129,19 +133,18 @@ $('#address_button').on('click', function() {
 
 
       function initMap() {
-        console.log("new initMap function run");
-          var myLatLng = location;
+        console.log("start address function run");
 
-          // Create a map object and specify the DOM element for display.
+          // call map variable.
           var map = new google.maps.Map(document.getElementById('map'), {
-            center: myLatLng,
+            center: startLocation,
             zoom: 14
           });
 
           // Create a marker and set its position.
           var marker = new google.maps.Marker({
             map: map,
-            position: myLatLng,
+            position: startLocation,
             title: 'Start'
           });
       }
@@ -151,27 +154,101 @@ $('#address_button').on('click', function() {
 })
 
 
-$('#dest_address_button').on('click', function() {
-  console.log('clicked')
-    var addressInput = $('#dest_address_field').val().trim();
-    var cityInput = $('#dest_city_field').val().trim();
-    var stateInput = $('#dest_state_field').val().trim();
-    var zipInput = $('#dest_zip_field').val().trim();
-    console.log(addressInput, cityInput, stateInput, zipInput);
+$('#route_button').on('click', function() {
+    console.log('clicked');
+
+    var addressInput = $('#address_field').val().trim();
+    var cityInput = $('#city_field').val().trim();
+    var stateInput = $('#state_field').val().trim();
+    var zipInput = $('#zip_field').val().trim();
 
     var key = "AIzaSyDI4WkP2aEnUvW-xJTF5udyKKnTx2Z5cio";
     var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" +
-    addressInput + "," + cityInput + "," + stateInput + "&key=" + key;
-    console.log(key);
-    console.log(url);
-    // $.ajax({method:"GET", 
-    //     url: url}).done(function(destResponse){
-    //   console.log("done");
-    //   console.log(destResponse);
+     addressInput + "," + cityInput + "," + stateInput + "&key=" + key;
+
+
+    var addressInput2 = $('#dest_address_field').val().trim();
+    var cityInput2 = $('#dest_city_field').val().trim();
+    var stateInput2 = $('#dest_state_field').val().trim();
+    var zipInput2 = $('#dest_zip_field').val().trim();
+    console.log(addressInput2, cityInput2, stateInput2, zipInput2);
+
+    var url2 = "https://maps.googleapis.com/maps/api/geocode/json?address=" +
+    addressInput2 + "," + cityInput2 + "," + stateInput2 + "&key=" + key;
+
+    $.ajax({method:"GET", 
+        url: url}).done(function(response){
+        console.log('first ajax run');
+        console.log(response);
+        var startLocation = response.results[0].geometry.location;
+
+        // html the start address to the map ////////////////////
+
+        $('#address_html').html('Start Address:' + '<p>' + response.results[0].formatted_address);
+
+        $.get(url2, function(destResponse) {
+            console.log('get worked');
+            console.log(destResponse);
+
+            $('#destination_address_html').html('Destination Address:' + '<p>' + destResponse.results[0].formatted_address);
+
+            var destLocation = destResponse.results[0].geometry.location;
+
+            function initMap() {
+                console.log(destLocation, startLocation);
+                var map = new google.maps.Map(document.getElementById('map'), {
+                  center: startLocation,
+                  zoom: 7
+                });
+
+                var directionsDisplay = new google.maps.DirectionsRenderer({
+                  map: map
+                });
+
+                // Set destination, origin and travel mode.
+                var request = {
+                  destination: destLocation,
+                  origin: startLocation,
+                  travelMode: 'WALKING',
+                  avoidHighways: true,
+                };
+
+                // Pass the directions request to the directions service.
+                var directionsService = new google.maps.DirectionsService();
+                directionsService.route(request, function(routeResponse, status) {
+                  if (status == 'OK') {
+                    // Display the route on the map.
+                    directionsDisplay.setDirections(routeResponse);
+                    console.log(routeResponse);
+                    var routeDistance = routeResponse.routes[0].legs[0].distance.text
+                    console.log(routeDistance);
+                    $('#route_distance_html').html("Distance: " + routeDistance);
+                  }
+                });
+            };
+        initMap();            
+        });
+
+    });
+
+//         // var latlng = [
+//         // new google.maps.
+//         // ]
+
+//         // var latlngbounds = new google.maps.LatLngBounds();
+//         // for (var i = 0; i < latlng.length; i++) {
+//         // latlngbounds.extend(latlng[i]);
+//         // }
+//         // map.fitBounds(latlngbounds);
+//     };
+
+});
+
+// AJAX Erorr message, doesnt work /////////////////////////
+$(document).ajaxError(function() {
+  alert('Route not found, please try again');
 })
-//       var location = response.results[0].geometry.location;
-//       console.log(location);
-// })
+
 
 // Login
 // And
