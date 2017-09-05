@@ -3,7 +3,6 @@
 (function() {
 // Firebase set up /////////////////////////////////////////
 
-
 var config = {
     apiKey: "AIzaSyCEHUOLj9sQo4PFvEtbI0uDOktzzroLcYQ",
     authDomain: "running-app-58fcf.firebaseapp.com",
@@ -204,11 +203,18 @@ $('#route_button').on('click', function() {
                 var directionsDisplay = new google.maps.DirectionsRenderer({
                   map: map
                 });
+                var waypts = [];
+
+                waypts.push({
+                location: destLocation,
+                stopover: true
+                });
 
                 // Set destination, origin and travel mode.
                 var request = {
-                  destination: destLocation,
+                  destination: startLocation,
                   origin: startLocation,
+                  waypoints: waypts,
                   travelMode: 'WALKING',
                   avoidHighways: true,
                 };
@@ -220,10 +226,16 @@ $('#route_button').on('click', function() {
                     // Display the route on the map.
                     directionsDisplay.setDirections(routeResponse);
                     console.log(routeResponse);
-                    var routeDistance = routeResponse.routes[0].legs[0].distance.text
-                    console.log(routeDistance);
-                    $('#route_distance_html').html("Distance: " + routeDistance);
-                  }
+                    
+                    var routeValueMeters = routeResponse.routes[0].legs[0].distance.value;
+                    var routeReturnValueMeters = routeResponse.routes[0].legs[1].distance.value;
+                    var totalMeters = routeValueMeters + routeReturnValueMeters;
+                    var totalMiles = totalMeters / 1609.34;
+                    var totalMilesRound = Math.round(totalMiles * 100) / 100;
+
+                    $('#route_distance_html').html("Round Trip Distance: " + totalMilesRound);
+
+                  };
                 });
             };
         initMap();            
