@@ -154,7 +154,7 @@ $('#address_button').on('click', function() {
 })
 
 
-$('#dest_address_button').on('click', function() {
+$('#route_button').on('click', function() {
     console.log('clicked');
 
     var addressInput = $('#address_field').val().trim();
@@ -209,7 +209,8 @@ $('#dest_address_button').on('click', function() {
                 var request = {
                   destination: destLocation,
                   origin: startLocation,
-                  travelMode: 'WALKING'
+                  travelMode: 'WALKING',
+                  avoidHighways: true,
                 };
 
                 // Pass the directions request to the directions service.
@@ -218,6 +219,10 @@ $('#dest_address_button').on('click', function() {
                   if (status == 'OK') {
                     // Display the route on the map.
                     directionsDisplay.setDirections(routeResponse);
+                    console.log(routeResponse);
+                    var routeDistance = routeResponse.routes[0].legs[0].distance.text
+                    console.log(routeDistance);
+                    $('#route_distance_html').html("Distance: " + routeDistance);
                   }
                 });
             };
@@ -225,34 +230,6 @@ $('#dest_address_button').on('click', function() {
         });
 
     });
-// this doesnt work. doesnt k;now what destlocation is
-
-    console.log(key);
-    console.log(url2);
-
-//     $.ajax({method:"GET", 
-//         url2: url2}).done(function(destResponse){
-//       console.log("second ajax run");
-//       console.log(destResponse);
-
-
-
-//     function initMap() {
-//         console.log("destination function activated");
-//         console.log(destLocation);
-//         console.log(startLocation);
-//         // sets destination waypoint
-//         var map = new google.maps.Map(document.getElementById('map'), {
-//         center: destLocation,
-//         zoom: 12
-//         });       
-
-
-//         var marker = new google.maps.Marker({
-//         map: map,
-//         position: destLocation,
-//         title: 'destination'
-//         });
 
 //         // var latlng = [
 //         // new google.maps.
@@ -264,36 +241,12 @@ $('#dest_address_button').on('click', function() {
 //         // }
 //         // map.fitBounds(latlngbounds);
 //     };
-//     initMap();
-//     //     // expands map view to include both waypoints
-//     //     // shows walking directions
-
-//     //     var directionsDisplay = new google.maps.DirectionsRenderer({
-//     //       map: map
-//     //     });
-
-//     //     // Set destination, origin and travel mode.
-//         var request = {
-//           destination: destLocation,
-//           origin: startLocation,
-//           travelMode: 'WALKING'
-//         };
-
-//     //     // Pass the directions request to the directions service.
-//         var directionsService = new google.maps.DirectionsService();
-//         directionsService.route(request, function(routeResponse, status) {
-//           if (status == 'OK') {
-//             // Display the route on the map.
-//             directionsDisplay.setDirections(routeResponse);
-//           }
-//         });
-// });
 
 });
 
 // AJAX Erorr message, doesnt work /////////////////////////
 $(document).ajaxError(function() {
-  console.log('ajax error message');
+  alert('Route not found, please try again');
 })
 
 
