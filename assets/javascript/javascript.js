@@ -95,7 +95,7 @@ function initMap() {
     console.log('original initMap function run')
   var uluru = {lat: 0, lng: 0};
   var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 4,
+    zoom: 1,
     center: uluru
   });
   var marker = new google.maps.Marker({
@@ -135,7 +135,7 @@ $('#address_button').on('click', function() {
       function initMap() {
         console.log("start address function run");
 
-          // Create a map object and specify the DOM element for display.
+          // call map variable.
           var map = new google.maps.Map(document.getElementById('map'), {
             center: startLocation,
             zoom: 14
@@ -155,83 +155,139 @@ $('#address_button').on('click', function() {
 
 
 $('#dest_address_button').on('click', function() {
-  console.log('clicked')
+    console.log('clicked');
+
+    var addressInput = $('#address_field').val().trim();
+    var cityInput = $('#city_field').val().trim();
+    var stateInput = $('#state_field').val().trim();
+    var zipInput = $('#zip_field').val().trim();
+
+    var key = "AIzaSyDI4WkP2aEnUvW-xJTF5udyKKnTx2Z5cio";
+    var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" +
+     addressInput + "," + cityInput + "," + stateInput + "&key=" + key;
+
+
     var addressInput2 = $('#dest_address_field').val().trim();
     var cityInput2 = $('#dest_city_field').val().trim();
     var stateInput2 = $('#dest_state_field').val().trim();
     var zipInput2 = $('#dest_zip_field').val().trim();
     console.log(addressInput2, cityInput2, stateInput2, zipInput2);
 
-    var key = "AIzaSyDI4WkP2aEnUvW-xJTF5udyKKnTx2Z5cio";
-    var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" +
+    var url2 = "https://maps.googleapis.com/maps/api/geocode/json?address=" +
     addressInput2 + "," + cityInput2 + "," + stateInput2 + "&key=" + key;
-    console.log(key);
-    console.log(url);
 
     $.ajax({method:"GET", 
-        url: url}).done(function(destResponse){
-      console.log("done");
-      console.log(destResponse);
+        url: url}).done(function(response){
+        console.log('first ajax run');
+        console.log(response);
+        var startLocation = response.results[0].geometry.location;
 
-    $('#destination_address_html').html('Destination Address:' + '<p>' + destResponse.results[0].formatted_address);
+        // html the start address to the map ////////////////////
 
-    var destLocation = destResponse.results[0].geometry.location;
-    console.log(destLocation);
+        $('#address_html').html('Start Address:' + '<p>' + response.results[0].formatted_address);
 
-    function initMap() {
-        console.log("destination function activated");
-        console.log(destLocation);
-        // sets destination waypoint
-        var map = new google.maps.Map(document.getElementById('map'), {
-        center: destLocation,
-        zoom: 12
-        });       
+        $.get(url2, function(destResponse) {
+            console.log('get worked');
+            console.log(destResponse);
 
+            $('#destination_address_html').html('Destination Address:' + '<p>' + destResponse.results[0].formatted_address);
 
-        var marker = new google.maps.Marker({
-        map: map,
-        position: destLocation,
-        title: 'destination'
+            var destLocation = destResponse.results[0].geometry.location;
+
+            function initMap() {
+                console.log(destLocation, startLocation);
+                var map = new google.maps.Map(document.getElementById('map'), {
+                  center: startLocation,
+                  zoom: 7
+                });
+
+                var directionsDisplay = new google.maps.DirectionsRenderer({
+                  map: map
+                });
+
+                // Set destination, origin and travel mode.
+                var request = {
+                  destination: destLocation,
+                  origin: startLocation,
+                  travelMode: 'WALKING'
+                };
+
+                // Pass the directions request to the directions service.
+                var directionsService = new google.maps.DirectionsService();
+                directionsService.route(request, function(routeResponse, status) {
+                  if (status == 'OK') {
+                    // Display the route on the map.
+                    directionsDisplay.setDirections(routeResponse);
+                  }
+                });
+            };
+        initMap();            
         });
 
-        // var latlng = [
-        // new google.maps.
-        // ]
+    });
+// this doesnt work. doesnt k;now what destlocation is
 
-        // var latlngbounds = new google.maps.LatLngBounds();
-        // for (var i = 0; i < latlng.length; i++) {
-        // latlngbounds.extend(latlng[i]);
-        // }
-        // map.fitBounds(latlngbounds);
-    };
-    initMap();
-    //     // expands map view to include both waypoints
-    //     // shows walking directions
+    console.log(key);
+    console.log(url2);
 
-    //     var directionsDisplay = new google.maps.DirectionsRenderer({
-    //       map: map
-    //     });
+//     $.ajax({method:"GET", 
+//         url2: url2}).done(function(destResponse){
+//       console.log("second ajax run");
+//       console.log(destResponse);
 
-    //     // Set destination, origin and travel mode.
-    //     var request = {
-    //       destination: indianapolis,
-    //       origin: chicago,
-    //       travelMode: 'DRIVING'
-    //     };
 
-    //     // Pass the directions request to the directions service.
-    //     var directionsService = new google.maps.DirectionsService();
-    //     directionsService.route(request, function(response, status) {
-    //       if (status == 'OK') {
-    //         // Display the route on the map.
-    //         directionsDisplay.setDirections(response);
-    //       }
-    //     });
 
-    // };
-});
-//       var location = response.results[0].geometry.location;
-//       console.log(location);
+//     function initMap() {
+//         console.log("destination function activated");
+//         console.log(destLocation);
+//         console.log(startLocation);
+//         // sets destination waypoint
+//         var map = new google.maps.Map(document.getElementById('map'), {
+//         center: destLocation,
+//         zoom: 12
+//         });       
+
+
+//         var marker = new google.maps.Marker({
+//         map: map,
+//         position: destLocation,
+//         title: 'destination'
+//         });
+
+//         // var latlng = [
+//         // new google.maps.
+//         // ]
+
+//         // var latlngbounds = new google.maps.LatLngBounds();
+//         // for (var i = 0; i < latlng.length; i++) {
+//         // latlngbounds.extend(latlng[i]);
+//         // }
+//         // map.fitBounds(latlngbounds);
+//     };
+//     initMap();
+//     //     // expands map view to include both waypoints
+//     //     // shows walking directions
+
+//     //     var directionsDisplay = new google.maps.DirectionsRenderer({
+//     //       map: map
+//     //     });
+
+//     //     // Set destination, origin and travel mode.
+//         var request = {
+//           destination: destLocation,
+//           origin: startLocation,
+//           travelMode: 'WALKING'
+//         };
+
+//     //     // Pass the directions request to the directions service.
+//         var directionsService = new google.maps.DirectionsService();
+//         directionsService.route(request, function(routeResponse, status) {
+//           if (status == 'OK') {
+//             // Display the route on the map.
+//             directionsDisplay.setDirections(routeResponse);
+//           }
+//         });
+// });
 
 });
 
