@@ -1,6 +1,24 @@
+function initMap() {
+    console.log('original initMap function run')
+  var uluru = {lat: 0, lng: 0};
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 1,
+    center: uluru
+  });
+  var marker = new google.maps.Marker({
+    position: uluru,
+    map: map
+  });
 
+   google.maps.event.addListener(map, 'click', function(event) {
+     marker = new google.maps.Marker({position: event.latLng, map: map});
+     console.log(event.latLng);   // Get latlong info as object.
+     console.log( "Latitude: "+event.latLng.lat()+" "+", longitude: "+event.latLng.lng()); // Get separate lat long.
+ });
+};
 
 (function() {
+
 // Firebase set up /////////////////////////////////////////
 
 var config = {
@@ -32,7 +50,7 @@ var database = firebase.database();
                 //https://stackoverflow.com/questions/45185061/google-places-api-cors
                 var PROXY_URL = 'https://cors-anywhere.herokuapp.com/';
                 var caloriesToBurn = parseInt($("#calorie_field").val().trim());
-                var weight = parseInt($("#weight_field").val().trim())
+                weight = parseInt($("#weight_field").val().trim())
                 // http://www.livestrong.com/article/314404-how-many-calories-do-you-lose-per-mile/
                 var caloriesPerMile = weight * .75
 
@@ -67,12 +85,11 @@ var database = firebase.database();
                     weight: databaseWeightInput,
                     startTime: databaseStartDateInput,
                     calorie: databaseCalorieInput
-                })
+                });
 
-            })
+            });
 
 
-})()
 
 // Google MAP
 // 
@@ -83,18 +100,7 @@ var database = firebase.database();
 // Google MAP
 // //////////////////////////////////////////////////////////////
 
-function initMap() {
-    console.log('original initMap function run')
-  var uluru = {lat: 0, lng: 0};
-  var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 1,
-    center: uluru
-  });
-  var marker = new google.maps.Marker({
-    position: uluru,
-    map: map
-  });
-}
+
 
 // 
 // Route button function
@@ -115,17 +121,33 @@ $('#route_button').on('click', function() {
 
     var url2 = "https://maps.googleapis.com/maps/api/geocode/json?address=" +
     dest_input + "&key=" + key;
+    function initMap(start, zoom) {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          center: start,
+          zoom: zoom
+        });
+
+        var marker = new google.maps.Marker({
+            position: start,
+            map: map,
+            title: 'start Location'
+        });
+
+    };
 
     $.ajax({method:"GET", 
         url: url}).done(function(response){
         console.log('first ajax run');
         console.log(response);
         var startLocation = response.results[0].geometry.location;
-
+        
         // html the start address to the map ////////////////////
-
+        initMap(startLocation, 10);
         $('#address_html').html('Start Address:' + '<p>' + response.results[0].formatted_address);
+       
 
+        // if statement if destination input is filled in ///////////////////////////
+        if (dest_input) {
         $.get(url2, function(destResponse) {
             console.log('get worked');
             console.log(destResponse);
@@ -135,16 +157,17 @@ $('#route_button').on('click', function() {
             var destLocation = destResponse.results[0].geometry.location;
 
             function initMap() {
-                console.log(destLocation, startLocation);
                 var map = new google.maps.Map(document.getElementById('map'), {
                   center: startLocation,
                   zoom: 7
                 });
 
+                
                 var directionsDisplay = new google.maps.DirectionsRenderer({
                   map: map
                 });
                 var waypts = [];
+
                 // pushes waypoints into array between start and destination
                 waypts.push({
                 location: destLocation,
@@ -157,6 +180,7 @@ $('#route_button').on('click', function() {
                 });
                 
                 // Sets start as dest and origin for round trip
+                
                 var request = {
                   destination: startLocation,
                   origin: startLocation,
@@ -166,6 +190,7 @@ $('#route_button').on('click', function() {
                 };
 
                 // Pass the directions request to the directions service.
+                
                 var directionsService = new google.maps.DirectionsService();
                 directionsService.route(request, function(routeResponse, status) {
                   if (status == 'OK') {
@@ -181,17 +206,28 @@ $('#route_button').on('click', function() {
                         sum += legsArray2;
                         console.log(sum);
                     }
-
+                    // totalMiles converts meters to miles //////////////////
                     var totalMiles = sum / 1609.34;
                     var totalMilesRound = Math.round(totalMiles * 100) / 100;
 
                     $('#route_distance_html').html("Round Trip Distance: " + totalMilesRound + "mi");
+                    
+                    var weight = 100;
 
+                    var caloriesPerMile = weight * .75
+
+                    var caloriesBurn = totalMiles * caloriesPerMile; 
+                    var caloriesBurned = Math.round(caloriesBurn * 100) / 100;
+
+                    $('#calories_burned_html').html("Estimated Calories Burned: " + caloriesBurned + "cal");
                   };
+
                 });
             };
-        initMap();            
+            // initMap function ends ////////////////////
+            initMap();           
         });
+        };
 
     });
 
@@ -261,3 +297,5 @@ var uiConfig = {
 var ui = new firebaseui.auth.AuthUI(firebase.auth());
 // The start method will wait until the DOM is loaded.
 ui.start('#firebaseui-auth-container', uiConfig);
+
+})();
