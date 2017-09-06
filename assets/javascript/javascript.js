@@ -83,13 +83,6 @@ var database = firebase.database();
 // Google MAP
 // //////////////////////////////////////////////////////////////
 
-
-// var initMain() = function() {
-//     console.log('main map function works');
-//     initMap();
-//     initStart();
-// }
-
 function initMap() {
     console.log('original initMap function run')
   var uluru = {lat: 0, lng: 0};
@@ -104,76 +97,24 @@ function initMap() {
 }
 
 // 
-// Address Button Click function
-// change map location to address
+// Route button function
+// Displays route on map
+// Calculates total miles in route
 // 
-
-$('#address_button').on('click', function() {
-    var addressInput = $('#address_field').val().trim();
-    var cityInput = $('#city_field').val().trim();
-    var stateInput = $('#state_field').val().trim();
-    var zipInput = $('#zip_field').val().trim();
-
-    var key = "AIzaSyDI4WkP2aEnUvW-xJTF5udyKKnTx2Z5cio";
-    var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" +
-     addressInput + "," + cityInput + "," + stateInput + "&key=" + key;
-
-    $.ajax({method:"GET", 
-        url: url}).done(function(response){
-
-      var startLocation = response.results[0].geometry.location;
-
- // html the start address to the map ////////////////////
-
-      $('#address_html').html('Start Address:' + '<p>' + response.results[0].formatted_address);
-      
-      //   + addressInput + '<br>' + cityInput +
-      // '<br>' + stateInput + '<br>' + zipInput + '</p>');
-
-
-      function initMap() {
-        console.log("start address function run");
-
-          // call map variable.
-          var map = new google.maps.Map(document.getElementById('map'), {
-            center: startLocation,
-            zoom: 14
-          });
-
-          // Create a marker and set its position.
-          var marker = new google.maps.Marker({
-            map: map,
-            position: startLocation,
-            title: 'Start'
-          });
-      }
-    initMap();
-    })
-
-})
-
 
 $('#route_button').on('click', function() {
     console.log('clicked');
 
-    var addressInput = $('#address_field').val().trim();
-    var cityInput = $('#city_field').val().trim();
-    var stateInput = $('#state_field').val().trim();
-    var zipInput = $('#zip_field').val().trim();
+    var startInput = $('#start_input').val().trim();
 
     var key = "AIzaSyDI4WkP2aEnUvW-xJTF5udyKKnTx2Z5cio";
     var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" +
-     addressInput + "," + cityInput + "," + stateInput + "&key=" + key;
+    startInput + "&key=" + key;
 
-
-    var addressInput2 = $('#dest_address_field').val().trim();
-    var cityInput2 = $('#dest_city_field').val().trim();
-    var stateInput2 = $('#dest_state_field').val().trim();
-    var zipInput2 = $('#dest_zip_field').val().trim();
-    console.log(addressInput2, cityInput2, stateInput2, zipInput2);
+    var dest_input = $('#destination_input').val().trim();
 
     var url2 = "https://maps.googleapis.com/maps/api/geocode/json?address=" +
-    addressInput2 + "," + cityInput2 + "," + stateInput2 + "&key=" + key;
+    dest_input + "&key=" + key;
 
     $.ajax({method:"GET", 
         url: url}).done(function(response){
@@ -204,7 +145,7 @@ $('#route_button').on('click', function() {
                   map: map
                 });
                 var waypts = [];
-
+                // pushes waypoints into array between start and destination
                 waypts.push({
                 location: destLocation,
                 stopover: true, 
@@ -215,7 +156,7 @@ $('#route_button').on('click', function() {
                 stopover: true,  
                 });
                 
-                // Set destination, origin and travel mode.
+                // Sets start as dest and origin for round trip
                 var request = {
                   destination: startLocation,
                   origin: startLocation,
@@ -230,13 +171,7 @@ $('#route_button').on('click', function() {
                   if (status == 'OK') {
                     // Display the route on the map.
                     directionsDisplay.setDirections(routeResponse);
-                    console.log(routeResponse);
-
-                    var routeValueMeters = routeResponse.routes[0].legs[0].distance.value;
-                    var routeReturnValueMeters = routeResponse.routes[0].legs[1].distance.value;
-                    var totalMeters = routeValueMeters + routeReturnValueMeters;
-                    
-                    
+                    console.log(routeResponse);                    
 
                     var legsArray = routeResponse.routes[0].legs;
                     var sum = 0
