@@ -207,9 +207,14 @@ $('#route_button').on('click', function() {
 
                 waypts.push({
                 location: destLocation,
-                stopover: true
+                stopover: true, 
                 });
 
+                waypts.push({
+                location: "335 Highland Ave, Piedmont, CA 94611",
+                stopover: true,  
+                });
+                
                 // Set destination, origin and travel mode.
                 var request = {
                   destination: startLocation,
@@ -226,14 +231,26 @@ $('#route_button').on('click', function() {
                     // Display the route on the map.
                     directionsDisplay.setDirections(routeResponse);
                     console.log(routeResponse);
-                    
+
                     var routeValueMeters = routeResponse.routes[0].legs[0].distance.value;
                     var routeReturnValueMeters = routeResponse.routes[0].legs[1].distance.value;
                     var totalMeters = routeValueMeters + routeReturnValueMeters;
-                    var totalMiles = totalMeters / 1609.34;
+                    
+                    
+
+                    var legsArray = routeResponse.routes[0].legs;
+                    var sum = 0
+                    console.log(legsArray);
+                    for (var i = 0; i < legsArray.length; i++) {
+                        var legsArray2 = legsArray[i].distance.value;
+                        sum += legsArray2;
+                        console.log(sum);
+                    }
+
+                    var totalMiles = sum / 1609.34;
                     var totalMilesRound = Math.round(totalMiles * 100) / 100;
 
-                    $('#route_distance_html').html("Round Trip Distance: " + totalMilesRound);
+                    $('#route_distance_html').html("Round Trip Distance: " + totalMilesRound + "mi");
 
                   };
                 });
@@ -242,17 +259,6 @@ $('#route_button').on('click', function() {
         });
 
     });
-
-//         // var latlng = [
-//         // new google.maps.
-//         // ]
-
-//         // var latlngbounds = new google.maps.LatLngBounds();
-//         // for (var i = 0; i < latlng.length; i++) {
-//         // latlngbounds.extend(latlng[i]);
-//         // }
-//         // map.fitBounds(latlngbounds);
-//     };
 
 });
 
