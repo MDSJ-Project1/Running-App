@@ -21,18 +21,18 @@ function initMap() {
 
 // Firebase set up /////////////////////////////////////////
 
-// var config = {
-//     apiKey: "AIzaSyCEHUOLj9sQo4PFvEtbI0uDOktzzroLcYQ",
-//     authDomain: "running-app-58fcf.firebaseapp.com",
-//     databaseURL: "https://running-app-58fcf.firebaseio.com",
-//     projectId: "running-app-58fcf",
-//     storageBucket: "running-app-58fcf.appspot.com",
-//     messagingSenderId: "886763704573"
-// };
-// firebase.initializeApp(config);
+  var config = {
+      apiKey: "AIzaSyCEHUOLj9sQo4PFvEtbI0uDOktzzroLcYQ",
+      authDomain: "running-app-58fcf.firebaseapp.com",
+      databaseURL: "https://running-app-58fcf.firebaseio.com",
+      projectId: "running-app-58fcf",
+      storageBucket: "running-app-58fcf.appspot.com",
+      messagingSenderId: "886763704573"
+  };
+  firebase.initializeApp(config);
 
-// // Create a variable to reference the database
-// var database = firebase.database();
+  // Create a variable to reference the database
+  var database = firebase.database();
 
     //get user location
     if(navigator.geolocation) {
@@ -248,29 +248,15 @@ $(document).ajaxError(function() {
 //     
 // initialize authentication ////////////////////////////////////
 
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyCqBmBb_wf5kqabmHatj844pI4D3S_6O9s",
-    authDomain: "fir-auth-755f9.firebaseapp.com",
-    databaseURL: "https://fir-auth-755f9.firebaseio.com",
-    projectId: "fir-auth-755f9",
-    storageBucket: "fir-auth-755f9.appspot.com",
-    messagingSenderId: "688777003307"
-  };
-  firebase.initializeApp(config);
-
-  // Create a variable to reference the database
-  var database = firebase.database();
-
   // FirebaseUI config.
   var uiConfig = {
-    signInSuccessUrl: 'https://deevine.github.io/firebase-auth-test/',
+    signInSuccessUrl: 'http://localhost:5012/',
     // signInSuccessUrl: 'localhost:5008',
     signInOptions: [
       // Leave the lines as is for the providers you want to offer your users.
       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
       firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-      firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+      // firebase.auth.TwitterAuthProvider.PROVIDER_ID,
       // firebase.auth.GithubAuthProvider.PROVIDER_ID,
       firebase.auth.EmailAuthProvider.PROVIDER_ID,
       // firebase.auth.PhoneAuthProvider.PROVIDER_ID
@@ -297,20 +283,20 @@ $(document).ajaxError(function() {
   //add click event to push data to user's data node
   function setupClickEvent(userId) {
 
-      $("#form-submission").on("click", function(event) {
+      $("#button_submit").on("click", function(event) {
           // Prevent default behavior
           event.preventDefault();
 
-          input1 = $("#name_field").val().trim();
-          input2 = $("#weight_field").val().trim();
-          input3 = $("#input-3").val().trim();
-          input4 = $("#input-4").val().trim();
+          var input1 = $("#name_field").val().trim();
+          var input2 = $("#weight_field").val().trim();
+          // var input3 = $("#input-3").val().trim();
+          // var input4 = $("#input-4").val().trim();
 
           database.ref('users/' + userId + '/userData').push({
           input1: input1,
           input2: input2,
-          input3: input3,
-          input4: input4  
+          // input3: input3,
+          // input4: input4  
         });
       });
   }
