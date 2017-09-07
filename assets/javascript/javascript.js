@@ -250,7 +250,7 @@ $(document).ajaxError(function() {
 
   // FirebaseUI config.
   var uiConfig = {
-    signInSuccessUrl: 'http://localhost:5012/',
+    signInSuccessUrl: 'https://deevine.github.io/firebase-auth-test/',
     // signInSuccessUrl: 'localhost:5008',
     signInOptions: [
       // Leave the lines as is for the providers you want to offer your users.
