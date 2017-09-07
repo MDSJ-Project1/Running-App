@@ -9,12 +9,6 @@ function initMap() {
     position: uluru,
     map: map
   });
-
-   google.maps.event.addListener(map, 'click', function(event) {
-     marker = new google.maps.Marker({position: event.latLng, map: map});
-     console.log(event.latLng);   // Get latlong info as object.
-     console.log( "Latitude: "+event.latLng.lat()+" "+", longitude: "+event.latLng.lng()); // Get separate lat long.
- });
 };
 
 (function() {
@@ -121,6 +115,7 @@ $('#route_button').on('click', function() {
 
     var url2 = "https://maps.googleapis.com/maps/api/geocode/json?address=" +
     dest_input + "&key=" + key;
+
     function initMap(start, zoom) {
         var map = new google.maps.Map(document.getElementById('map'), {
           center: start,
@@ -132,7 +127,25 @@ $('#route_button').on('click', function() {
             map: map,
             title: 'start Location'
         });
+        var cityCircle = new google.maps.Circle({
+          strokeColor: '#1c4e9e',
+          strokeOpacity: 0.8,
+          strokeWeight: 2,
+          fillColor: '#3a74d1',
+          fillOpacity: 0.15,
+          map: map,
+          center: start,
+          radius: 8046.72
+        });
 
+        // click function for within circle ////////////////////////////////////////////////
+        google.maps.event.addListener(cityCircle, 'click', function(event) {
+          console.log('clicked');
+          marker = new google.maps.Marker({position: event.latLng, map: map});
+          console.log(event);
+          console.log(event.latLng);   // Get latlong info as object.
+          console.log( "Latitude: "+event.latLng.lat()+" "+", longitude: "+event.latLng.lng()); // Get separate lat long.
+        });
     };
 
     $.ajax({method:"GET", 
@@ -141,11 +154,14 @@ $('#route_button').on('click', function() {
         console.log(response);
         var startLocation = response.results[0].geometry.location;
         
-        // html the start address to the map ////////////////////
         initMap(startLocation, 10);
         $('#address_html').html('Start Address:' + '<p>' + response.results[0].formatted_address);
        
-
+        //
+        // 
+        // 
+        // 
+        // 
         // if statement if destination input is filled in ///////////////////////////
         if (dest_input) {
         $.get(url2, function(destResponse) {
@@ -178,7 +194,7 @@ $('#route_button').on('click', function() {
                 location: "335 Highland Ave, Piedmont, CA 94611",
                 stopover: true,  
                 });
-                
+                console.log(waypts);
                 // Sets start as dest and origin for round trip
                 
                 var request = {
