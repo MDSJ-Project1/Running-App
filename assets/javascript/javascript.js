@@ -21,18 +21,18 @@ function initMap() {
 
 // Firebase set up /////////////////////////////////////////
 
-var config = {
-    apiKey: "AIzaSyCEHUOLj9sQo4PFvEtbI0uDOktzzroLcYQ",
-    authDomain: "running-app-58fcf.firebaseapp.com",
-    databaseURL: "https://running-app-58fcf.firebaseio.com",
-    projectId: "running-app-58fcf",
-    storageBucket: "running-app-58fcf.appspot.com",
-    messagingSenderId: "886763704573"
-};
-firebase.initializeApp(config);
+  var config = {
+      apiKey: "AIzaSyCEHUOLj9sQo4PFvEtbI0uDOktzzroLcYQ",
+      authDomain: "running-app-58fcf.firebaseapp.com",
+      databaseURL: "https://running-app-58fcf.firebaseio.com",
+      projectId: "running-app-58fcf",
+      storageBucket: "running-app-58fcf.appspot.com",
+      messagingSenderId: "886763704573"
+  };
+  firebase.initializeApp(config);
 
-// Create a variable to reference the database
-var database = firebase.database();
+  // Create a variable to reference the database
+  var database = firebase.database();
 
     //get user location
     if(navigator.geolocation) {
@@ -248,54 +248,147 @@ $(document).ajaxError(function() {
 //     
 // initialize authentication ////////////////////////////////////
 
-var uiConfig = {
-    callbacks: {
-        signInSuccess: function(currentUser, credential, redirectUrl) {
-            // Do something.
-            // Return type determines whether we continue the redirect automatically
-            // or whether we leave that to developer to handle.
-            return true;
-        },
-        uiShown: function() {
-            // The widget is rendered.
-            // Hide the loader.
-            document.getElementById('loader').style.display = 'none';
-        }
-    },
-    credentialHelper: firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM,
-    // Query parameter name for mode.
-    queryParameterForWidgetMode: 'mode',
-    // Query parameter name for sign in success url.
-    queryParameterForSignInSuccessUrl: 'signInSuccessUrl',
-    // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
-    signInFlow: 'popup',
-    signInSuccessUrl: '<url-to-redirect-to-on-success>',
+  // FirebaseUI config.
+  var uiConfig = {
+    signInSuccessUrl: 'https://deevine.github.io/firebase-auth-test/',
+    // signInSuccessUrl: 'localhost:5008',
     signInOptions: [
-        // Leave the lines as is for the providers you want to offer your users.
-        // firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-        // firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-        // firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-        {
-            provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
-            // Whether the display name should be displayed in the Sign Up page.
-            requireDisplayName: true
-        },
-        {
-            provider: firebase.auth.PhoneAuthProvider.PROVIDER_ID,
-            // Invisible reCAPTCHA with image challenge and bottom left badge.
-            recaptchaParameters: {
-                type: 'image',
-                size: 'invisible',
-                badge: 'bottomleft'
-            }
-        }
+      // Leave the lines as is for the providers you want to offer your users.
+      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+      firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+      // firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+      // firebase.auth.GithubAuthProvider.PROVIDER_ID,
+      firebase.auth.EmailAuthProvider.PROVIDER_ID,
+      // firebase.auth.PhoneAuthProvider.PROVIDER_ID
     ],
     // Terms of service url.
     tosUrl: '<your-tos-url>'
-};
+  };
 
-var ui = new firebaseui.auth.AuthUI(firebase.auth());
-// The start method will wait until the DOM is loaded.
-ui.start('#firebaseui-auth-container', uiConfig);
+  // Initialize the FirebaseUI Widget using Firebase.
+  var ui = new firebaseui.auth.AuthUI(firebase.auth());
+  // The start method will wait until the DOM is loaded.
+  ui.start('#firebaseui-auth-container', uiConfig);
+
+  //writes new user data to database
+  function writeUserData(userId, name, email, imageUrl, phoneNumber) {
+    firebase.database().ref('users/' + userId).set({
+      username: name,
+      email: email,
+      profile_picture : imageUrl,
+      phoneNumber: phoneNumber
+    });
+  }
+
+  //add click event to push data to user's data node
+  function setupClickEvent(userId) {
+
+      $("#button_submit").on("click", function(event) {
+          // Prevent default behavior
+          event.preventDefault();
+
+          var input1 = $("#name_field").val().trim();
+          var input2 = $("#weight_field").val().trim();
+          // var input3 = $("#input-3").val().trim();
+          // var input4 = $("#input-4").val().trim();
+
+          database.ref('users/' + userId + '/userData').push({
+          input1: input1,
+          input2: input2,
+          // input3: input3,
+          // input4: input4  
+        });
+      });
+  }
+
+  initApp = function() {
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        // User is signed in.
+        var displayName = user.displayName;
+        var email = user.email;
+        var emailVerified = user.emailVerified;
+        var photoURL = user.photoURL;
+        var uid = user.uid;
+        var phoneNumber = user.phoneNumber;
+        var providerData = user.providerData;
+
+        database.ref('users/' + uid + '/userData').on("value", function(snapshot){
+                  console.log(snapshot.val());
+              });
+
+        //query user data
+              var query = database.ref('users/' + uid + '/userData');
+              query.once("value")
+              .then(function(snapshot) {
+          snapshot.forEach(function(childSnapshot) {
+            // key of each child being iterated over
+            var key = childSnapshot.key;
+            // childData will be the actual contents of the child
+            var childData = childSnapshot.val();
+
+            console.log("key is " + key);
+            console.log("child data is " +childData);
+            console.log("input1 value is " + childData.input1);
+
+                });
+              });
+
+        //check if user exists, otherwise write in new user data
+        database.ref('users/' + uid).once("value", function(snapshot){
+                  console.log(snapshot.val());
+                  if (snapshot.val()){
+                      console.log("data for user exists, do not write over user data")
+                  }
+                  else {
+                      //write user data to database if new user
+              writeUserData(uid, displayName, email, photoURL, phoneNumber);
+              console.log("no user data, adding new user");
+                  }
+              });
+        
+        //add click event to button when user is logged in
+        setupClickEvent(uid);
+
+        user.getIdToken().then(function(accessToken) {
+          document.getElementById('sign-in-status').textContent = 'Signed in';
+          document.getElementById('sign-in').textContent = 'Sign out';
+          document.getElementById('account-details').textContent = JSON.stringify({
+            displayName: displayName,
+            email: email,
+            emailVerified: emailVerified,
+            phoneNumber: phoneNumber,
+            photoURL: photoURL,
+            uid: uid,
+            accessToken: accessToken,
+            providerData: providerData
+          }, null, '  ');
+        });
+        //add sign out function
+
+        $('#sign-in').on("click", function(){
+          event.preventDefault();
+          console.log("testing sign out button");
+          
+          firebase.auth().signOut().then(function() {
+            // Sign-out successful.
+          }).catch(function(error) {
+            // An error happened.
+          });
+        });
+      } else {
+        // User is signed out.
+        document.getElementById('sign-in-status').textContent = 'Signed out';
+        document.getElementById('sign-in').textContent = 'Sign in';
+        document.getElementById('account-details').textContent = 'null';
+      }
+    }, function(error) {
+      console.log(error);
+    });
+  };
+
+  window.addEventListener('load', function() {
+    initApp()
+  });
 
 })();
