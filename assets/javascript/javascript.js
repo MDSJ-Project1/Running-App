@@ -11,6 +11,32 @@ function initMap() {
   });
 };
 
+//sets a point on the map that takes in a coordinate
+function setMapPoint(coordinate){
+
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 1,
+    center: location
+  });
+  var marker = new google.maps.Marker({
+    position: location,
+    map: map
+  });
+}
+//converts address to coordinate, and passes resulting coordinate into callback
+function setMapPointFromCoordinate(address,callback) {
+    $.ajax({
+      method:"GET",
+      url: "https://maps.googleapis.com/maps/api/geocode/json?"
+      + "address="+address
+      +"&key=AIzaSyDI4WkP2aEnUvW-xJTF5udyKKnTx2Z5cio"
+    }).done(function(response){
+      var location = response.results[0].geometry.location
+      //set input field value to address
+      callback(location)
+    })
+
+  }
 (function() {
 
 // Firebase set up /////////////////////////////////////////
@@ -28,84 +54,54 @@ function initMap() {
   // Create a variable to reference the database
   var database = firebase.database();
 
-    //get user location
-    if(navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(geoLocation) {
-            var latitude = geoLocation.coords.latitude;
-            var longitude = geoLocation.coords.longitude
-            var location = latitude + "," + longitude;
-            //example using places api
-        })
-    }
-            $("#button_submit").on("click", function(e) {
-                e.preventDefault()
-
-                var API_KEY = "AIzaSyCQPkqDoLqZjqpqhqnnRyE79yUe0omijso";
-                //https://stackoverflow.com/questions/45185061/google-places-api-cors
-                var PROXY_URL = 'https://cors-anywhere.herokuapp.com/';
-                var caloriesToBurn = parseInt($("#calorie_field").val().trim());
-                weight = parseInt($("#weight_field").val().trim())
-                // http://www.livestrong.com/article/314404-how-many-calories-do-you-lose-per-mile/
-                var caloriesPerMile = weight * .75
-
-
-                var milesToRun = caloriesToBurn / caloriesPerMile;
-                console.log("milesToRUn", milesToRun)
-                var type = "museum";
-                var url = PROXY_URL +
-                    "https://maps.googleapis.com/maps/api/place/radarsearch/" +
-                    "json?location=" + location + "&" +
-                    "radius=" + milesToRun + "&" +
-                    "type=" + type + "&" +
-                    "key=" + API_KEY;
-
-                console.log("url", url)
-
-                $.ajax({
-                    method: "GET",
-                    url: url
-                }).done(function(data) {
-                    console.log("done")
-                    console.log(data)
-                })
-                var databaseNameInput = $('#name_field').val().trim();
-                var databaseWeightInput = $('#weight_field').val().trim();
-                var databaseStartDateInput = $('#start_date_field').val().trim();
-                var databaseCalorieInput = $('#calorie_field').val().trim();
-                console.log(databaseNameInput, databaseWeightInput, databaseStartDateInput, databaseCalorieInput);
-
-                database.ref().push({
-                    name: databaseNameInput,
-                    weight: databaseWeightInput,
-                    startTime: databaseStartDateInput,
-                    calorie: databaseCalorieInput
-                });
-
-            });
-
-
-
-// Google MAP
-// 
-// Google MAP
-// 
-// Google MAP
-// 
-// Google MAP
-// //////////////////////////////////////////////////////////////
-
-
-
 // 
 // Route button function
 // Displays route on map
 // Calculates total miles in route
 // 
 
-$('#route_button').on('click', function() {
-    console.log('clicked');
+// initialize empty startInput variable
+var startInput;
+// if geolocation api is avaliabe, set startInput to geolocation
+if(navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(function(geoLocation) {
+      var latitude = geoLocation.coords.latitude;
+      var longitude = geoLocation.coords.longitude
+      startInput = latitude + "," + longitude;
+    //get human readable address from coordinates using maps api
+    setMapPoint({lat:latitude,
+                lng:longitude})
+    $.ajax({
+      method:"GET",
+      url: "https://maps.googleapis.com/maps/api/geocode/json?"
+      + "latlng="+startInput
+      +"&key=AIzaSyDI4WkP2aEnUvW-xJTF5udyKKnTx2Z5cio"
+    }).done(function(response){
+      var address = response.results[0].formatted_address
+      //set input field value to address
+      $("#start_input").val(address)
+    })
+      
+  })
+}
 
-    var startInput = $('#start_input').val().trim();
+//when user deselects start_input field
+$("#start_input").on("focusout",function(){
+  var userStartInput = $(this).val().trim()
+  //if user entered value, startInput updates to user input address 
+  if(userStartInput !== "") {
+    startInput = userStartInput;
+    setMapPointFromCoordinate(startInput,setMapPoint)
+
+  }
+})
+
+
+
+$('#route_button').on('click', function() {
+
+    console.log("startInput",startInput);
+
 
     var key = "AIzaSyDI4WkP2aEnUvW-xJTF5udyKKnTx2Z5cio";
     var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" +
