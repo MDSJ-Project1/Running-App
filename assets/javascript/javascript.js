@@ -11,20 +11,20 @@ function initMap() {
   });
 };
 
-//sets a point on the map that takes in a coordinate
+//sets a point on the map that takes in a coordinate object 
 function setMapPoint(coordinate){
 
   var map = new google.maps.Map(document.getElementById('map'), {
     zoom: 1,
-    center: location
+    center: coordinate
   });
   var marker = new google.maps.Marker({
-    position: location,
+    position: coordinate,
     map: map
   });
 }
-//converts address to coordinate, and passes resulting coordinate into callback
-function setMapPointFromCoordinate(address,callback) {
+//sets map point from address
+function setMapPointFromCoordinate(address) {
     $.ajax({
       method:"GET",
       url: "https://maps.googleapis.com/maps/api/geocode/json?"
@@ -33,7 +33,7 @@ function setMapPointFromCoordinate(address,callback) {
     }).done(function(response){
       var location = response.results[0].geometry.location
       //set input field value to address
-      callback(location)
+      setMapPoint(location)
     })
 
   }
@@ -91,7 +91,7 @@ $("#start_input").on("focusout",function(){
   //if user entered value, startInput updates to user input address 
   if(userStartInput !== "") {
     startInput = userStartInput;
-    setMapPointFromCoordinate(startInput,setMapPoint)
+    setMapPointFromCoordinate(startInput)
 
   }
 })
