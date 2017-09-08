@@ -17,6 +17,46 @@ function initMap(start, dest, boolean) {
   };
 };
 
+// <<<<<<< HEAD
+// =======
+//sets a point on the map that takes in a coordinate object 
+function setMapPoint(coordinate){
+
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 1,
+    center: coordinate
+  });
+  var marker = new google.maps.Marker({
+    position: coordinate,
+    map: map
+  });
+}
+//sets map point from address
+function setMapPointFromCoordinate(address) {
+    $.ajax({
+      method:"GET",
+      url: "https://maps.googleapis.com/maps/api/geocode/json?"
+      + "address="+address
+      +"&key=AIzaSyDI4WkP2aEnUvW-xJTF5udyKKnTx2Z5cio"
+    }).done(function(response){
+      var location = response.results[0].geometry.location
+      //set input field value to address
+      setMapPoint(location)
+    })
+
+  }
+
+$("#start_input").on("focusout",function(){
+  var userStartInput = $(this).val().trim()
+  //if user entered value, startInput updates to user input address 
+  if(userStartInput !== "") {
+    startInput = userStartInput;
+    setMapPointFromCoordinate(startInput)
+
+  };  
+});
+
+// >>>>>>> 5378f3187fd0755e52a411e806a8aef73dd3f3cd
 // Firebase set up /////////////////////////////////////////
 
   var config = {
@@ -32,15 +72,16 @@ function initMap(start, dest, boolean) {
   // Create a variable to reference the database
   var database = firebase.database();
 
+// <<<<<<< HEAD
     //get user location
-    if(navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(geoLocation) {
-            var latitude = geoLocation.coords.latitude;
-            var longitude = geoLocation.coords.longitude
-            var location = latitude + "," + longitude;
-            //example using places api
-        })
-    }
+    // if(navigator.geolocation) {
+    //     navigator.geolocation.getCurrentPosition(function(geoLocation) {
+    //         var latitude = geoLocation.coords.latitude;
+    //         var longitude = geoLocation.coords.longitude
+    //         var location = latitude + "," + longitude;
+    //         //example using places api
+    //     })
+    // }
     $("#button_submit").on("click", function(e) {
         e.preventDefault()
 
@@ -67,6 +108,7 @@ function initMap(start, dest, boolean) {
         });
 
     });
+
 
 
 
@@ -120,54 +162,80 @@ function initMap(start, dest, boolean) {
 //     input(lad, ing) {
 //       map
 //     }
+// // // 
+// =======
 // // 
-// Route button function
-// Displays route on map
-// Calculates total miles in route
-// 
+// >>>>>>> 5378f3187fd0755e52a411e806a8aef73dd3f3cd
+// // Route button function
+// // Displays route on map
+// // Calculates total miles in route
+// // 
 
+// <<<<<<< HEAD
  
 function startAjax(blah, callback) {
     console.log(blah);
+    var startInput;
     var startInput = $('#start_input').val().trim();
 
     var key = "AIzaSyDI4WkP2aEnUvW-xJTF5udyKKnTx2Z5cio";
     var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" +
     startInput + "&key=" + key;
-    var dest_input = $('#destination_input').val().trim();
+    var destInput = $('#destination_input').val().trim();
 
     var url2 = "https://maps.googleapis.com/maps/api/geocode/json?address=" +
-        dest_input + "&key=" + key;
-    console.log(dest_input);
-    console.log(url2);
-    $.ajax({method:"GET", 
+        destInput + "&key=" + key;
+
+
+// =======
+// initialize empty startInput variable
+
+// if geolocation api is avaliabe, set startInput to geolocation
+if(navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(function(geoLocation) {
+      var latitude = geoLocation.coords.latitude;
+      var longitude = geoLocation.coords.longitude
+      startInput = latitude + "," + longitude;
+    //get human readable address from coordinates using maps api
+    setMapPoint({lat:latitude,
+                lng:longitude})
+        url = "https://maps.googleapis.com/maps/api/geocode/json?address=" +
+        startInput + "&key=" + key;
+
+        $.ajax({method:"GET", 
         url: url}).done(function(response){
         console.log('first ajax run');
         console.log(response);
         var startLocation = response.results[0].geometry.location;
         
         $('#address_html').html('Start Address:' + '<p>' + response.results[0].formatted_address);
-        console.log(startLocation);
-    
+        console.log('first ajax end');
+        if (destInput) {
+        $.get(url2, function(destResponse){
 
-    $.get(url2, function(destResponse){
-      console.log(url2);
-      console.log('get worked');
-      console.log(destResponse);
+          console.log('dest ajax activated');
+          console.log(destResponse);
 
-      $('#destination_address_html').html('Destination Address:' + '<p>' + destResponse.results[0].formatted_address);
+          $('#destination_address_html').html('Destination Address:' + '<p>' + destResponse.results[0].formatted_address);
 
-      var destLocation = destResponse.results[0].geometry.location;
-      console.log(destLocation);
-      console.log(startLocation);
-      console.log(blah);
-      callback(startLocation, destLocation, blah);
-      });
-    });
+          var destLocation = destResponse.results[0].geometry.location;
+
+          callback(startLocation, destLocation, blah);
+          });
+        } else {
+          console.log('destinput undefined');
+          callback(startLocation, undefined, blah);
+        }
+        });
+});
+};
 };
 
+//when user deselects start_input field
+
 function startMap(start, dest, boo) {
-        console.log('start map activated')
+        console.log('start map function activated')
+        console.log(dest);
         var map = new google.maps.Map(document.getElementById('map'), {
           center: start,
           zoom: 10
@@ -178,16 +246,20 @@ function startMap(start, dest, boo) {
             map: map,
             title: 'start Location'
         });
-        var cityCircle = new google.maps.Circle({
-          strokeColor: '#1c4e9e',
-          strokeOpacity: 0.8,
-          strokeWeight: 2,
-          fillColor: '#3a74d1',
-          fillOpacity: 0.15,
-          map: map,
-          center: start,
-          radius: 8046.72
-        });
+
+        if (dest == undefined) {
+
+            console.log('cirlce stuff activated');
+            var cityCircle = new google.maps.Circle({
+            strokeColor: '#1c4e9e',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: '#3a74d1',
+            fillOpacity: 0.15,
+            map: map,
+            center: start,
+            radius: 8046.72
+            });
         // 
         // Ajax Places API
         // placeAPI(function(detailsResponse, destMarker) {
@@ -200,59 +272,58 @@ function startMap(start, dest, boo) {
           console.log(event.latLng);   // Get latlong info as object.
           console.log( "Latitude: "+event.latLng.lat()+" "+", longitude: "+event.latLng.lng()); // Get separate lat long.
         });
-
-        if (boo) {
+            }; // end circle stuff /////////////
+        if (dest) {
           routeWithDestination(start, dest);
-        }
+        };
 };
 
 function routeWithDestination(start, dest) {
-var map = new google.maps.Map(document.getElementById('map'), {
-  center: start,
-  zoom: 7
-});
+    var map = new google.maps.Map(document.getElementById('map'), {
+      center: start,
+      zoom: 7
+    });
 
 
-var directionsDisplay = new google.maps.DirectionsRenderer({
-  map: map
-});
-var waypts = [];
+    var directionsDisplay = new google.maps.DirectionsRenderer({
+      map: map
+    });
+    var waypts = [];
 
-// pushes waypoints into array between start and destination
-waypts.push({
-  location: dest,
-  stopover: true, 
-});
+    // pushes waypoints into array between start and destination
+    waypts.push({
+      location: dest,
+      stopover: true, 
+    });
 
-waypts.push({
-  location: "335 Highland Ave, Piedmont, CA 94611",
-  stopover: true,  
-});
-console.log(waypts);
-// Sets start as dest and origin for round trip
+    waypts.push({
+      location: "335 Highland Ave, Piedmont, CA 94611",
+      stopover: true,  
+    });
+    console.log(waypts);
+    // Sets start as dest and origin for round trip
 
-var request = {
-  destination: start,
-  origin: start,
-  waypoints: waypts,
-  travelMode: 'WALKING',
-  avoidHighways: true,
-};
+    var request = {
+      destination: start,
+      origin: start,
+      waypoints: waypts,
+      travelMode: 'WALKING',
+      avoidHighways: true,
+    };
 
-// Pass the directions request to the directions service.
+    // Pass the directions request to the directions service.
 
-var directionsService = new google.maps.DirectionsService();
-directionsService.route(request, function(routeResponse, status) {
-  if (status == 'OK') {
-    // Display the route on the map.
-    directionsDisplay.setDirections(routeResponse);
-    console.log(routeResponse);                    
+    var directionsService = new google.maps.DirectionsService();
+    directionsService.route(request, function(routeResponse, status) {
+      if (status == 'OK') {
+        // Display the route on the map.
+        directionsDisplay.setDirections(routeResponse);
+        console.log(routeResponse);                    
 
-    var legsArray = routeResponse.routes[0].legs;
-    calcMilesCalories(legsArray);
-  };
-  
-});
+        var legsArray = routeResponse.routes[0].legs;
+        calcMilesCalories(legsArray);
+      };
+    });
 };
 
 
