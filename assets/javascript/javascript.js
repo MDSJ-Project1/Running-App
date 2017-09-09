@@ -1,5 +1,6 @@
 
 function initMap(start, dest, boolean) {
+  if (start === undefined) {
     console.log('original initMap function run')
   var uluru = {lat: 0, lng: 0};
   var map = new google.maps.Map(document.getElementById('map'), {
@@ -10,6 +11,7 @@ function initMap(start, dest, boolean) {
     position: uluru,
     map: map
   });
+  };
   console.log(start);
   if (start) {
     console.log('recognize start');
@@ -30,7 +32,8 @@ function setMapPoint(coordinate){
     position: coordinate,
     map: map
   });
-}
+};
+
 //sets map point from address
 function setMapPointFromCoordinate(address) {
     $.ajax({
@@ -72,16 +75,35 @@ $("#start_input").on("focusout",function(){
   // Create a variable to reference the database
   var database = firebase.database();
 
-// <<<<<<< HEAD
     //get user location
-    // if(navigator.geolocation) {
-    //     navigator.geolocation.getCurrentPosition(function(geoLocation) {
-    //         var latitude = geoLocation.coords.latitude;
-    //         var longitude = geoLocation.coords.longitude
-    //         var location = latitude + "," + longitude;
-    //         //example using places api
-    //     })
-    // }
+    if(navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(geoLocation) {
+          console.log(geoLocation.coords);
+          console.log(typeof geoLocation.coords);
+
+            var latitude = geoLocation.coords.latitude;
+            var longitude = geoLocation.coords.longitude
+            var location = latitude + "," + longitude;
+            var inItLocation = {
+              lat: latitude,
+              lng: longitude
+            };
+            initMap(inItLocation);
+
+
+            $.ajax({
+               method:"GET",
+               url: "https://maps.googleapis.com/maps/api/geocode/json?"
+               + "latlng=" + location
+               + "&key=AIzaSyDI4WkP2aEnUvW-xJTF5udyKKnTx2Z5cio"
+            }).done(function(response){
+               var address = response.results[0].formatted_address
+               //set input field value to address
+               $("#start_input").val(address);
+            });
+            //example using places api
+        })
+    }
     $("#button_submit").on("click", function(e) {
         e.preventDefault()
 
@@ -191,16 +213,16 @@ function startAjax(blah, callback) {
 // initialize empty startInput variable
 
 // if geolocation api is avaliabe, set startInput to geolocation
-if(navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(function(geoLocation) {
-      var latitude = geoLocation.coords.latitude;
-      var longitude = geoLocation.coords.longitude
-      startInput = latitude + "," + longitude;
-    //get human readable address from coordinates using maps api
-    setMapPoint({lat:latitude,
-                lng:longitude})
-        url = "https://maps.googleapis.com/maps/api/geocode/json?address=" +
-        startInput + "&key=" + key;
+// if(navigator.geolocation) {
+//   navigator.geolocation.getCurrentPosition(function(geoLocation) {
+//       var latitude = geoLocation.coords.latitude;
+//       var longitude = geoLocation.coords.longitude
+//       startInput = latitude + "," + longitude;
+//     //get human readable address from coordinates using maps api
+//     setMapPoint({lat:latitude,
+//                 lng:longitude})
+//         url = "https://maps.googleapis.com/maps/api/geocode/json?address=" +
+//         startInput + "&key=" + key;
 
         $.ajax({method:"GET", 
         url: url}).done(function(response){
@@ -227,14 +249,15 @@ if(navigator.geolocation) {
           callback(startLocation, undefined, blah);
         }
         });
-});
-};
+// });
+// };
 };
 
 //when user deselects start_input field
 
 function startMap(start, dest, boo) {
         console.log('start map function activated')
+        console.log(start);
         console.log(dest);
         var map = new google.maps.Map(document.getElementById('map'), {
           center: start,
