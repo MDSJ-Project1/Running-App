@@ -89,7 +89,7 @@ $("#start_input").on("focusout",function(){
               lng: longitude
             };
             initMap(inItLocation);
-
+            placeAPI(location);
 
             $.ajax({
                method:"GET",
@@ -142,15 +142,14 @@ $("#start_input").on("focusout",function(){
 //                FUNCTIONS
 // Google MAP
 // //////////////////////////////////////////////////////////////
-     function placeAPI(callback) {
-        var placesLatLng = start.lat + "," + start.lng;
+     function placeAPI(location) {
         var API_KEY = "AIzaSyCQPkqDoLqZjqpqhqnnRyE79yUe0omijso";
         //https://stackoverflow.com/questions/45185061/google-places-api-cors
         var PROXY_URL = 'https://cors-anywhere.herokuapp.com/';
         var type = "food";
         var url = PROXY_URL +
             "https://maps.googleapis.com/maps/api/place/radarsearch/" +
-            "json?location=" + placesLatLng + "&" +
+            "json?location=" + location + "&" +
             "radius=8046.72" + "&" +
             "type=" + type + "&" +
             "key=" + API_KEY;
@@ -178,6 +177,12 @@ $("#start_input").on("focusout",function(){
             });
           }); 
       };
+      function createMarkersInCircle() {
+          var marker1 = new google.maps.Marker({
+            position: ,
+            map: map
+          });
+      }
 
 //     map() {}
 //     ;
