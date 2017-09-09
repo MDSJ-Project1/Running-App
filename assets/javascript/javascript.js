@@ -175,6 +175,12 @@ $("#start_input").on("focusout",function(){
             });
           }); 
       };
+      function createMarkersInCircle() {
+          var marker1 = new google.maps.Marker({
+            position: ,
+            map: map
+          });
+      }
 
 //     map() {}
 //     ;
