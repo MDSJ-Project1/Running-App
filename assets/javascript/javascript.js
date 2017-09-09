@@ -1,3 +1,25 @@
+(function generatePlacesOptions(){
+  //initially set the dropdown button's value to restaurant. 
+  //this html val will determine the place parameter passed into maps api
+  var $placesBttn = $("#dropdownMenuButton")
+  $placesBttn.val("restaurant")
+  //array of places api supported type options
+  const placesTypes = ["aquarium","art_gallery","bakery","bar","book_store","bowling_alley","cafe","casino","liquor_store","gym","movie_theater","museum","night_club","restaurant","zoo"];
+  //generate a place div for each place type
+  placesTypes.forEach(function(place){
+    var $placeOption = $("<a>"+ place+"</a>");
+    $placeOption.addClass("dropdown-item")
+    $placeOption.val(place)
+    // when place is clicked, set value and text of dropdown button to place
+    $placeOption.on("click",function(){
+      $placesBttn.val(place)
+      $placesBttn.text(place)
+
+    })
+    $("#places-dropdown").append($placeOption).append($("<br>"))
+
+  })
+})()
 function initMap(start, dest, boolean) {
   if (start === undefined) {
     console.log('original initMap function run')
@@ -87,8 +109,10 @@ $("#start_input").on("focusout",function(){
               lng: longitude
             };
             initMap(inItLocation);
-            placeAPI(location);
-
+            //grab the place type that was stored in dom
+            var placeType = $("#dropdownMenuButton").val().trim()
+            placeAPI(location,placeType);
+            
             $.ajax({
                method:"GET",
                url: "https://maps.googleapis.com/maps/api/geocode/json?"
@@ -140,11 +164,10 @@ $("#start_input").on("focusout",function(){
 //                FUNCTIONS
 // Google MAP
 // //////////////////////////////////////////////////////////////
-     function placeAPI(location) {
+     function placeAPI(location,type) {
         var API_KEY = "AIzaSyCQPkqDoLqZjqpqhqnnRyE79yUe0omijso";
         //https://stackoverflow.com/questions/45185061/google-places-api-cors
         var PROXY_URL = 'https://cors-anywhere.herokuapp.com/';
-        var type = "food";
         var url = PROXY_URL +
             "https://maps.googleapis.com/maps/api/place/radarsearch/" +
             "json?location=" + location + "&" +
@@ -175,12 +198,12 @@ $("#start_input").on("focusout",function(){
             });
           }); 
       };
-      function createMarkersInCircle() {
-          var marker1 = new google.maps.Marker({
-            position: ,
-            map: map
-          });
-      }
+      // function createMarkersInCircle() {
+      //     var marker1 = new google.maps.Marker({
+      //       position: ,
+      //       map: map
+      //     });
+      // }
 
 //     map() {}
 //     ;
