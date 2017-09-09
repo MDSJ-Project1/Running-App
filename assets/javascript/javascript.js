@@ -21,7 +21,7 @@ function initMap(start, dest, boolean) {
 // <<<<<<< HEAD
 // =======
 //sets a point on the map that takes in a coordinate object 
-function setMapPoint(coordinate){
+function setMapPointCoordinate(coordinate){
 
   var map = new google.maps.Map(document.getElementById('map'), {
     zoom: 1,
@@ -34,7 +34,7 @@ function setMapPoint(coordinate){
 };
 
 //sets map point from address
-function setMapPointFromCoordinate(address) {
+function setMapPointAddress(address) {
     $.ajax({
       method:"GET",
       url: "https://maps.googleapis.com/maps/api/geocode/json?"
@@ -43,7 +43,7 @@ function setMapPointFromCoordinate(address) {
     }).done(function(response){
       var location = response.results[0].geometry.location
       //set input field value to address
-      setMapPoint(location)
+      setMapPointCoordinate(location)
     })
 
   }
@@ -53,7 +53,7 @@ $("#start_input").on("focusout",function(){
   //if user entered value, startInput updates to user input address 
   if(userStartInput !== "") {
     startInput = userStartInput;
-    setMapPointFromCoordinate(startInput)
+    setMapPointAddress(startInput)
 
   };  
 });
