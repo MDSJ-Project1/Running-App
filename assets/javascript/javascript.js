@@ -230,7 +230,7 @@ function startAjax(blah, callback) {
         console.log(response);
         var startLocation = response.results[0].geometry.location;
         
-        $('#address_html').html('Start Address:' + '<p>' + response.results[0].formatted_address);
+        $('#address_html').val('Start Address:' + '<p>' + response.results[0].formatted_address);
         console.log('first ajax end');
         if (destInput) {
         $.get(url2, function(destResponse){
@@ -238,7 +238,7 @@ function startAjax(blah, callback) {
           console.log('dest ajax activated');
           console.log(destResponse);
 
-          $('#destination_address_html').html('Destination Address:' + '<p>' + destResponse.results[0].formatted_address);
+          $('#destination_address_html').val('Destination Address:' + '<p>' + destResponse.results[0].formatted_address);
 
           var destLocation = destResponse.results[0].geometry.location;
 
