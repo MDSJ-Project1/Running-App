@@ -1,3 +1,4 @@
+
 var appState = {
   caloriesBurned: 0,
 };
@@ -29,7 +30,7 @@ function initMap(start, dest, boolean) {
 // <<<<<<< HEAD
 // =======
 //sets a point on the map that takes in a coordinate object 
-function setMapPoint(coordinate){
+function setMapPointCoordinate(coordinate){
 
   var map = new google.maps.Map(document.getElementById('map'), {
     zoom: 1,
@@ -42,7 +43,7 @@ function setMapPoint(coordinate){
 };
 
 //sets map point from address
-function setMapPointFromCoordinate(address) {
+function setMapPointAddress(address) {
     $.ajax({
       method:"GET",
       url: "https://maps.googleapis.com/maps/api/geocode/json?"
@@ -51,7 +52,7 @@ function setMapPointFromCoordinate(address) {
     }).done(function(response){
       var location = response.results[0].geometry.location
       //set input field value to address
-      setMapPoint(location)
+      setMapPointCoordinate(location)
     })
 
   }
@@ -61,13 +62,12 @@ $("#start_input").on("focusout",function(){
   //if user entered value, startInput updates to user input address 
   if(userStartInput !== "") {
     startInput = userStartInput;
-    setMapPointFromCoordinate(startInput)
+    setMapPointAddress(startInput)
 
   };  
 });
 
-// >>>>>>> 5378f3187fd0755e52a411e806a8aef73dd3f3cd
-// Firebase set up /////////////////////////////////////////
+
 
   var config = {
       apiKey: "AIzaSyCEHUOLj9sQo4PFvEtbI0uDOktzzroLcYQ",
@@ -153,11 +153,11 @@ $("#start_input").on("focusout",function(){
 // //////////////////////////////////////////////////////////////
 // place API runs with startinput parameter, finds places within radius, 
 // 
-function placeAPI(location) {
+function placeAPI(location, type) {
   var API_KEY = "AIzaSyCQPkqDoLqZjqpqhqnnRyE79yUe0omijso";
   //https://stackoverflow.com/questions/45185061/google-places-api-cors
   var PROXY_URL = 'https://cors-anywhere.herokuapp.com/';
-  var type = "food";
+  
   var url = PROXY_URL +
       "https://maps.googleapis.com/maps/api/place/radarsearch/" +
       "json?location=" + location + "&" +
@@ -201,6 +201,7 @@ function createMarkersInCircle(LatLng, details, start) {
 
   marker1.setMap(map);
 }
+
  
 function startAjax(blah, callback) {
     console.log(blah);
@@ -221,7 +222,7 @@ function startAjax(blah, callback) {
         console.log(response);
         var startLocation = response.results[0].geometry.location;
         
-        $('#address_html').html('Start Address:' + '<p>' + response.results[0].formatted_address);
+        $('#address_html').val('Start Address:' + '<p>' + response.results[0].formatted_address);
         console.log('first ajax end');
         if (destInput) {
         $.get(url2, function(destResponse){
@@ -229,7 +230,7 @@ function startAjax(blah, callback) {
           console.log('dest ajax activated');
           console.log(destResponse);
 
-          $('#destination_address_html').html('Destination Address:' + '<p>' + destResponse.results[0].formatted_address);
+          $('#destination_address_html').val('Destination Address:' + '<p>' + destResponse.results[0].formatted_address);
 
           var destLocation = destResponse.results[0].geometry.location;
 
@@ -556,4 +557,3 @@ initApp = function() {
 window.addEventListener('load', function() {
   initApp()
 });
-
