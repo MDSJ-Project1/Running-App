@@ -1,9 +1,34 @@
 
+
 var appState = {
   caloriesBurned: 0,
 };
 
 var map;
+
+
+(function generatePlacesOptions(){
+  //initially set the dropdown button's value to restaurant. 
+  //this html val will determine the place parameter passed into maps api
+  var $placesBttn = $("#dropdownMenuButton")
+  $placesBttn.val("restaurant")
+  //array of places api supported type options
+  const placesTypes = ["aquarium","art_gallery","bakery","bar","book_store","bowling_alley","cafe","casino","liquor_store","gym","movie_theater","museum","night_club","restaurant","zoo"];
+  //generate a place div for each place type
+  placesTypes.forEach(function(place){
+    var $placeOption = $("<a>"+ place+"</a>");
+    $placeOption.addClass("dropdown-item")
+    $placeOption.val(place)
+    // when place is clicked, set value and text of dropdown button to place
+    $placeOption.on("click",function(){
+      $placesBttn.val(place)
+      $placesBttn.text(place)
+
+    })
+    $("#places-dropdown").append($placeOption).append($("<br>"))
+
+  })
+})()
 
 function initMap(start, dest, boolean) {
   if (start === undefined) {
@@ -83,36 +108,37 @@ $("#start_input").on("focusout",function(){
   var database = firebase.database();
 
     //get user location
-  if(navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function(geoLocation) {
-        console.log(geoLocation.coords);
-        console.log(typeof geoLocation.coords);
+    if(navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(geoLocation) {
+          console.log(geoLocation.coords);
+          console.log(typeof geoLocation.coords);
 
-          var latitude = geoLocation.coords.latitude;
-          var longitude = geoLocation.coords.longitude
-          var location = latitude + "," + longitude;
-          var inItLocation = {
-            lat: latitude,
-            lng: longitude
-          };
-          initMap(inItLocation);
-          // goes to location on map, sets marker, creates circle
-          placeAPI(location, inItLocation); // pull relevant locations within circle, create markers with information and distance from origin,
-                              // click the marker and it will html the route into destInput
+            var latitude = geoLocation.coords.latitude;
+            var longitude = geoLocation.coords.longitude
+            var location = latitude + "," + longitude;
+            var inItLocation = {
+              lat: latitude,
+              lng: longitude
+            };
+            initMap(inItLocation);
+            //grab the place type that was stored in dom
+            var placeType = $("#dropdownMenuButton").val().trim()
+            placeAPI(location,placeType);
+            
+            $.ajax({
+               method:"GET",
+               url: "https://maps.googleapis.com/maps/api/geocode/json?"
+               + "latlng=" + location
+               + "&key=AIzaSyDI4WkP2aEnUvW-xJTF5udyKKnTx2Z5cio"
+            }).done(function(response){
+               var address = response.results[0].formatted_address
+               //set input field value to address
+               $("#start_input").val(address);
+            });
+            //example using places api
+        })
+    }
 
-          $.ajax({
-             method:"GET",
-             url: "https://maps.googleapis.com/maps/api/geocode/json?"
-             + "latlng=" + location
-             + "&key=AIzaSyDI4WkP2aEnUvW-xJTF5udyKKnTx2Z5cio"
-          }).done(function(response){
-             var address = response.results[0].formatted_address
-             //set input field value to address
-             $("#start_input").val(address);
-          });
-          //example using places api
-      })
-  }
     $("#button_submit").on("click", function(e) {
         e.preventDefault()
 
@@ -151,6 +177,7 @@ $("#start_input").on("focusout",function(){
 //                FUNCTIONS
 // Google MAP
 // //////////////////////////////////////////////////////////////
+
 // place API runs with startinput parameter, finds places within radius, 
 // 
 function placeAPI(location, type) {
@@ -201,6 +228,7 @@ function createMarkersInCircle(LatLng, details, start) {
 
   marker1.setMap(map);
 }
+
 
  
 function startAjax(blah, callback) {
