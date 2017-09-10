@@ -199,14 +199,21 @@ function placeAPI(location, type) {
       console.log("done")
       console.log(data)
       console.log(data.results[0]);
-      var placeLatLng = data.results[0].geometry.location;
       var places = [];
+      var placesIdArray = [];
+      var placesLatLngArray = [];
       for (var i = 0; i < data.results.length; i++) {
         console.log(data.results[i]);
         var placesData = data.results[i];
-        places.push(placesData);
+        var placesDataId = placesData.place_id;
+        var placesLatLng = placesData.geometry.location;
+        places.push(placesData); // pushes places details into array, 20 search results
+        placesIdArray.push(placesDataId); // pushes place_id into array
+        placesLatLngArray.push(placesLatLng); // pushes latlng into array from data
       }
       console.log(places);
+      console.log(placesIdArray);
+      console.log(placesLatLngArray);
 
   //       var request = {
   //   location: pyrmont,
@@ -236,21 +243,32 @@ function placeAPI(location, type) {
           console.log(detailsResponse.place_Id)
           var placeInfo = detailsResponse.place_Id;
           console.log(placeID); 
-          createMarkersInCircle(placeLatLng, placeID);
+          createMarkersInCircle(placesLatLngArray, placeID);
       });
     }); 
 };
-function createMarkersInCircle(LatLng, details, start) {
-  console.log(start);
+function createMarkersInCircle(latLng, details, start) {
+  console.log(latLng);
   console.log('function runs');
+  var markerArray = [];
 
-  var marker1 = new google.maps.Marker({
-    position: LatLng,
-    title: "new marker"
-  });
+  for (var i = 0; i < latLng.length; i++) {
+    markerArray[i] = new google.maps.Marker({
+      position: latLng[i],
+      title: "new marker" + [i]
+    });
+    markerArray[i].setMap(map);
 
-  marker1.setMap(map);
-}
+    google.maps.event.addListener(markerArray[i], 'click', function() {
+        alert("I am marker" + this.title);
+    }); 
+  };
+  };
+
+// function popsPlacesDetails () {
+//   alert("I am marker" + this.title);
+// }
+
 
 
  
@@ -309,10 +327,11 @@ function startMap(start, dest, boo) {
         //   zoom: 10
         // });
 
-        var marker = new google.maps.Marker({
+        var homeMarker = new google.maps.Marker({
             position: start,
             map: map,
-            title: 'start Location'
+            title: 'start Location',
+            icon: "assets/img/home_icon.png"
         });
         // var pos = {
         //   lat: 37.806722,
