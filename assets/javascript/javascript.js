@@ -186,7 +186,7 @@ function placeAPI(location, type) {
   var PROXY_URL = 'https://cors-anywhere.herokuapp.com/';
   
   var url = PROXY_URL +
-      "https://maps.googleapis.com/maps/api/place/radarsearch/" +
+      "https://maps.googleapis.com/maps/api/place/nearbysearch/" +
       "json?location=" + location + "&" +
       "radius=8046.72" + "&" + //radius in meters
       "type=" + type + "&" +
@@ -200,8 +200,31 @@ function placeAPI(location, type) {
       console.log(data)
       console.log(data.results[0]);
       var placeLatLng = data.results[0].geometry.location;
-      console.log(placeLatLng);
+      var places = [];
+      for (var i = 0; i < data.results.length; i++) {
+        console.log(data.results[i]);
+        var placesData = data.results[i];
+        places.push(placesData);
+      }
+      console.log(places);
 
+  //       var request = {
+  //   location: pyrmont,
+  //   radius: '500',
+  //   type: ['restaurant']
+  // };
+
+  // service = new google.maps.places.PlacesService(map);
+  // service.nearbySearch(request, callback);
+
+// function callback(results, status) {
+//   if (status == google.maps.places.PlacesServiceStatus.OK) {
+//     for (var i = 0; i < results.length; i++) {
+//       var place = results[i];
+//       createMarker(results[i]);
+//     }
+//   }
+// }
 
       // GETS PLACE DETAILS /////////////////////////////////////////////////////////////////////////
       var placeID = data.results[0].place_id;
@@ -280,7 +303,7 @@ function startMap(start, dest, boo) {
         console.log(start);
         console.log(dest);
         map.setCenter(start);
-        map.setZoom(10);
+        map.setZoom(11);
         // map = new google.maps.Map(document.getElementById('map'), {
         //   center: start,
         //   zoom: 10
@@ -322,13 +345,13 @@ function startMap(start, dest, boo) {
         // placeAPI(function(detailsResponse, destMarker) {
         // });
         // click function for blahin circle ////////////////////////////////////////////////
-        google.maps.event.addListener(cityCircle, 'click', function(event) {
-          console.log('clicked');
-          marker = new google.maps.Marker({position: event.latLng, map: map});
-          console.log(event);
-          console.log(event.latLng);   // Get latlong info as object.
-          console.log( "Latitude: "+event.latLng.lat()+" "+", longitude: "+event.latLng.lng()); // Get separate lat long.
-        });
+        // google.maps.event.addListener(cityCircle, 'click', function(event) {
+        //   console.log('clicked');
+        //   marker = new google.maps.Marker({position: event.latLng, map: map});
+        //   console.log(event);
+        //   console.log(event.latLng);   // Get latlong info as object.
+        //   console.log( "Latitude: "+event.latLng.lat()+" "+", longitude: "+event.latLng.lng()); // Get separate lat long.
+        // });
             };
          // end circle stuff /////////////
         if (dest) {
