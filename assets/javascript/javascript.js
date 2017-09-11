@@ -1,16 +1,50 @@
+
+
+var appState = {
+  caloriesBurned: 0,
+};
+
+var map;
+
+
+(function generatePlacesOptions(){
+  //initially set the dropdown button's value to restaurant. 
+  //this html val will determine the place parameter passed into maps api
+  var $placesBttn = $("#dropdownMenuButton")
+  $placesBttn.val("restaurant")
+  //array of places api supported type options
+  const placesTypes = ["aquarium","art_gallery","bakery","bar","book_store","bowling_alley","cafe","casino","liquor_store","gym","movie_theater","museum","night_club","restaurant","zoo"];
+  //generate a place div for each place type
+  placesTypes.forEach(function(place){
+    var $placeOption = $("<a>"+ place+"</a>");
+    $placeOption.addClass("dropdown-item")
+    $placeOption.val(place)
+    // when place is clicked, set value and text of dropdown button to place
+    $placeOption.on("click",function(){
+      $placesBttn.val(place)
+      $placesBttn.text(place)
+
+    })
+    $("#places-dropdown").append($placeOption).append($("<br>"))
+
+  })
+})()
+
 function initMap(start, dest, boolean) {
   if (start === undefined) {
     console.log('original initMap function run')
   var uluru = {lat: 0, lng: 0};
-  var map = new google.maps.Map(document.getElementById('map'), {
+  map = new google.maps.Map(document.getElementById('map'), {
     zoom: 1,
     center: uluru
   });
+
   var marker = new google.maps.Marker({
     position: uluru,
     map: map
   });
-  };
+  }
+  
   console.log(start);
   if (start) {
     console.log('recognize start');
@@ -87,8 +121,10 @@ $("#start_input").on("focusout",function(){
               lng: longitude
             };
             initMap(inItLocation);
-            placeAPI(location);
-
+            //grab the place type that was stored in dom
+            var placeType = $("#dropdownMenuButton").val().trim()
+            placeAPI(location,placeType);
+            
             $.ajax({
                method:"GET",
                url: "https://maps.googleapis.com/maps/api/geocode/json?"
@@ -102,6 +138,7 @@ $("#start_input").on("focusout",function(){
             //example using places api
         })
     }
+
     $("#button_submit").on("click", function(e) {
         e.preventDefault()
 
@@ -140,60 +177,81 @@ $("#start_input").on("focusout",function(){
 //                FUNCTIONS
 // Google MAP
 // //////////////////////////////////////////////////////////////
-     function placeAPI(location) {
-        var API_KEY = "AIzaSyCQPkqDoLqZjqpqhqnnRyE79yUe0omijso";
-        //https://stackoverflow.com/questions/45185061/google-places-api-cors
-        var PROXY_URL = 'https://cors-anywhere.herokuapp.com/';
-        var type = "food";
-        var url = PROXY_URL +
-            "https://maps.googleapis.com/maps/api/place/radarsearch/" +
-            "json?location=" + location + "&" +
-            "radius=8046.72" + "&" +
-            "type=" + type + "&" +
-            "key=" + API_KEY;
 
-        $.ajax({
-            method: "GET",
-            url: url
-        }).done(function(data) {
-            console.log("done")
-            console.log(data)
-            console.log(data.results[0]);
-            var placeLocation = data.results[0].geometry.location;
-            console.log(placeLocation);
+// place API runs with startinput parameter, finds places within radius, 
+// 
+function placeAPI(location, type) {
+  var API_KEY = "AIzaSyCQPkqDoLqZjqpqhqnnRyE79yUe0omijso";
+  //https://stackoverflow.com/questions/45185061/google-places-api-cors
+  var PROXY_URL = 'https://cors-anywhere.herokuapp.com/';
+  
+  var url = PROXY_URL +
+      "https://maps.googleapis.com/maps/api/place/nearbysearch/" +
+      "json?location=" + location + "&" +
+      "radius=8046.72" + "&" + //radius in meters
+      "type=" + type + "&" +
+      "key=" + API_KEY;
 
-
-            // GETS PLACE DETAILS /////////////////////////////////////////////////////////////////////////
-            var placeID = data.results[0].place_id;
-            var url3 = PROXY_URL + "https://maps.googleapis.com/maps/api/place/details/json?placeid=" + placeID + "&key=" + API_KEY;
-            
-            $.get(url3, function(detailsResponse){
-                console.log('url3 works')
-                console.log(detailsResponse);
-
-                callback(detailsResponse, destMarker)
-            });
-          }); 
-      };
-      function createMarkersInCircle() {
-          var marker1 = new google.maps.Marker({
-            position: ,
-            map: map
-          });
+  $.ajax({
+      method: "GET",
+      url: url
+  }).done(function(data) {
+      console.log("done")
+      console.log(data)
+      console.log(data.results[0]);
+      var placeLatLng = data.results[0].geometry.location;
+      var places = [];
+      for (var i = 0; i < data.results.length; i++) {
+        console.log(data.results[i]);
+        var placesData = data.results[i];
+        places.push(placesData);
       }
+      console.log(places);
 
-//     map() {}
-//     ;
-//     input(lad, ing) {
-//       map
+  //       var request = {
+  //   location: pyrmont,
+  //   radius: '500',
+  //   type: ['restaurant']
+  // };
+
+  // service = new google.maps.places.PlacesService(map);
+  // service.nearbySearch(request, callback);
+
+// function callback(results, status) {
+//   if (status == google.maps.places.PlacesServiceStatus.OK) {
+//     for (var i = 0; i < results.length; i++) {
+//       var place = results[i];
+//       createMarker(results[i]);
 //     }
-// // // 
-// =======
-// // 
-// // Route button function
-// // Displays route on map
-// // Calculates total miles in route
-// // 
+//   }
+// }
+
+      // GETS PLACE DETAILS /////////////////////////////////////////////////////////////////////////
+      var placeID = data.results[0].place_id;
+      var url3 = PROXY_URL + "https://maps.googleapis.com/maps/api/place/details/json?placeid=" + placeID + "&key=" + API_KEY;
+      
+      $.get(url3, function(detailsResponse){
+          console.log('url3 works')
+          console.log(detailsResponse);
+          console.log(detailsResponse.place_Id)
+          var placeInfo = detailsResponse.place_Id;
+          console.log(placeID); 
+          createMarkersInCircle(placeLatLng, placeID);
+      });
+    }); 
+};
+function createMarkersInCircle(LatLng, details, start) {
+  console.log(start);
+  console.log('function runs');
+
+  var marker1 = new google.maps.Marker({
+    position: LatLng,
+    title: "new marker"
+  });
+
+  marker1.setMap(map);
+}
+
 
  
 function startAjax(blah, callback) {
@@ -208,22 +266,6 @@ function startAjax(blah, callback) {
 
     var url2 = "https://maps.googleapis.com/maps/api/geocode/json?address=" +
         destInput + "&key=" + key;
-
-
-// =======
-// initialize empty startInput variable
-
-// if geolocation api is avaliabe, set startInput to geolocation
-// if(navigator.geolocation) {
-//   navigator.geolocation.getCurrentPosition(function(geoLocation) {
-//       var latitude = geoLocation.coords.latitude;
-//       var longitude = geoLocation.coords.longitude
-//       startInput = latitude + "," + longitude;
-//     //get human readable address from coordinates using maps api
-//     setMapPoint({lat:latitude,
-//                 lng:longitude})
-//         url = "https://maps.googleapis.com/maps/api/geocode/json?address=" +
-//         startInput + "&key=" + key;
 
         $.ajax({method:"GET", 
         url: url}).done(function(response){
@@ -260,16 +302,30 @@ function startMap(start, dest, boo) {
         console.log('start map function activated')
         console.log(start);
         console.log(dest);
-        var map = new google.maps.Map(document.getElementById('map'), {
-          center: start,
-          zoom: 10
-        });
+        map.setCenter(start);
+        map.setZoom(11);
+        // map = new google.maps.Map(document.getElementById('map'), {
+        //   center: start,
+        //   zoom: 10
+        // });
 
         var marker = new google.maps.Marker({
             position: start,
             map: map,
             title: 'start Location'
         });
+        // var pos = {
+        //   lat: 37.806722,
+        //   lng: -122.246371
+        // }
+        // console.log(pos);
+        // var marker1 = new google.maps.Marker({
+        //   position: pos
+        // });
+        //   console.log(map);
+        //   marker1.setMap(map);
+
+
 
         if (dest == undefined) {
 
@@ -284,19 +340,20 @@ function startMap(start, dest, boo) {
             center: start,
             radius: 8046.72
             });
-        // 
+        
         // Ajax Places API
         // placeAPI(function(detailsResponse, destMarker) {
         // });
         // click function for blahin circle ////////////////////////////////////////////////
-        google.maps.event.addListener(cityCircle, 'click', function(event) {
-          console.log('clicked');
-          marker = new google.maps.Marker({position: event.latLng, map: map});
-          console.log(event);
-          console.log(event.latLng);   // Get latlong info as object.
-          console.log( "Latitude: "+event.latLng.lat()+" "+", longitude: "+event.latLng.lng()); // Get separate lat long.
-        });
-            }; // end circle stuff /////////////
+        // google.maps.event.addListener(cityCircle, 'click', function(event) {
+        //   console.log('clicked');
+        //   marker = new google.maps.Marker({position: event.latLng, map: map});
+        //   console.log(event);
+        //   console.log(event.latLng);   // Get latlong info as object.
+        //   console.log( "Latitude: "+event.latLng.lat()+" "+", longitude: "+event.latLng.lng()); // Get separate lat long.
+        // });
+            };
+         // end circle stuff /////////////
         if (dest) {
           routeWithDestination(start, dest);
         };
