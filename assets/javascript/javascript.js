@@ -1,5 +1,5 @@
 
-
+// NECESSARY GLOBAL VARIABLES ////////////////////////////////////////////////////////////////
 var appState = {
   caloriesBurned: 0,
 };
@@ -7,6 +7,8 @@ var appState = {
 var map;
 var service;
 var infoWindow;
+
+// /////////////////////////////////////////////////////////////////////////////////////////////
 
 (function generatePlacesOptions(){
   //initially set the dropdown button's value to restaurant. 
