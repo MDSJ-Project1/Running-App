@@ -259,6 +259,7 @@ function pullPlaceInfoName (latlngArr, idArr) {
       url: url3
       }).done(function(detailsResponse){
       // console.log('url3 works')
+      // console.log(detailsResponse.formatted_address);
       var placeName = detailsResponse.result.name;
       placesNameArray.push(placeName);
       createMarkersInCircle(latlngArr, placesNameArray);
@@ -281,8 +282,8 @@ function toObject (arr) { // <------------- Might not need function in places AP
 }
 
 // latlang= array of coordinates.
-// details = array of placeNames
-function createMarkersInCircle(latLng, details) {
+// names = array of placeNames
+function createMarkersInCircle(latLng, names, address) {
 
   var markerArray = [];
  
@@ -293,13 +294,17 @@ function createMarkersInCircle(latLng, details) {
     markerArray[i] = new google.maps.Marker({
       position: latLng[i],
       icon: "assets/img/marker_POI.png",
-      title: details[i]
+      title: names[i],
     });
-  markerArray[i].setMap(map); 
+    markerArray[i].setMap(map); 
 
-    // google.maps.event.addListener(markerArray[i], 'click', function() {
-    //     alert("I am marker" + this.title);
-    // }); 
+    google.maps.event.addListener(markerArray[i], 'click', function() {
+      
+      $('#destination_input').val(this.title);  
+
+        // $(this).val(names[i]);
+        // console.log($(this).val(names[i]["0"].title));
+    }); 
   }; // end for loop
 }; // end create marker function
 
@@ -411,11 +416,11 @@ function routeWithDestination(start, dest) {
       stopover: true, 
     });
 
-    waypts.push({
-      location: "335 Highland Ave, Piedmont, CA 94611",
-      stopover: true,  
-    });
-    console.log(waypts);
+    // waypts.push({
+    //   location: "335 Highland Ave, Piedmont, CA 94611",
+    //   stopover: true,  
+    // });
+    
     // Sets start as dest and origin for round trip
 
     var request = {
