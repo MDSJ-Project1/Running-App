@@ -5,7 +5,8 @@ var appState = {
 };
 
 var map;
-
+var service;
+var infoWindow;
 
 (function generatePlacesOptions(){
   //initially set the dropdown button's value to restaurant. 
@@ -31,6 +32,7 @@ var map;
 })()
 
 function initMap(start, dest, boolean) {
+
   if (start === undefined) {
     console.log('original initMap function run')
   var uluru = {lat: 0, lng: 0};
@@ -38,11 +40,11 @@ function initMap(start, dest, boolean) {
     zoom: 1,
     center: uluru
   });
-
-  var marker = new google.maps.Marker({
-    position: uluru,
-    map: map
-  });
+// creates marker at initial startup
+  // var marker = new google.maps.Marker({
+  //   position: uluru,
+  //   map: map
+  // });
   }
   
   console.log(start);
@@ -63,7 +65,9 @@ function setMapPointCoordinate(coordinate){
   });
   var marker = new google.maps.Marker({
     position: coordinate,
-    map: map
+    map: map,
+    icon: "assets/img/home_icon.png"
+
   });
 };
 
@@ -203,7 +207,6 @@ function placeAPI(location, type) {
       var placesIdArray = [];
       var placesLatLngArray = [];
       for (var i = 0; i < data.results.length; i++) {
-        console.log(data.results[i]);
         var placesData = data.results[i];
         var placesDataId = placesData.place_id;
         var placesLatLng = placesData.geometry.location;
@@ -215,47 +218,55 @@ function placeAPI(location, type) {
       console.log(placesIdArray);
       console.log(placesLatLngArray);
 
-  //       var request = {
-  //   location: pyrmont,
-  //   radius: '500',
-  //   type: ['restaurant']
-  // };
-
-  // service = new google.maps.places.PlacesService(map);
-  // service.nearbySearch(request, callback);
-
-// function callback(results, status) {
-//   if (status == google.maps.places.PlacesServiceStatus.OK) {
-//     for (var i = 0; i < results.length; i++) {
-//       var place = results[i];
-//       createMarker(results[i]);
-//     }
-//   }
-// }
-
       // GETS PLACE DETAILS /////////////////////////////////////////////////////////////////////////
       var placeID = data.results[0].place_id;
       var url3 = PROXY_URL + "https://maps.googleapis.com/maps/api/place/details/json?placeid=" + placeID + "&key=" + API_KEY;
-      
+      // run ajax for all placesIdArray[i], push into array with title, pass array into function
+
+      // toObject(placesIdArray);
+
+      console.log(placesIdArray);
+
       $.get(url3, function(detailsResponse){
           console.log('url3 works')
           console.log(detailsResponse);
           console.log(detailsResponse.place_Id)
           var placeInfo = detailsResponse.place_Id;
           console.log(placeID); 
-          createMarkersInCircle(placesLatLngArray, placeID);
+          createMarkersInCircle(placesLatLngArray, placesIdArray);
       });
     }); 
 };
+
+function toObject (arr) { // <------------- Might not need function in places API
+  var objArray = {};
+
+  for (var i = 0; i < arr.length; i++) {
+    objArray[i] = arr[i];
+  };
+  console.log(objArray);
+}
+
+// latlang= array of coordinates.
+// details = array of placeids
 function createMarkersInCircle(latLng, details, start) {
   console.log(latLng);
   console.log('function runs');
   var markerArray = [];
+  var infoWindow = new google.maps.InfoWindow();
+  var service = new google.maps.places.PlacesService(map);
 
   for (var i = 0; i < latLng.length; i++) {
+  var request = {
+    placeId: details[i]
+  }
+  service.getDetails(request, function(place,status) {
+    console.log(place);
+  })
     markerArray[i] = new google.maps.Marker({
       position: latLng[i],
-      title: "new marker" + [i]
+      title: "new marker" + [i],
+      icon: "assets/img/marker_POI.png"
     });
     markerArray[i].setMap(map);
 
@@ -263,6 +274,7 @@ function createMarkersInCircle(latLng, details, start) {
         alert("I am marker" + this.title);
     }); 
   };
+
   };
 
 // function popsPlacesDetails () {
