@@ -98,79 +98,77 @@ $("#start_input").on("focusout",function(){
 
 
 
-  var config = {
-      apiKey: "AIzaSyCEHUOLj9sQo4PFvEtbI0uDOktzzroLcYQ",
-      authDomain: "running-app-58fcf.firebaseapp.com",
-      databaseURL: "https://running-app-58fcf.firebaseio.com",
-      projectId: "running-app-58fcf",
-      storageBucket: "running-app-58fcf.appspot.com",
-      messagingSenderId: "886763704573"
-  };
-  firebase.initializeApp(config);
+var config = {
+    apiKey: "AIzaSyCEHUOLj9sQo4PFvEtbI0uDOktzzroLcYQ",
+    authDomain: "running-app-58fcf.firebaseapp.com",
+    databaseURL: "https://running-app-58fcf.firebaseio.com",
+    projectId: "running-app-58fcf",
+    storageBucket: "running-app-58fcf.appspot.com",
+    messagingSenderId: "886763704573"
+};
+firebase.initializeApp(config);
 
-  // Create a variable to reference the database
-  var database = firebase.database();
+// Create a variable to reference the database
+var database = firebase.database();
 
-    //get user location
-    if(navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(geoLocation) {
-          console.log(geoLocation.coords);
-          console.log(typeof geoLocation.coords);
+  //get user location
+if(navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(geoLocation) {
+      console.log(geoLocation.coords);
+      console.log(typeof geoLocation.coords);
 
-            var latitude = geoLocation.coords.latitude;
-            var longitude = geoLocation.coords.longitude
-            var location = latitude + "," + longitude;
-            var inItLocation = {
-              lat: latitude,
-              lng: longitude
-            };
-            initMap(inItLocation);
-            //grab the place type that was stored in dom
-            var placeType = $("#dropdownMenuButton").val().trim()
-            placeAPI(location,placeType);
-            
-            $.ajax({
-               method:"GET",
-               url: "https://maps.googleapis.com/maps/api/geocode/json?"
-               + "latlng=" + location
-               + "&key=AIzaSyDI4WkP2aEnUvW-xJTF5udyKKnTx2Z5cio"
-            }).done(function(response){
-               var address = response.results[0].formatted_address
-               //set input field value to address
-               $("#start_input").val(address);
-            });
-            //example using places api
-        })
-    }
-
-    $("#button_submit").on("click", function(e) {
-        e.preventDefault()
-
-        var caloriesToBurn = parseInt($("#calorie_field").val().trim());
-        weight = parseInt($("#weight_field").val().trim())
-        // http://www.livestrong.com/article/314404-how-many-calories-do-you-lose-per-mile/
-        var caloriesPerMile = weight * .75
-
-
-        var milesToRun = caloriesToBurn / caloriesPerMile;
-        console.log("milesToRUn", milesToRun)
-
-        var databaseNameInput = $('#name_field').val().trim();
-        var databaseWeightInput = $('#weight_field').val().trim();
-        var databaseStartDateInput = $('#start_date_field').val().trim();
-        var databaseCalorieInput = $('#calorie_field').val().trim();
-        console.log(databaseNameInput, databaseWeightInput, databaseStartDateInput, databaseCalorieInput);
-
-        database.ref().push({
-            name: databaseNameInput,
-            weight: databaseWeightInput,
-            startTime: databaseStartDateInput,
-            calorie: databaseCalorieInput
+        var latitude = geoLocation.coords.latitude;
+        var longitude = geoLocation.coords.longitude
+        var location = latitude + "," + longitude;
+        var inItLocation = {
+          lat: latitude,
+          lng: longitude
+        };
+        initMap(inItLocation);
+        //grab the place type that was stored in dom
+        var placeType = $("#dropdownMenuButton").val().trim()
+        placeAPI(location,placeType);
+        
+        $.ajax({
+           method:"GET",
+           url: "https://maps.googleapis.com/maps/api/geocode/json?"
+           + "latlng=" + location
+           + "&key=AIzaSyDI4WkP2aEnUvW-xJTF5udyKKnTx2Z5cio"
+        }).done(function(response){
+           var address = response.results[0].formatted_address
+           //set input field value to address
+           $("#start_input").val(address);
         });
+        //example using places api
+    })
+}
 
+$("#button_submit").on("click", function(e) {
+    e.preventDefault()
+
+    var caloriesToBurn = parseInt($("#calorie_field").val().trim());
+    weight = parseInt($("#weight_field").val().trim())
+    // http://www.livestrong.com/article/314404-how-many-calories-do-you-lose-per-mile/
+    var caloriesPerMile = weight * .75
+
+
+    var milesToRun = caloriesToBurn / caloriesPerMile;
+    console.log("milesToRUn", milesToRun)
+
+    var databaseNameInput = $('#name_field').val().trim();
+    var databaseWeightInput = $('#weight_field').val().trim();
+    var databaseStartDateInput = $('#start_date_field').val().trim();
+    var databaseCalorieInput = $('#calorie_field').val().trim();
+    console.log(databaseNameInput, databaseWeightInput, databaseStartDateInput, databaseCalorieInput);
+
+    database.ref().push({
+        name: databaseNameInput,
+        weight: databaseWeightInput,
+        startTime: databaseStartDateInput,
+        calorie: databaseCalorieInput
     });
 
-
+});
 
 
 // Google MAP
@@ -184,6 +182,7 @@ $("#start_input").on("focusout",function(){
 
 // place API runs with startinput parameter, finds places within radius, 
 // 
+
 function placeAPI(location, type) {
   var API_KEY = "AIzaSyCQPkqDoLqZjqpqhqnnRyE79yUe0omijso";
   //https://stackoverflow.com/questions/45185061/google-places-api-cors
@@ -200,12 +199,10 @@ function placeAPI(location, type) {
       method: "GET",
       url: url
   }).done(function(data) {
-      console.log("done")
-      console.log(data)
-      console.log(data.results[0]);
       var places = [];
       var placesIdArray = [];
       var placesLatLngArray = [];
+      var placesNameArray = [];
       for (var i = 0; i < data.results.length; i++) {
         var placesData = data.results[i];
         var placesDataId = placesData.place_id;
@@ -217,26 +214,36 @@ function placeAPI(location, type) {
       console.log(places);
       console.log(placesIdArray);
       console.log(placesLatLngArray);
+      pullPlaceInfoName(placesLatLngArray, placesIdArray);
+      }); 
+};
 
       // GETS PLACE DETAILS /////////////////////////////////////////////////////////////////////////
-      var placeID = data.results[0].place_id;
-      var url3 = PROXY_URL + "https://maps.googleapis.com/maps/api/place/details/json?placeid=" + placeID + "&key=" + API_KEY;
+      
       // run ajax for all placesIdArray[i], push into array with title, pass array into function
-
-      // toObject(placesIdArray);
-
-      console.log(placesIdArray);
-
-      $.get(url3, function(detailsResponse){
-          console.log('url3 works')
-          console.log(detailsResponse);
-          console.log(detailsResponse.place_Id)
-          var placeInfo = detailsResponse.place_Id;
-          console.log(placeID); 
-          createMarkersInCircle(placesLatLngArray, placesIdArray);
-      });
-    }); 
+function pullPlaceInfoName (latlngArr, idArr) {
+    var API_KEY = "AIzaSyCQPkqDoLqZjqpqhqnnRyE79yUe0omijso";
+    var PROXY_URL = 'https://cors-anywhere.herokuapp.com/';
+    var placesNameArray = [];
+    console.log(idArr);
+  for (var i = 0; i < idArr.length; i++) {
+    var placeID = idArr[i]
+    var url3 = PROXY_URL + "https://maps.googleapis.com/maps/api/place/details/json?placeid=" + placeID + "&key=" + API_KEY;
+     $.ajax({
+      method: "GET",
+      url: url3
+      }).done(function(detailsResponse){
+      // console.log('url3 works')
+      var placeName = detailsResponse.result.name;
+      placesNameArray.push(placeName);
+      createMarkersInCircle(latlngArr, placesNameArray);
+    });
+  }
+console.log(placesNameArray);
 };
+
+
+
 
 function toObject (arr) { // <------------- Might not need function in places API
   var objArray = {};
@@ -248,34 +255,40 @@ function toObject (arr) { // <------------- Might not need function in places AP
 }
 
 // latlang= array of coordinates.
-// details = array of placeids
-function createMarkersInCircle(latLng, details, start) {
-  console.log(latLng);
-  console.log('function runs');
+// details = array of placeNames
+function createMarkersInCircle(latLng, details) {
+  console.log(details);
   var markerArray = [];
+ 
   var infoWindow = new google.maps.InfoWindow();
   var service = new google.maps.places.PlacesService(map);
 
   for (var i = 0; i < latLng.length; i++) {
-  var request = {
-    placeId: details[i]
-  }
-  service.getDetails(request, function(place,status) {
-    console.log(place);
-  })
-    markerArray[i] = new google.maps.Marker({
-      position: latLng[i],
-      title: "new marker" + [i],
-      icon: "assets/img/marker_POI.png"
-    });
-    markerArray[i].setMap(map);
+  markerArray[i] = new google.maps.Marker({
+  position: latLng[i],
+  icon: "assets/img/marker_POI.png",
+  title: details[i]
+  });
+  markerArray[i].setMap(map); 
 
-    google.maps.event.addListener(markerArray[i], 'click', function() {
-        alert("I am marker" + this.title);
-    }); 
-  };
+  // var request = {
+  //   placeId: details[i]
+  // }
+  // service.getDetails(request, function(place,status) {
+  //   if (status == google.maps.places.PlacesServiceStatus.OK) {
+  //     placeNameArray.push(place.name);
 
+  //   };
+    
+    
+  // })
+    
+
+    // google.maps.event.addListener(markerArray[i], 'click', function() {
+    //     alert("I am marker" + this.title);
+    // }); 
   };
+};
 
 // function popsPlacesDetails () {
 //   alert("I am marker" + this.title);
