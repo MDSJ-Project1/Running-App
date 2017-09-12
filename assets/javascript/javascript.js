@@ -2,6 +2,7 @@
 // NECESSARY GLOBAL VARIABLES ////////////////////////////////////////////////////////////////
 var appState = {
   caloriesBurned: 0,
+  uid: 0,
 };
 
 var map;
@@ -24,7 +25,11 @@ var waypts = [];
   const placesTypes = ["aquarium","art_gallery","bakery","bar","book_store","bowling_alley","cafe","casino","liquor_store","gym","movie_theater","museum","night_club","restaurant","zoo"];
   //generate a place div for each place type
   placesTypes.forEach(function(place){
+<<<<<<< HEAD
     var $placeOption = $("<a>"+ place + "</a>");
+=======
+    var $placeOption = $("<option>"+ place+"</option>");
+>>>>>>> ce0ffd624a97f085d99393478efcd70ef635d4c4
     $placeOption.addClass("dropdown-item")
     $placeOption.val(place)
     // when place is clicked, set value and text of dropdown button to place
@@ -33,7 +38,7 @@ var waypts = [];
       $placesBttn.text(place)
 
     })
-    $("#places-dropdown").append($placeOption).append($("<br>"))
+    $("#dropdownMenuButton").append($placeOption)
 
   })
 })()
@@ -309,23 +314,24 @@ function createMarkersInCircle(latLng, names, address) {
     google.maps.event.addListener(item, 'click', function() {
       // REPLACE this WITH item
 
+      let thisName = names[i];	
+
       let thisPosition = latLng[i];
       console.log(thisPosition);
       let thisAddress = address[i];
       let stringAddress = JSON.stringify(thisAddress);
+      let stringPosition = JSON.stringify(thisPosition);
       // $('#destination_input').val(this.id);
+
       waypts.push({
         location: thisPosition,
         stopover: true 
       });
-      console.log($('#destination_address_html').hasChildNodes());
-      if ($('#destination_address_html').children(1) == undefined) {
-        console.log('blahbabha');
-        $('#destination_input').val(stringAddress);
-      } else {
-        console.log('append stuff');
-        $('#destination_address_html').append("<input type='text' class='form-control' value=" + stringAddress + ">");
-        }
+
+      $('#dest_input_div input').last().attr('value',thisName).attr('data', thisAddress).attr('data-location', stringPosition);
+
+      $('#dest_input_div').append("<input type='text' class='form-control waypoint'>");
+        
     }); 
   });
   // for (var i = 0; i < latLng.length; i++) {
@@ -437,13 +443,17 @@ function routeWithDestination(start, dest) {
       map: map
     });
     
+    console.log($('#dest_input_div').children()); 
 
     // pushes waypoints into array between start and destination
-    waypts.push({
+    var firstWaypoint = {
       location: dest,
-      stopover: true, 
-    });
-
+      stopover: true
+    }
+    // if(typeof waypts != "undefined" && waypts != null && waypts.length > 0) {
+    //   console.log(waypts);
+    //   waypts.push(firstWaypoint);
+    // };
     // waypts.push({
     //   location: "335 Highland Ave, Piedmont, CA 94611",
     //   stopover: true,  
@@ -457,6 +467,7 @@ function routeWithDestination(start, dest) {
       waypoints: waypts,
       travelMode: 'WALKING',
       avoidHighways: true,
+      optimizeWaypoints: true,
     };
 
     // Pass the directions request to the directions service.
@@ -465,14 +476,18 @@ function routeWithDestination(start, dest) {
     directionsService.route(request, function(routeResponse, status) {
       if (status == 'OK') {
         // Display the route on the map.
+        removeMarkers();
         directionsDisplay.setDirections(routeResponse);
-        console.log(routeResponse);                    
+        console.log(routeResponse);                
+
+        directionsDisplay.setPanel(document.getElementById('print_directions'));
 
         var legsArray = routeResponse.routes[0].legs;
         calcMilesCalories(legsArray);
       };
     });
 };
+
 
 
 function calcMilesCalories(legs) {
@@ -526,6 +541,45 @@ $('#route_button').on('click', function() {
     startAjax(true, initMap, milesToRun);
     // placeAPI(startInput);
     
+});
+
+$('#find_button').on('click', function() {
+  var startInput = $('#start_input').val().trim();
+  var caloriesToBurn = parseInt($("#calorie_field").val().trim());
+  weight = parseInt($("#weight_field").val().trim())
+  // http://www.livestrong.com/article/314404-how-many-calories-do-you-lose-per-mile/
+  var caloriesPerMile = weight * .75;
+  console.log(caloriesToBurn, weight, caloriesPerMile)
+
+
+  milesToRun = caloriesToBurn / caloriesPerMile;
+  console.log("milesToRUn", milesToRun);
+
+  startAjax(true, initMap, milesToRun);
+});
+
+
+function PrintElem() {
+
+  var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+
+  mywindow.document.write('<html><head><title>' + 'Running App'  + '</title>');
+  mywindow.document.write('</head><body >');
+  mywindow.document.write('<h1>' + 'Your Route' + '</h1>');
+  mywindow.document.write(document.getElementById('print_directions').innerHTML);
+  mywindow.document.write('</body></html>');
+
+  mywindow.document.close(); // necessary for IE >= 10
+  mywindow.focus(); // necessary for IE >= 10*/
+
+  mywindow.print();
+  mywindow.close();
+
+  return true;
+}
+
+$('#print_link').on('click', function() {
+  PrintElem();
 });
 
 // AJAX Erorr message, doesnt work /////////////////////////
@@ -591,22 +645,85 @@ function writeUserData(userId, name, email, imageUrl, phoneNumber) {
 
 //add click event to push data to user's data node
 function setupClickEvent(userId) {
-  $("#button_submit").on("click", function(event) {
+  $("#submit-calorie").on("click", function(event) {
     // Prevent default behavior
     event.preventDefault();
 
-    var input1 = $("#name_field").val().trim();
+    var input1 = $("#calorie_field").val().trim();
     var input2 = $("#weight_field").val().trim();
+    var date = moment().format("YYYY, MM, D");
+    console.log(date);
     // var input3 = $("#input-3").val().trim();
     // var input4 = $("#input-4").val().trim();
 
     database.ref('users/' + userId + '/userData').push({
       input1: input1,
       input2: input2,
+      date: moment().format("YYYY, MM, D")
       // input3: input3,
       // input4: input4  
     });
+    queryData();
   });
+}
+
+var dateArray2 = [];
+
+//chart for colories burned per day
+function makeChart(){
+  var chart = new CanvasJS.Chart("chartContainer",
+  {
+    title:{
+      text: "Calories Burned Per Day"
+    },
+    axisX:{
+      title: "timeline",
+      gridThickness: 2,
+      valueFormatString: "DD-MMM"
+    },
+    axisY: {
+      title: "Calories Burned"
+    },
+    data: [
+    {        
+      type: "line",
+      dataPoints: dateArray2
+      }
+    ]
+  });
+  chart.render();
+  console.log(dateArray2);
+}
+
+//Query data and generate chart
+function queryData(){
+  dateArray2 = [];
+  var query = database.ref('users/' + appState.uid + '/userData');
+  query.once("value")
+  .then(function(snapshot) {
+    snapshot.forEach(function(childSnapshot) {
+      // key of each child being iterated over
+      var key = childSnapshot.key;
+      // childData will be the actual contents of the child
+      var childData = childSnapshot.val();
+      var momentDate2 = moment(childData.date).format("YYYY, MM, D");
+      console.log("momentDate2 " +momentDate2);
+      var userDate = childData.date;
+      console.log(userDate);
+      var calorieData = JSON.parse(childData.input1);
+
+      var dateObject = {x: new Date(momentDate2), y: calorieData};
+      console.log(dateObject);
+      dateArray2.push(dateObject);
+
+      // TODO: Do what i want to do with this dman date array here
+    });
+
+  console.log(JSON.stringify(dateArray2));
+  makeChart();
+
+  })
+
 }
 
 initApp = function() {
@@ -617,45 +734,34 @@ initApp = function() {
       var email = user.email;
       var emailVerified = user.emailVerified;
       var photoURL = user.photoURL;
-      var uid = user.uid;
+      appState.uid = user.uid;
       var phoneNumber = user.phoneNumber;
       var providerData = user.providerData;
 
-      database.ref('users/' + uid + '/userData').on("value", function(snapshot){
+      console.log(appState.uid);
+
+      database.ref('users/' + appState.uid + '/userData').on("value", function(snapshot){
         console.log(snapshot.val());
       });
 
-      //query user data
-      var query = database.ref('users/' + uid + '/userData');
-      query.once("value")
-      .then(function(snapshot) {
-        snapshot.forEach(function(childSnapshot) {
-          // key of each child being iterated over
-          var key = childSnapshot.key;
-          // childData will be the actual contents of the child
-          var childData = childSnapshot.val();
-
-          console.log("key is " + key);
-          console.log("child data is " +childData);
-          console.log("input1 value is " + childData.input1);
-        });
-      });
+      //Query data and generate chart
+      queryData();
 
       //check if user exists, otherwise write in new user data
-      database.ref('users/' + uid).once("value", function(snapshot){
+      database.ref('users/' + appState.uid).once("value", function(snapshot){
         console.log(snapshot.val());
         if (snapshot.val()){
             console.log("data for user exists, do not write over user data")
         }
         else {
             //write user data to database if new user
-        writeUserData(uid, displayName, email, photoURL, phoneNumber);
+        writeUserData(appState.uid, displayName, email, photoURL, phoneNumber);
         console.log("no user data, adding new user");
         }
       });
       
       //add click event to button when user is logged in
-      setupClickEvent(uid);
+      setupClickEvent(appState.uid);
 
       user.getIdToken().then(function(accessToken) {
         document.getElementById('sign-in-status').textContent = 'Signed in';

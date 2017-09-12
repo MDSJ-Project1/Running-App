@@ -89,6 +89,28 @@ width:150px;
 /* ------------------------------------	*/
 /*  			 1. Home				*/
 /* ------------------------------------	*/
+#directions_word {
+  color: black;
+}
+
+#dropdownMenuButton {
+  color: blue;
+}
+
+#print_directions {
+  height: 250px;
+  float: right;
+  width: 250px;
+  overflow: auto;
+  background-color: white;
+  position: relative;
+  left: 60px;
+};
+#print_directions {
+  font-family: 'Roboto','sans-serif';
+  line-height: 30px;
+  padding-left: 10px;
+};
 
 #home{
 height:100%;
