@@ -318,14 +318,17 @@ function createMarkersInCircle(latLng, names, address) {
         location: thisPosition,
         stopover: true 
       });
-      console.log($('#destination_address_html').hasChildNodes());
-      if ($('#destination_address_html').children(1) == undefined) {
-        console.log('blahbabha');
+      console.log($('#destination_address_html').children().length);
+      if ($('#destination_address_html').children().length == 1) {
         $('#destination_input').val(stringAddress);
+        $('#destination_address_html').append("<input type='text' class='form-control waypoint'>");
+      } else if ($('#destination_address_html').children().length == 2) {
+        $(".waypoint").val(stringAddress)
       } else {
-        console.log('append stuff');
-        $('#destination_address_html').append("<input type='text' class='form-control' value=" + stringAddress + ">");
-        }
+        $('#destination_address_html').append("<input type='text' class='form-control waypoint' value=" + stringAddress + ">");
+      }
+
+        
     }); 
   });
   // for (var i = 0; i < latLng.length; i++) {
