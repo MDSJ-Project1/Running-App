@@ -106,69 +106,65 @@
 			
 			<div class="welcome-text">
 				<div class="container">
-				<div class="row wow animated fadeInDown">
-				<div class="row">
-					<div class="col-md-9 text-center">
-						<!-- <div class="col-md-12 text-center hero-title"> -->
-	<!-- 						<i class="fa fa-plane"></i> -->
-							<h2 class="page-title">Our App</h2>
-							<h3>Google Route</h3>
-								<div id="google_map">
-									<div id='map'></div>
-								</div>
-					</div>
-					<div class="col-md-3">
-									<div id="address_html">
-										<h6>Start Address:
-              							<input type="text" class="form-control" id="start_input" placeholder="111 Sesame St, Imagination, CA">
-              							</h6>
-			  						</div>
-			  						<div id="destination_address_html">
-			  							<h6>Destination(s):
-			  							</h6>
-			  							<div id="dest_input_div">
-              							<input type="text" class="form-control waypoint" id="destination_input" placeholder="666 Sesame St, Imagination, CA">
-              							</div>
-			  						</div>
-			  						<div id="route_distance_html">
-										<h6>Round Trip Distance: <span>0</span></h6>
+					<div class="row wow animated fadeInDown">
+						<div class="row">
+							<div class="col-md-9 text-center">
+								<h2 class="page-title">Our App</h2>
+								<h3>Google Route</h3>
+									<div id="google_map">
+										<div id='map'></div>
 									</div>
-									<div id="calories_burned_html">
-										<h6>Estimated Calories Burned: <span>0</span></h6>
-									</div>
-			  		</div>
-			  	</div>
-			  					
-			  					<!-- 	<div id="route_distance_html">
-            							<h6>Round Trip Distance: <span>0</span></h6>
-			  						</div>
-			  						<div id="calories_burned_html">
-            							<h6>Estimated Calories Burned: <span>0</span></h6>
-			  						</div> -->
-            				<button type="button" class="btn btn-primary" id="route_button">Submit Route</button>
-            						<form>
-            						   <label>Weight</label>
-		                        <br>
-		          				<input type="number" class="form-control" id="weight_field" placeholder="160lb" value="160"
-		                        <label>Calorie</label>
-		                        <br>
-		          				<input type="number" class="form-control" id="calorie_field" placeholder="" value="600">;
-
-		                        <br>	 
-                                <div class="dropdown">
-                                	<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                  	Select a place type
-                                	</button>
-                                	<div class="dropdown-menu" id="places-dropdown" aria-labelledby="dropdownMenuButton">
-                                	</div>
-                              	</div>                        
-
-		                        <br>	
-
-		          				</div>
-		          				</form>
-			  				</div>
-					</div><!--hero title end-->	
+							</div>
+							<div class="col-md-3">
+											<div id="address_html">
+												<h6>Start Address:
+		              							<input type="text" class="form-control" id="start_input" placeholder="111 Sesame St, Imagination, CA">
+		              							</h6>
+					  						</div>
+					  						<div id="destination_address_html">
+					  							<h6>Destination(s):
+					  							</h6>
+					  							<div id="dest_input_div">
+		              							<input type="text" class="form-control waypoint" id="destination_input" placeholder="666 Sesame St, Imagination, CA">
+		              							</div>
+					  						</div>
+					  						<div id="route_distance_html">
+												<h6>Round Trip Distance: <span>0</span></h6>
+											</div>
+											<div id="calories_burned_html">
+												<h6>Estimated Calories Burned: <span>0</span></h6>
+											</div>
+											<div id="print_directions">
+											<strong id="directions_word">Directions</strong>
+											</div>
+											<br>
+											<button id="print_link">Print Directions</button>
+					  		</div>
+				  		</div>
+                	</div>
+                	<div id="other_input">
+					<button type="button" class="btn btn-primary" id="route_button">Submit Route</button>
+					<button type="button" class="btn btn-warning" id="find_button">Find Places Near You</button>
+					<div class="dropdown">
+					<select class="select dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					</select>
+		            <!-- 	<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		              	Select a place type
+		            	</button>
+		            	<div class="dropdown-menu" id="places-dropdown" aria-labelledby="dropdownMenuButton">
+		        		</div> -->
+		        	</div>
+						<form>
+							<label>Weight</label>
+		                <br>
+		      				<input type="number" class="form-control" id="weight_field" placeholder="160lb" value="160"
+		                    <label>Calorie>
+		                <br>
+		  					<input type="number" class="form-control" id="calorie_field" placeholder="" value="600">;
+		  				</form>
+		  			</div>
+			</div>
+		</div><!--hero title end-->	
 
 <!-- 			  				<div class="row wow animated fadeInUp">
 								<div class="col-md-12">
@@ -214,7 +210,6 @@
 								</div>
 							</div>
 						</div> -->
-					</div>
 					<!-- <h2 class="wow animated fadeInDown">REACH YOUR GOAL</h2>
 					<p class="wow animated fadeInUp">GET YOUR DREAM BODY!</p>
 					<button class="wow animated fadeInUp"><a href="index2.html">Get Started</a></button>
@@ -228,9 +223,6 @@
 						<a href=""><i class="fa fa-youtube-square"></i></#31363aa>
 						<a href=""><i class="fa fa-instagram"></i></a> -->
 					<!-- 	<a href="https://github.com/MDSJ-Project1/Running-App" target="_blank"><i class="fa fa-github"></i></a> -->
-					</div>
-				</div>
-			</div>
 		</section><!--home section end-->
 		
 		<section id="about">
@@ -244,6 +236,7 @@
 						
 						 <!-- <p><a href="" class="btn btn-bordered">Sign Up</a></p> -->
 					</div>
+
 					
 					<div class="col-md-6 wow animated fadeInUp">
 						<img class="img-responsive" src="img/about_me_image.jpg" alt="" />

@@ -24,7 +24,7 @@ var waypts = [];
   const placesTypes = ["aquarium","art_gallery","bakery","bar","book_store","bowling_alley","cafe","casino","liquor_store","gym","movie_theater","museum","night_club","restaurant","zoo"];
   //generate a place div for each place type
   placesTypes.forEach(function(place){
-    var $placeOption = $("<a>"+ place+"</a>");
+    var $placeOption = $("<option>"+ place+"</option>");
     $placeOption.addClass("dropdown-item")
     $placeOption.val(place)
     // when place is clicked, set value and text of dropdown button to place
@@ -33,7 +33,7 @@ var waypts = [];
       $placesBttn.text(place)
 
     })
-    $("#places-dropdown").append($placeOption).append($("<br>"))
+    $("#dropdownMenuButton").append($placeOption)
 
   })
 })()
@@ -265,7 +265,6 @@ function pullPlaceInfoName (latlngArr, idArr, addArray) {
       url: url3
       }).done(function(detailsResponse){
       // console.log('url3 works')
-      console.log(detailsResponse);
       var address = detailsResponse.result.formatted_address;
   
       var placeName = detailsResponse.result.name;
@@ -315,14 +314,15 @@ function createMarkersInCircle(latLng, names, address) {
       console.log(thisPosition);
       let thisAddress = address[i];
       let stringAddress = JSON.stringify(thisAddress);
+      let stringPosition = JSON.stringify(thisPosition);
       // $('#destination_input').val(this.id);
-       console.log(thisPosition);
+       console.log(typeof stringPosition);
       waypts.push({
         location: thisPosition,
         stopover: true 
       });
 
-      $('#dest_input_div input').last().attr('value',thisName).attr('data', thisAddress);
+      $('#dest_input_div input').last().attr('value',thisName).attr('data', thisAddress).attr('data-location', stringPosition);
 
       $('#dest_input_div').append("<input type='text' class='form-control waypoint'>");
         
@@ -437,6 +437,7 @@ function routeWithDestination(start, dest) {
       map: map
     });
     
+    console.log($('#dest_input_div').children()); 
 
     // pushes waypoints into array between start and destination
     var firstWaypoint = {
@@ -460,6 +461,7 @@ function routeWithDestination(start, dest) {
       waypoints: waypts,
       travelMode: 'WALKING',
       avoidHighways: true,
+      optimizeWaypoints: true,
     };
 
     // Pass the directions request to the directions service.
@@ -470,13 +472,16 @@ function routeWithDestination(start, dest) {
         // Display the route on the map.
         removeMarkers();
         directionsDisplay.setDirections(routeResponse);
-        console.log(routeResponse);                    
+        console.log(routeResponse);                
+
+        directionsDisplay.setPanel(document.getElementById('print_directions'));
 
         var legsArray = routeResponse.routes[0].legs;
         calcMilesCalories(legsArray);
       };
     });
 };
+
 
 
 function calcMilesCalories(legs) {
@@ -530,6 +535,45 @@ $('#route_button').on('click', function() {
     startAjax(true, initMap, milesToRun);
     // placeAPI(startInput);
     
+});
+
+$('#find_button').on('click', function() {
+  var startInput = $('#start_input').val().trim();
+  var caloriesToBurn = parseInt($("#calorie_field").val().trim());
+  weight = parseInt($("#weight_field").val().trim())
+  // http://www.livestrong.com/article/314404-how-many-calories-do-you-lose-per-mile/
+  var caloriesPerMile = weight * .75;
+  console.log(caloriesToBurn, weight, caloriesPerMile)
+
+
+  milesToRun = caloriesToBurn / caloriesPerMile;
+  console.log("milesToRUn", milesToRun);
+
+  startAjax(true, initMap, milesToRun);
+});
+
+
+function PrintElem() {
+
+  var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+
+  mywindow.document.write('<html><head><title>' + 'Running App'  + '</title>');
+  mywindow.document.write('</head><body >');
+  mywindow.document.write('<h1>' + 'Your Route' + '</h1>');
+  mywindow.document.write(document.getElementById('print_directions').innerHTML);
+  mywindow.document.write('</body></html>');
+
+  mywindow.document.close(); // necessary for IE >= 10
+  mywindow.focus(); // necessary for IE >= 10*/
+
+  mywindow.print();
+  mywindow.close();
+
+  return true;
+}
+
+$('#print_link').on('click', function() {
+  PrintElem();
 });
 
 // AJAX Erorr message, doesnt work /////////////////////////
