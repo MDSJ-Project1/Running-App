@@ -312,9 +312,9 @@ function createMarkersInCircle(latLng, names, address) {
       console.log(item);
       let thisPosition = latLng[i];
       console.log(thisPosition);
-      var thisAddress = item.id;
-      var stringAddress = JSON.stringify(thisAddress);
-      $('#destination_input').val(this.id);
+      let thisAddress = address[i];
+      let stringAddress = JSON.stringify(thisAddress);
+      // $('#destination_input').val(this.id);
        console.log(thisPosition);
       waypts.push({
         location: thisPosition,
