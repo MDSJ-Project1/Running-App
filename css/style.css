@@ -35,6 +35,9 @@ Author: Perfect Point Marketing
 html, body{
 height:100%;
 font-size:13px;
+overflow: auto
+}
+section {
 }
 a{
 color:#57BDDB;
@@ -43,9 +46,10 @@ body{
 font-family:'Open Sans', sans-serif;
 color:#86989d;
 line-height:23px;
-overflow-x:hidden;
+overflow: scroll;
 }
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{
+  color: black;
 font-weight:700;
 font-family:'PT Sans', sans-serif;
 }
@@ -93,24 +97,20 @@ width:150px;
   color: black;
 }
 
-#dropdownMenuButton {
-  color: blue;
-}
 
 #print_directions {
-  height: 250px;
-  float: right;
-  width: 250px;
+  height: 400px;
   overflow: auto;
   background-color: white;
-  position: relative;
-  left: 60px;
 };
 #print_directions {
   font-family: 'Roboto','sans-serif';
   line-height: 30px;
   padding-left: 10px;
 };
+#print_link {
+  margin-top: 20px;
+}
 
 #home{
 height:100%;
@@ -120,22 +120,7 @@ vertical-align:milddle;
 width:100%;
 position:relative;
 }
-#home button {
-background-color: blue;
-}
-.welcome-text{
-display:table-cell;
-position:relative;
-vertical-align:middle;
-z-index:3;
-text-align:center;
-color:#fff;
-font-size:16px;
-z-index:99;
-}
-.welcome-text .container{
-max-width:800px;
-}
+
 .home-parallax, .parallax-bg, #home{
 background:url(../img/home_image.jpg) no-repeat fixed center top;
 /*background-size*/
@@ -768,9 +753,9 @@ text-decoration:none;
 }
 
 .searchresult {
-  overflow: scroll;
+  overflow: auto;
   margin: 20px 20px 20px 0px;
-  max-height: 50vh;
+  max-height: auto;
 }
 #map{
 margin: 20px;
@@ -811,7 +796,7 @@ color:#57BDDB;
 
 
 body{
-overflow-y:hidden;
+overflow-y:scroll;
 }
 #preloader{
 position:absolute;

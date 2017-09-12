@@ -25,8 +25,8 @@ var waypts = [];
   const placesTypes = ["aquarium","art_gallery","bakery","bar","book_store","bowling_alley","cafe","casino","liquor_store","gym","movie_theater","museum","night_club","restaurant","zoo"];
   //generate a place div for each place type
   placesTypes.forEach(function(place){
-    var $placeOption = $("<a>"+ place + "</a>");
-    // var $placeOption = $("<option>"+ place+"</option>");
+    // var $placeOption = $("<a>"+ place + "</a>");
+    var $placeOption = $("<option>"+ place+"</option>");
     $placeOption.addClass("dropdown-item")
     $placeOption.val(place)
     // when place is clicked, set value and text of dropdown button to place
@@ -131,8 +131,6 @@ if(navigator.geolocation) {
         };
         // initMap(inItLocation);
         //grab the place type that was stored in dom
-        placeType = $("#dropdownMenuButton").val().trim()
-
         // placeAPI(location,placeType);
         
         $.ajax({

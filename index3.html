@@ -23,6 +23,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<!--   bootstrap js -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 </head>
 <body>
   <!-- Team 2 Header -->
@@ -61,22 +62,51 @@
             <div class="col-md-9">
                 <h3>Maps</h3>
               <div id="map"></div>
+              <div class="undermap">
+                <h6>Weight</h6>
+                  <input type="number" class="form-control" id="weight_field" placeholder="160lb" value="160">
+                <h6>Caliroie</h6>
+                  <input type="number" class="form-control" id="calorie_field" placeholder="" value="600">;
+                </div>
             </div>
           <div class="col-md-3 wow animated fadeInDown">
             <div class="searchresult">
               <h3>Search</h3>
               <div id="address_html">
-                <input type="text" class="form-control" id="start_input" placeholder="111 Sesame St, Imagination, CA">
+                        <h6>Start Address:
+                                <input type="text" class="form-control" id="start_input" placeholder="111 Sesame St, Imagination, CA">
+                                </h6>
+                        </div>
+                        <div id="destination_address_html">
+                          <h6>Destination(s):
+                          </h6>
+                          <div id="dest_input_div">
+                                <input type="text" class="form-control waypoint" id="destination_input" placeholder="666 Sesame St, Imagination, CA">
+                                </div>
+                        </div>
+              <div id="route_distance_html">
+                <h6>Round Trip Distance: <span>0</span></h6>
+              </div>
+              <div id="calories_burned_html">
+                <h6>Estimated Calories Burned: <span>0</span></h6>
               </div>
               <br>
-              <div id="destination_address_html">
-                <input type="text" class="form-control" id="destination_input" placeholder="666 Sesame St, Imagination, CA">
+          <select class="select dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          </select>
+ 
+          <button type="button" class="btn btn-warning" id="find_button">Find Places Near You</button>
+          <div class="dropdown">
+
+
+         <button type="button" class="btn btn-primary" id="route_button">Submit Route</button>
+              <div id="print_directions">
+                  <strong id="directions_word">Directions</strong>
               </div>
-              <br>
-              <button type="button" class="btn btn-primary" id="route_button">Route</button>
+                  <br>
+                <button id="print_link">Print Directions</button>
             </div>
-            <button type="button" id="dropdownMenuButton"></button>
       </div>
+
 </section>
 
 <!--  Footer -->
