@@ -2,6 +2,7 @@
 // NECESSARY GLOBAL VARIABLES ////////////////////////////////////////////////////////////////
 var appState = {
   caloriesBurned: 0,
+  uid: 0,
 };
 
 var map;
@@ -308,7 +309,8 @@ function createMarkersInCircle(latLng, names, address) {
 
     google.maps.event.addListener(item, 'click', function() {
       // REPLACE this WITH item
-      let thisName = names[i];
+
+      let thisName = names[i];	
 
       let thisPosition = latLng[i];
       console.log(thisPosition);
@@ -316,7 +318,7 @@ function createMarkersInCircle(latLng, names, address) {
       let stringAddress = JSON.stringify(thisAddress);
       let stringPosition = JSON.stringify(thisPosition);
       // $('#destination_input').val(this.id);
-       console.log(typeof stringPosition);
+
       waypts.push({
         location: thisPosition,
         stopover: true 
@@ -639,22 +641,85 @@ function writeUserData(userId, name, email, imageUrl, phoneNumber) {
 
 //add click event to push data to user's data node
 function setupClickEvent(userId) {
-  $("#button_submit").on("click", function(event) {
+  $("#submit-calorie").on("click", function(event) {
     // Prevent default behavior
     event.preventDefault();
 
-    var input1 = $("#name_field").val().trim();
+    var input1 = $("#calorie_field").val().trim();
     var input2 = $("#weight_field").val().trim();
+    var date = moment().format("YYYY, MM, D");
+    console.log(date);
     // var input3 = $("#input-3").val().trim();
     // var input4 = $("#input-4").val().trim();
 
     database.ref('users/' + userId + '/userData').push({
       input1: input1,
       input2: input2,
+      date: moment().format("YYYY, MM, D")
       // input3: input3,
       // input4: input4  
     });
+    queryData();
   });
+}
+
+var dateArray2 = [];
+
+//chart for colories burned per day
+function makeChart(){
+  var chart = new CanvasJS.Chart("chartContainer",
+  {
+    title:{
+      text: "Calories Burned Per Day"
+    },
+    axisX:{
+      title: "timeline",
+      gridThickness: 2,
+      valueFormatString: "DD-MMM"
+    },
+    axisY: {
+      title: "Calories Burned"
+    },
+    data: [
+    {        
+      type: "line",
+      dataPoints: dateArray2
+      }
+    ]
+  });
+  chart.render();
+  console.log(dateArray2);
+}
+
+//Query data and generate chart
+function queryData(){
+  dateArray2 = [];
+  var query = database.ref('users/' + appState.uid + '/userData');
+  query.once("value")
+  .then(function(snapshot) {
+    snapshot.forEach(function(childSnapshot) {
+      // key of each child being iterated over
+      var key = childSnapshot.key;
+      // childData will be the actual contents of the child
+      var childData = childSnapshot.val();
+      var momentDate2 = moment(childData.date).format("YYYY, MM, D");
+      console.log("momentDate2 " +momentDate2);
+      var userDate = childData.date;
+      console.log(userDate);
+      var calorieData = JSON.parse(childData.input1);
+
+      var dateObject = {x: new Date(momentDate2), y: calorieData};
+      console.log(dateObject);
+      dateArray2.push(dateObject);
+
+      // TODO: Do what i want to do with this dman date array here
+    });
+
+  console.log(JSON.stringify(dateArray2));
+  makeChart();
+
+  })
+
 }
 
 initApp = function() {
@@ -665,45 +730,34 @@ initApp = function() {
       var email = user.email;
       var emailVerified = user.emailVerified;
       var photoURL = user.photoURL;
-      var uid = user.uid;
+      appState.uid = user.uid;
       var phoneNumber = user.phoneNumber;
       var providerData = user.providerData;
 
-      database.ref('users/' + uid + '/userData').on("value", function(snapshot){
+      console.log(appState.uid);
+
+      database.ref('users/' + appState.uid + '/userData').on("value", function(snapshot){
         console.log(snapshot.val());
       });
 
-      //query user data
-      var query = database.ref('users/' + uid + '/userData');
-      query.once("value")
-      .then(function(snapshot) {
-        snapshot.forEach(function(childSnapshot) {
-          // key of each child being iterated over
-          var key = childSnapshot.key;
-          // childData will be the actual contents of the child
-          var childData = childSnapshot.val();
-
-          console.log("key is " + key);
-          console.log("child data is " +childData);
-          console.log("input1 value is " + childData.input1);
-        });
-      });
+      //Query data and generate chart
+      queryData();
 
       //check if user exists, otherwise write in new user data
-      database.ref('users/' + uid).once("value", function(snapshot){
+      database.ref('users/' + appState.uid).once("value", function(snapshot){
         console.log(snapshot.val());
         if (snapshot.val()){
             console.log("data for user exists, do not write over user data")
         }
         else {
             //write user data to database if new user
-        writeUserData(uid, displayName, email, photoURL, phoneNumber);
+        writeUserData(appState.uid, displayName, email, photoURL, phoneNumber);
         console.log("no user data, adding new user");
         }
       });
       
       //add click event to button when user is logged in
-      setupClickEvent(uid);
+      setupClickEvent(appState.uid);
 
       user.getIdToken().then(function(accessToken) {
         document.getElementById('sign-in-status').textContent = 'Signed in';
