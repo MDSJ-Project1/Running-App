@@ -10,6 +10,9 @@ var infoWindow;
 var placeType;
 var milesToRun;
 var cityCircle;
+var markerArray = [];
+var waypts = [];
+
 // /////////////////////////////////////////////////////////////////////////////////////////////
 
 (function generatePlacesOptions(){
@@ -219,6 +222,7 @@ function placeAPI(location, type) {
       "json?location=" + locString + "&" +
       "radius=8046.72" + "&" + //radius in meters
       "type=" + type + "&" +
+      "rankBy=distance" + "&" +
       "key=" + API_KEY;
 
   $.ajax({
@@ -230,6 +234,8 @@ function placeAPI(location, type) {
       var placesIdArray = [];
       var placesLatLngArray = [];
       var placesNameArray = [];
+      var placesAddressArray = [];
+      console.log(data);
       for (var i = 0; i < data.results.length; i++) {
         var placesData = data.results[i];
         var placesDataId = placesData.place_id;
@@ -239,14 +245,14 @@ function placeAPI(location, type) {
         placesLatLngArray.push(placesLatLng); // pushes latlng into array from data
       }
 
-      pullPlaceInfoName(placesLatLngArray, placesIdArray);
+      pullPlaceInfoName(placesLatLngArray, placesIdArray, placesAddressArray);
       }); 
 };
 
       // GETS PLACE DETAILS /////////////////////////////////////////////////////////////////////////
       
       // run ajax for all placesIdArray[i], push into array with title, pass array into function
-function pullPlaceInfoName (latlngArr, idArr) {
+function pullPlaceInfoName (latlngArr, idArr, addArray) {
     var API_KEY = "AIzaSyCQPkqDoLqZjqpqhqnnRyE79yUe0omijso";
     var PROXY_URL = 'https://cors-anywhere.herokuapp.com/';
     var placesNameArray = [];
@@ -259,10 +265,13 @@ function pullPlaceInfoName (latlngArr, idArr) {
       url: url3
       }).done(function(detailsResponse){
       // console.log('url3 works')
-      // console.log(detailsResponse.formatted_address);
+
+      var address = detailsResponse.result.formatted_address;
+  
       var placeName = detailsResponse.result.name;
       placesNameArray.push(placeName);
-      createMarkersInCircle(latlngArr, placesNameArray);
+      addArray.push(address);
+      createMarkersInCircle(latlngArr, placesNameArray, addArray);
 
     });
 
@@ -284,33 +293,46 @@ function toObject (arr) { // <------------- Might not need function in places AP
 // latlang= array of coordinates.
 // names = array of placeNames
 function createMarkersInCircle(latLng, names, address) {
-
-  var markerArray = [];
- 
+  removeMarkers();
   var infoWindow = new google.maps.InfoWindow();
   var service = new google.maps.places.PlacesService(map);
 
   for (var i = 0; i < latLng.length; i++) {
+
     markerArray[i] = new google.maps.Marker({
       position: latLng[i],
       icon: "assets/img/marker_POI.png",
       title: names[i],
+      id: address[i]
     });
-    markerArray[i].setMap(map); 
+    markerArray[i].setMap(map);
 
     google.maps.event.addListener(markerArray[i], 'click', function() {
       
-      $('#destination_input').val(this.title);  
+      console.log(this.position)
 
-        // $(this).val(names[i]);
-        // console.log($(this).val(names[i]["0"].title));
+      var thisPosition = this.getPosition();
+      var thisAddress = this.id;
+      var stringAddress = JSON.stringify(thisAddress);
+      $('#destination_input').val(this.id);
+       console.log(thisPosition);
+      waypts.push({
+        location: thisPosition,
+        stopover: true 
+      });
+      console.log(waypts);
+      $('#destination_address_html').append("<input type='text' class='form-control' value=" + stringAddress + ">");
+
+
     }); 
   }; // end for loop
 }; // end create marker function
 
-// function popsPlacesDetails () {
-//   alert("I am marker" + this.title);
-// }
+function removeMarkers(){
+    for (i=0; i < markerArray.length; i++) {
+        markerArray[i].setMap(null);
+    };
+};
 
 
 
@@ -399,16 +421,15 @@ function startMap(start, dest, miles) {
 };
 
 function routeWithDestination(start, dest) {
-    var map = new google.maps.Map(document.getElementById('map'), {
-      center: start,
-      zoom: 7
-    });
+  
+    map.setCenter(start);
+    map.setZoom(11);
 
 
     var directionsDisplay = new google.maps.DirectionsRenderer({
       map: map
     });
-    var waypts = [];
+    
 
     // pushes waypoints into array between start and destination
     waypts.push({
@@ -420,7 +441,7 @@ function routeWithDestination(start, dest) {
     //   location: "335 Highland Ave, Piedmont, CA 94611",
     //   stopover: true,  
     // });
-    
+
     // Sets start as dest and origin for round trip
 
     var request = {
