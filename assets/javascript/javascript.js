@@ -209,7 +209,7 @@ function createCircle(location, rad) {
 function placeAPI(location, type) {
 
   var type = $("#dropdownMenuButton").val();
-  var API_KEY = "AIzaSyCQPkqDoLqZjqpqhqnnRyE79yUe0omijso";
+  var API_KEY = "AIzaSyDumcfn2C2_NC9TXx8QVQKbCfG8tG07QuY";
   //https://stackoverflow.com/questions/45185061/google-places-api-cors
   var PROXY_URL = 'https://cors-anywhere.herokuapp.com/';
 
@@ -253,7 +253,7 @@ function placeAPI(location, type) {
       
       // run ajax for all placesIdArray[i], push into array with title, pass array into function
 function pullPlaceInfoName (latlngArr, idArr, addArray) {
-    var API_KEY = "AIzaSyCQPkqDoLqZjqpqhqnnRyE79yUe0omijso";
+    var API_KEY = "AIzaSyDumcfn2C2_NC9TXx8QVQKbCfG8tG07QuY";
     var PROXY_URL = 'https://cors-anywhere.herokuapp.com/';
     var placesNameArray = [];
     console.log(idArr);
@@ -265,7 +265,7 @@ function pullPlaceInfoName (latlngArr, idArr, addArray) {
       url: url3
       }).done(function(detailsResponse){
       // console.log('url3 works')
-
+      console.log(detailsResponse);
       var address = detailsResponse.result.formatted_address;
   
       var placeName = detailsResponse.result.name;
@@ -295,7 +295,7 @@ function toObject (arr) { // <------------- Might not need function in places AP
 function createMarkersInCircle(latLng, names, address) {
   removeMarkers();
   var infoWindow = new google.maps.InfoWindow();
-  var service = new google.maps.places.PlacesService(map);
+  // var service = new google.maps.places.PlacesService(map);
 
   latLng.forEach(function(number, i) {
     item = new google.maps.Marker({
