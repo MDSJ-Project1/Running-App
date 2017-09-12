@@ -54,7 +54,8 @@
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
     </head>
-    <body onload="init()" id="body">
+ <!--    <body onload="init()" id="body"> -->
+ <body>
 
 		<div id="preloader">
 			<div class="spinner">
@@ -107,7 +108,7 @@
 				<div class="container">
 				<div class="row wow animated fadeInDown">
 				<div class="row">
-					<div class="col-md-9">
+					<div class="col-md-9 text-center">
 						<!-- <div class="col-md-12 text-center hero-title"> -->
 	<!-- 						<i class="fa fa-plane"></i> -->
 							<h2 class="page-title">Our App</h2>
@@ -136,20 +137,23 @@
 			  						<div id="calories_burned_html">
             							<h6>Estimated Calories Burned: <span>0</span></h6>
 			  						</div> -->
-            							<button type="button" class="btn btn-primary" id="route_button">Submit Route</button>
+            				<button type="button" class="btn btn-primary" id="route_button">Submit Route</button>
             						<form>
+            						   <label>Weight</label>
+		                        <br>
+		          				<input type="number" class="form-control" id="weight_field" placeholder="160lb" value="160"
 		                        <label>Calorie</label>
 		                        <br>
 		          				<input type="number" class="form-control" id="calorie_field" placeholder="" value="600">;
 
 		                        <br>	 
-                              <div class="dropdown">
+                                <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                   Select a place type
                                 </button>
                                 <div class="dropdown-menu" id="places-dropdown" aria-labelledby="dropdownMenuButton">
                                 </div>
-                              </div>                         
+                              </div>                        
 
 		                        <br>	
 
