@@ -38,6 +38,8 @@
   		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<!--   bootstrap js -->
     	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    	<!-- mapbox css -->
+  		<link href='https://api.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.css' rel='stylesheet'/>
 
 		<!--[if lte IE 8]>
 			<link rel="stylesheet" type="text/css" href="css/fucking-ie-8-and-lower.css" />
@@ -75,18 +77,91 @@
 			
 			<div class="welcome-text">
 				<div class="container">
-					<h2 class="wow animated fadeInDown">REACH YOUR GOAL</h2>
+				<div class="row wow animated fadeInDown">
+					<div class="col-md-12 text-center hero-title">
+<!-- 						<i class="fa fa-plane"></i> -->
+						<h2 class="page-title">Our App</h2>
+						<h3>Google Route</h3>
+							<div id="google_map">
+								<div id='map'></div>
+									<div id="address_html">
+										<h6>Start Address:
+              							<input type="text" class="form-control" id="start_input" placeholder="111 Sesame St, Imagination, CA">
+              							</h6>
+			  						</div>
+			  						<div id="destination_address_html">
+			  							<h6>Destination Address:
+              							<input type="text" class="form-control" id="destination_input" placeholder="666 Sesame St, Imagination, CA">
+              							</h6>
+			  						</div>
+			  						<div id="route_distance_html">
+            							<h6>Round Trip Distance: <span>0</span></h6>
+			  						</div>
+			  						<div id="calories_burned_html">
+            							<h6>Estimated Calories Burned: <span>0</span></h6>
+			  						</div>
+            							<button type="button" class="btn btn-primary" id="route_button">Submit Route</button>
+			  				</div>
+					</div><!--hero title end-->	
+
+<!-- 			  				<div class="row wow animated fadeInUp">
+								<div class="col-md-12">
+									<h2 class="page-title">Directions</h2>
+									<div class="partner-list">
+								
+										<div class="single-partner">
+										<img class="img-responsive" src="img/demo-images/partners/01.png" alt="" />
+										</div>
+
+										<div class="single-partner">
+										<img class="img-responsive" src="img/demo-images/partners/02.png" alt="" />
+										</div>
+
+										<div class="single-partner">
+										<img class="img-responsive" src="img/demo-images/partners/03.png" alt="" />
+										</div>
+
+										<div class="single-partner">
+										<img class="img-responsive" src="img/demo-images/partners/04.png" alt="" />
+										</div>
+
+										<div class="single-partner">
+										<img class="img-responsive" src="img/demo-images/partners/05.png" alt="" />
+										</div>
+
+										<div class="single-partner">
+										<img class="img-responsive" src="img/demo-images/partners/06.png" alt="" />
+										</div>
+
+										<div class="single-partner">
+										<img class="img-responsive" src="img/demo-images/partners/07.png" alt="" />
+										</div>
+
+										<div class="single-partner">
+										<img class="img-responsive" src="img/demo-images/partners/08.png" alt="" />
+										</div>
+
+										<div class="single-partner">
+										<img class="img-responsive" src="img/demo-images/partners/09.png" alt="" />
+										</div>
+								
+								</div>
+							</div>
+						</div> -->
+					</div>
+					<!-- <h2 class="wow animated fadeInDown">REACH YOUR GOAL</h2>
 					<p class="wow animated fadeInUp">GET YOUR DREAM BODY!</p>
 					<button class="wow animated fadeInUp"><a href="index2.html">Get Started</a></button>
-					
-					<div class="social-bookmark animated bounceInLeft">
+					<p><a href="" class="btn btn-filled" data-toggle="modal" data-target="#myModal">Sign In</a></p>
+					 -->
+					<!-- <div class="social-bookmark animated bounceInLeft"> -->
 <!-- 						<a class="animated fadeInDown" href=""><i class="fa fa-facebook-square"></i></a>
 						<a href=""><i class="fa fa-twitter-square"></i></a>
 						<a href=""><i class="fa fa-linkedin-square"></i></a>
 						<a href=""><i class="fa fa-google-plus-square"></i></a>
 						<a href=""><i class="fa fa-youtube-square"></i></#31363aa>
 						<a href=""><i class="fa fa-instagram"></i></a> -->
-						<a href="https://github.com/MDSJ-Project1/Running-App" target="_blank"><i class="fa fa-github"></i></a>
+					<!-- 	<a href="https://github.com/MDSJ-Project1/Running-App" target="_blank"><i class="fa fa-github"></i></a> -->
 					</div>
 				</div>
 			</div>
@@ -131,7 +206,7 @@
 						
 						<p>Completely synergize resource sucking relationships via premier niche markets. Professionally cultivate one-to-one customer service with robust ideas. Dynamically innovate resource-leveling customer service for state of the art customer service.</p>
 						
-						<p><a href="" class="btn btn-filled" data-toggle="modal" data-target="#myModal">Login In</a> <a href="" class="btn btn-bordered">Sign Up</a></p>
+						 <!-- <p><a href="" class="btn btn-bordered">Sign Up</a></p> -->
 					</div>
 					
 					<div class="col-md-6 wow animated fadeInUp">
@@ -175,64 +250,64 @@
 					<div class="col-md-4 col-sm-6 wow animated fadeInLeft"  data-wow-duration="700ms" data-wow-delay="100ms">
 						<div class="features-item">
 							<i class="fa fa-arrows"></i>
-							<h2>Responsive Design</h2>
-							<p>Collaboratively administrate empowered markets via plug-and-play networks. Dynamically procrastinate B2C users after installed base benefits. Dramatically visualize customer directed convergence without revolutionary ROI.</p>
+							<h2>Additional Features</h2>
+							<p>Coming Soon.</p>
 						</div>
 					</div><!--feature col end-->
 					<div class="col-md-4 col-sm-6 wow animated fadeInLeft"  data-wow-duration="700ms" data-wow-delay="200ms">
 						<div class="features-item">
 							<i class="fa fa-eye"></i>
-							<h2>Retina Display Ready</h2>
-							<p>Collaboratively administrate empowered markets via plug-and-play networks. Dynamically procrastinate B2C users after installed base benefits. Dramatically visualize customer directed convergence without revolutionary ROI.</p>
+							<h2>Additional Features</h2>
+							<p>Coming Soon.</p>
 						</div>
 					</div><!--feature col end-->
 					<div class="col-md-4 col-sm-6 wow animated fadeInLeft"  data-wow-duration="700ms" data-wow-delay="300ms">
 						<div class="features-item">
 							<i class="fa fa-magic"></i>
-							<h2>Parallax Style</h2>
-							<p>Collaboratively administrate empowered markets via plug-and-play networks. Dynamically procrastinate B2C users after installed base benefits. Dramatically visualize customer directed convergence without revolutionary ROI.</p>
+							<h2>Additional Features</h2>
+							<p>Coming Soon.</p>
 						</div>
 					</div><!--feature col end-->
 					<div class="col-md-4 col-sm-6 wow animated fadeInLeft"  data-wow-duration="700ms" data-wow-delay="400ms">
 						<div class="features-item">
 							<i class="fa fa-adjust"></i>
-							<h2>Freedom of color</h2>
-							<p>Collaboratively administrate empowered markets via plug-and-play networks. Dynamically procrastinate B2C users after installed base benefits. Dramatically visualize customer directed convergence without revolutionary ROI.</p>
+							<h2>Additional Features</h2>
+							<p>Coming Soon.</p>
 						</div>
 					</div><!--feature col end-->
 					<div class="col-md-4 col-sm-6 wow animated fadeInLeft"  data-wow-duration="700ms" data-wow-delay="500ms">
 						<div class="features-item">
 							<i class="fa fa-tasks"></i>
-							<h2>Build your own layout</h2>
-							<p>Collaboratively administrate empowered markets via plug-and-play networks. Dynamically procrastinate B2C users after installed base benefits. Dramatically visualize customer directed convergence without revolutionary ROI.</p>
+							<h2>Additional Features</h2>
+							<p>Coming Soon.</p>
 						</div>
 					</div><!--feature col end-->
 					<div class="col-md-4 col-sm-6 wow animated fadeInLeft"  data-wow-duration="700ms" data-wow-delay="600ms">
 						<div class="features-item">
 							<i class="fa fa-rocket"></i>
-							<h2>Lightweight & Super fast</h2>
-							<p>Collaboratively administrate empowered markets via plug-and-play networks. Dynamically procrastinate B2C users after installed base benefits. Dramatically visualize customer directed convergence without revolutionary ROI.</p>
+							<h2>Additional Features</h2>
+							<p>Coming Soon.</p>
 						</div>
 					</div><!--feature col end-->
 					<div class="col-md-4 col-sm-6 wow animated fadeInLeft"  data-wow-duration="700ms" data-wow-delay="700ms">
 						<div class="features-item">
 							<i class="fa fa-code"></i>
-							<h2>No code required</h2>
-							<p>Collaboratively administrate empowered markets via plug-and-play networks. Dynamically procrastinate B2C users after installed base benefits. Dramatically visualize customer directed convergence without revolutionary ROI.</p>
+							<h2>Additional Features</h2>
+							<p>Coming Soon.</p>
 						</div>
 					</div><!--feature col end-->
 					<div class="col-md-4 col-sm-6 wow animated fadeInLeft"  data-wow-duration="700ms" data-wow-delay="800ms">
 						<div class="features-item">
 							<i class="fa fa-umbrella"></i>
-							<h2>Cross-browser compatible</h2>
-							<p>Collaboratively administrate empowered markets via plug-and-play networks. Dynamically procrastinate B2C users after installed base benefits. Dramatically visualize customer directed convergence without revolutionary ROI.</p>
+							<h2>Additional Features</h2>
+							<p>Coming Soon.</p>
 						</div>
 					</div><!--feature col end-->
 					<div class="col-md-4 col-sm-6 wow animated fadeInLeft"  data-wow-duration="700ms" data-wow-delay="900ms">
 						<div class="features-item">
 							<i class="fa fa-filter"></i>
-							<h2>SEO freindly</h2>
-							<p>Collaboratively administrate empowered markets via plug-and-play networks. Dynamically procrastinate B2C users after installed base benefits. Dramatically visualize customer directed convergence without revolutionary ROI.</p>
+							<h2>Additional Features</h2>
+							<p>Coming Soon.</p>
 						</div>
 					</div><!--feature col end-->
 				</div>
@@ -246,23 +321,73 @@
 					<div class="col-md-12 text-center hero-title">
 						<i class="fa fa-plane"></i>
 						<h2 class="page-title">Our App</h2>
+						<h3>Google Route</h3>
 							<div id="google_map">
 								<div id='map'></div>
-									<div id="address_html">Start Address:
+									<div id="address_html">
+										<h6>Start Address:
               							<input type="text" class="form-control" id="start_input" placeholder="111 Sesame St, Imagination, CA">
+              							</h6>
 			  						</div>
-			  						<div id="destination_address_html">Destination Address:
+			  						<div id="destination_address_html">
+			  							<h6>Destination Address:
               							<input type="text" class="form-control" id="destination_input" placeholder="666 Sesame St, Imagination, CA">
+              							</h6>
 			  						</div>
 			  						<div id="route_distance_html">
-            							Round Trip Distance:  0
+            							<h6>Round Trip Distance: <span>0</span></h6>
 			  						</div>
 			  						<div id="calories_burned_html">
-            							Estimated Calories Burned: 0
+            							<h6>Estimated Calories Burned: <span>0</span></h6>
 			  						</div>
             							<button type="button" class="btn btn-primary" id="route_button">Submit Route</button>
 			  				</div>
 					</div><!--hero title end-->	
+
+			  				<div class="row wow animated fadeInUp">
+								<div class="col-md-12">
+									<h2 class="page-title">Directions</h2>
+									<div class="partner-list">
+								
+										<div class="single-partner">
+										<img class="img-responsive" src="img/demo-images/partners/01.png" alt="" />
+										</div>
+
+										<div class="single-partner">
+										<img class="img-responsive" src="img/demo-images/partners/02.png" alt="" />
+										</div>
+
+										<div class="single-partner">
+										<img class="img-responsive" src="img/demo-images/partners/03.png" alt="" />
+										</div>
+
+										<div class="single-partner">
+										<img class="img-responsive" src="img/demo-images/partners/04.png" alt="" />
+										</div>
+
+										<div class="single-partner">
+										<img class="img-responsive" src="img/demo-images/partners/05.png" alt="" />
+										</div>
+
+										<div class="single-partner">
+										<img class="img-responsive" src="img/demo-images/partners/06.png" alt="" />
+										</div>
+
+										<div class="single-partner">
+										<img class="img-responsive" src="img/demo-images/partners/07.png" alt="" />
+										</div>
+
+										<div class="single-partner">
+										<img class="img-responsive" src="img/demo-images/partners/08.png" alt="" />
+										</div>
+
+										<div class="single-partner">
+										<img class="img-responsive" src="img/demo-images/partners/09.png" alt="" />
+										</div>
+								
+									</div><!--partner list end-->
+								</div>
+							</div>
 				</div>
             </div>
         </section><!--work-->	
@@ -274,7 +399,7 @@
 					<div class="col-md-12 text-center hero-title">
 						<i class="fa fa-user"></i>
 						<h2 class="page-title">Profile</h2>
-						<p>Hi! My name is Stephen Ruan.</p>
+						<p>Hi! Welcome <span class="username">Stephen Ruan</span></p>
 						<button class="update">Update About Me</button>
 					</div><!--hero title end-->
 				</div>
@@ -293,7 +418,7 @@
 						<div class="col-lg-7 col-md-6 col-sm-12 col-xs-12">
 							<div class="client-testimonials-list">
 								<div id="client-01" class="single-testimonial tab-pane fade in active">
-									<h2>About Me!</h2>
+									<h2>About Me</h2>
 									<div class="client-info">
 										<h2>Name: <span class="nameinput">Stephen Ruan</span></h2>
 										<p>Weight: <span class="weightinput">140</span></p>
@@ -308,7 +433,7 @@
 			</div>
 		</section>
 		
-		<section id="parallax_1">
+<!-- 		<section id="parallax_1">
 			<div data-velocity="-.3" class="parallax-bg"></div>
 			<div class="parallax-overlay"></div>
 			<div class="container">
@@ -324,50 +449,60 @@
 					</div>
 				</div>
 			</div>
-		</section>
+		</section> -->
 		<section id="blog" class="section-padding">
 			<div class="container">
 				<div class="row wow animated fadeInDown">
 					<div class="col-md-12 text-center hero-title">
 						<i class="fa fa-edit"></i>
 						<h2 class="page-title">History</h2>
-						<p>Collaboratively administrate empowered markets via plug-and-play networks. Dynamically procrastinate B2C users after installed base benefits. Dramatically visualize customer directed convergence without revolutionary ROI. Efficiently unleash cross-media information without cross-media value. Quickly maximize timely deliverables for real-time schemas. </p>					
+						<p>Collaboratively administrate empowered markets via plug-and-play networks. Dynamically procrastinate B2C users after installed base benefits. Dramatically visualize customer directed convergence without revolutionary ROI. Efficiently unleash cross-media information without cross-media value. Quickly maximize timely deliverables for real-time schemas. </p>
 					</div><!--hero title end-->
-									<div class="row wow animated fadeInUp">
-					<div class="col-md-12">
-						<div class="partner-list">
+
+						<div class="row wow animated fadeInUp">
+							<div class="col-md-12">
+								<div class="partner-list">
 							
-							<div class="single-partner">
-								<img class="img-responsive" src="img/demo-images/partners/01.png" alt="" />
-							</div>
-							<div class="single-partner">
-								<img class="img-responsive" src="img/demo-images/partners/02.png" alt="" />
-							</div>
-							<div class="single-partner">
-								<img class="img-responsive" src="img/demo-images/partners/03.png" alt="" />
-							</div>
-							<div class="single-partner">
-								<img class="img-responsive" src="img/demo-images/partners/04.png" alt="" />
-							</div>
-							<div class="single-partner">
-								<img class="img-responsive" src="img/demo-images/partners/05.png" alt="" />
-							</div>
-							<div class="single-partner">
-								<img class="img-responsive" src="img/demo-images/partners/06.png" alt="" />
-							</div>
-							<div class="single-partner">
-								<img class="img-responsive" src="img/demo-images/partners/07.png" alt="" />
-							</div>
-							<div class="single-partner">
-								<img class="img-responsive" src="img/demo-images/partners/08.png" alt="" />
-							</div>
-							<div class="single-partner">
-								<img class="img-responsive" src="img/demo-images/partners/09.png" alt="" />
-							</div>
+									<div class="single-partner">
+									<img class="img-responsive" src="img/demo-images/partners/01.png" alt="" />
+									</div>
+
+									<div class="single-partner">
+									<img class="img-responsive" src="img/demo-images/partners/02.png" alt="" />
+									</div>
+
+									<div class="single-partner">
+									<img class="img-responsive" src="img/demo-images/partners/03.png" alt="" />
+									</div>
+
+									<div class="single-partner">
+									<img class="img-responsive" src="img/demo-images/partners/04.png" alt="" />
+									</div>
+
+									<div class="single-partner">
+									<img class="img-responsive" src="img/demo-images/partners/05.png" alt="" />
+									</div>
+
+									<div class="single-partner">
+									<img class="img-responsive" src="img/demo-images/partners/06.png" alt="" />
+									</div>
+
+									<div class="single-partner">
+									<img class="img-responsive" src="img/demo-images/partners/07.png" alt="" />
+									</div>
+
+									<div class="single-partner">
+									<img class="img-responsive" src="img/demo-images/partners/08.png" alt="" />
+									</div>
+
+									<div class="single-partner">
+									<img class="img-responsive" src="img/demo-images/partners/09.png" alt="" />
+									</div>
 							
-						</div><!--partner list end-->
-					</div>
-				</div>
+								</div><!--partner list end-->
+							</div>
+						</div>
+
 				</div>
 				
 				<div class="row blog-list wow animated fadeInUp">
@@ -426,8 +561,8 @@
 				<div class="row wow animated fadeInDown">
 					<div class="col-md-12 text-center hero-title">
 						<i class="fa fa-user"></i>
-						<h2 class="page-title">Meet the crazy people behind the Perfect Design</h2>
-						<p>Collaboratively administrate empowered markets via plug-and-play networks. Dynamically procrastinate B2C users after installed base benefits. Dramatically visualize customer directed convergence without revolutionary ROI. Efficiently unleash cross-media information without cross-media value. Quickly maximize timely deliverables for real-time schemas. </p>
+						<h2 class="page-title">Meet the amazing people behind the Application</h2>
+						<p>Meet the people of Team 2 for Project 1. </p>
 					</div><!--hero title end-->
 				</div>
 				
@@ -534,21 +669,7 @@
 				</div>
 			</div>
 		</section>
-		
-		<section id="partners" class="section-padding">
-			<div class="container">
-				<div class="row wow animated fadeInDown">
-					<div class="col-md-12 text-center hero-title">
-						<i class="fa fa-bomb"></i>
-						<h2 class="page-title">Our partners</h2>
-						<p>Collaboratively administrate empowered markets via plug-and-play networks. Dynamically procrastinate B2C users after installed base benefits. Dramatically visualize customer directed convergence without revolutionary ROI. Efficiently unleash cross-media information without cross-media value. Quickly maximize timely deliverables for real-time schemas. </p>					
-					</div><!--hero title end-->			
-				</div>
 
-			</div>
-		</section>
-				
-		
 		<section id="contact" class="section-padding">
 			<div class="container">
 				<div class="row wow animated fadeInDown">
@@ -599,12 +720,13 @@
 						<div class="address-info">
 							<h3>Elsewhere</h3>
 							<ul class="list-inline social">
-<!-- 								<li><a href="#"><i class="fa fa-facebook"></i></a></li>
+								<!-- <li><a href="#"><i class="fa fa-facebook"></i></a></li>
 								<li><a href="#"><i class="fa fa-twitter"></i></a></li>
 								<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
 								<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-								<li><a href="#"><i class="fa fa-dribbble"></i></a></li> -->
-								<li><a href="#"><i class="fa fa-github"></i></a></li>
+								<li><a href="#"><i class="fa fa-dribbble"></i></a></li>
+								<li><a href="#"><i class="fa fa-github"></i></a></li> -->
+								<a href="https://github.com/MDSJ-Project1/Running-App" target="_blank"><i class="fa fa-github"></i></a>
 							</ul>
 						</div>
                     </div><!--address info col end-->
@@ -612,7 +734,7 @@
 			</div>
 		</section>
 		
-<!-- 		<div id="google-map">
+		<!--<div id="google-map">
 			<div id="map"></div>
 		</div> -->
 		
