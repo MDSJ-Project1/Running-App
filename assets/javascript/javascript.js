@@ -209,7 +209,7 @@ function createCircle(location, rad) {
 function placeAPI(location, type) {
 
   var type = $("#dropdownMenuButton").val();
-  var API_KEY = "AIzaSyCQPkqDoLqZjqpqhqnnRyE79yUe0omijso";
+  var API_KEY = "AIzaSyDumcfn2C2_NC9TXx8QVQKbCfG8tG07QuY";
   //https://stackoverflow.com/questions/45185061/google-places-api-cors
   var PROXY_URL = 'https://cors-anywhere.herokuapp.com/';
 
@@ -295,7 +295,7 @@ function toObject (arr) { // <------------- Might not need function in places AP
 function createMarkersInCircle(latLng, names, address) {
   removeMarkers();
   var infoWindow = new google.maps.InfoWindow();
-  var service = new google.maps.places.PlacesService(map);
+  // var service = new google.maps.places.PlacesService(map);
 
   latLng.forEach(function(number, i) {
     item = new google.maps.Marker({
