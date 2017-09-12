@@ -536,21 +536,6 @@ $(document).ajaxError(function() {
   alert('Route not found, please try again');
 })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Login
 // And
 // Authentication
@@ -655,13 +640,6 @@ function queryData(){
       var key = childSnapshot.key;
       // childData will be the actual contents of the child
       var childData = childSnapshot.val();
-
-      // console.log("key is " + key);
-      // console.log("child data is " +childData);
-      // console.log("input1 value is " + childData.input1);
-      // console.log(childData.date);
-      // dateArray2.push(childData.date);
-
       var momentDate2 = moment(childData.date).format("YYYY, MM, D");
       console.log("momentDate2 " +momentDate2);
       var userDate = childData.date;
