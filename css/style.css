@@ -32,7 +32,6 @@ Author: Perfect Point Marketing
 /* ------------------------------------	*/
 /*  		   General CSS				*/
 /* ------------------------------------	*/
-
 html, body{
 height:100%;
 font-size:13px;
@@ -712,7 +711,7 @@ border:1px solid #57BDDB;
 width:100%;
 }
 .owl-buttons{
-text-align: 
+  text-align: 
 margin-top:10px;
 margin-left:5px;
 }
@@ -768,121 +767,14 @@ color:#fff;
 text-decoration:none;
 }
 
-/* ------------------------------------	*/
-/*  		 13. Blog Page				*/
-/* -----------------------------------	*/
-
-.featured-content{
-position:relative;
-}
-.blog-list{
-}
-.single-blog{
-}
-.single-blog h2{
-font-family:open sans;
-font-size:25px;
-font-weight:300;
-margin:10px 0 7px;
-}
-.single-blog span{
-font-size:12px;
-}
-.single-blog p{
-margin-top:15px;
-}
-.single-blog a.btn-bordered{
-margin-top:0;
-}
-.featured-content{
-}
-.featured-content .portfolio-detail{
-display:none
-}
-.featured-content:hover .portfolio-detail{
-display:block
-}
-
-/* ------------------------------------	*/
-/*  		 14. Contact Page			*/
-/* -----------------------------------	*/
-
-#contact{
-background:#ECF0F3;
-}
-.contact-form{
-}
-#ajax-contact {overflow:hidden;margin-bottom:20px}
-.form-group{
-}
-.form-group label{
-font-weight:300;
-text-transform:uppercase;
-}
-.form-group input[type=text], .form-group input[type=email], .form-group textarea{
-border:1px solid #57bddb;
-/*border-radius*/
--webkit-border-radius:0;
-   -moz-border-radius:0;
-        border-radius:0;
-/*box-shadow*/
--webkit-box-shadow:0 0 0;
-   -moz-box-shadow:0 0 0;
-        box-shadow:0 0 0;
-}
-.form-group textarea{
-}
-.form-group textarea:focus{
-/*box-shadow*/
--webkit-box-shadow:0 0 0;
-   -moz-box-shadow:0 0 0;
-        box-shadow:0 0 0;
-}
-.form-group .btn-bordered {
-margin-top:0;
-}
-.form-group .btn.btn-bordered:focus, .form-group .btn-bordered:active {
-  background: none repeat scroll 0 0 #666;
-  color: #fff;
-  outline: none;
-  border-color:#666;
-}
-#form-messages {
-padding: 5px 10px;clear:both;
-}
-#form-messages.success {
-border: 2px solid #57bddb
-}
-#form-messages.error {
-border:2px solid #cc0000
-}
-.address-info{
-margin-bottom:30px;
-}
-.address-info h3{
-font-size:20px;
-font-weight:400;
-}
-.address-info p{
-margin-bottom:5px;
-}
-.address-info ul{
-}
-.address-info ul li{
-}
-.address-info ul li a{
-background:none repeat scroll 0 0 #57bddb;
-color:#fff;
-display:inline-block;
-height:25px;
-text-align:center;
-width:25px;
-}
-.address-info ul li a:hover{
-opacity:.7;
+.searchresult {
+  overflow: scroll;
+  margin: 20px 20px 20px 0px;
+  max-height: 50vh;
 }
 #map{
-width:100%;
+margin: 20px;
+width: auto;
 height:400px;
 }
 

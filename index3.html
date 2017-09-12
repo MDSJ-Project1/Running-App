@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Running App</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- 	bootstrap cdn-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!--   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"> -->
+  <!--   google font -->
+  <link href="https://fonts.googleapis.com/css?family=Pathway+Gothic+One" rel="stylesheet">
+  <!-- mapbox css -->
+  <link href='https://api.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.css' rel='stylesheet'/>
+  <!--   css -->
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="screen">
+    <link href="css/media.css" rel="stylesheet" type="text/css" media="screen">
+  <!-- firebase cdn -->
+  <script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
+	<!-- Firebase UI -->
+	<script src="https://cdn.firebase.com/libs/firebaseui/2.3.0/firebaseui.js"></script>
+	<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.3.0/firebaseui.css" />
+  <!--   jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<!--   bootstrap js -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+  <!-- Team 2 Header -->
+    <nav id="navigation">
+            <div class="navbar navbar-default navbar-static-top" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="index.html">Team <span>2</span></a>
+                    </div>
+                    <div class="navbar-collapse collapse">
+
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="index.html#home">Home</a></li>
+                            <li><a href="index.html#about">Result</a></li>
+                            <li><a href="index.html#contact">Contact</a></li>
+                        </ul>
+
+                    </div><!--/.nav-collapse -->
+                </div><!--/.container -->
+            </div><!--navbar-default-->
+        </nav><!--navigation section end here-->
+
+<!-- Home -->
+<section id="home">
+      <div data-velocity="-.3" class="home-parallax"></div>
+      <div class="row">
+        <div class="col-md-12 text-center hero-title">
+            <h2 class="title">Google Map</h2>
+        <div class="row">
+            <div class="col-md-9">
+                <h3>Maps</h3>
+              <div id="map"></div>
+            </div>
+          <div class="col-md-3 wow animated fadeInDown">
+            <div class="searchresult">
+              <h3>Search</h3>
+              <div id="address_html">
+                <input type="text" class="form-control" id="start_input" placeholder="111 Sesame St, Imagination, CA">
+              </div>
+              <br>
+              <div id="destination_address_html">
+                <input type="text" class="form-control" id="destination_input" placeholder="666 Sesame St, Imagination, CA">
+              </div>
+              <br>
+              <button type="button" class="btn btn-primary" id="route_button">Route</button>
+            </div>
+            <div id="places-dropdown" aria-labelledby="dropdownMenuButton" ata-dropdown-content class="f-dropdown" aria-hidden="true">
+            </div>
+          </div>
+      </div>
+</section>
+
+<!--  Footer -->
+<footer id="footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-9 col-sm-9">
+            <div class="footer-copyright">
+              <p>Copyright 2017 <a href="">Team 2</a> | All Rights Reserved | Powered by HTML, CSS &amp; jQuery</p>
+            </div>
+          </div><!--copyright col end-->
+          
+          <div class="col-md-3 col-sm-3">
+            <div class="company-name">
+              <p>Team <span>2</span></p>
+            </div>
+          </div><!--blogname col end-->
+        </div>
+      </div>
+    </footer>
+
+    <!--scripts and plugins -->
+    <!--must need plugin jquery-->
+    <script src="js/jquery.min.js"></script>         
+    <!--easying scroll effect-->
+    <script src="js/jquery.easing.1.3.min.js" type="text/javascript"></script>
+    <script src="js/jquery.sticky.js" type="text/javascript"></script>
+    <script src="js/jquery.nav.js" type="text/javascript"></script>
+    <!--owl carousel-->
+    <script src="includes/owl-carousel/owl.carousel.min.js" type="text/javascript"></script>
+    <!--wow animation-->
+    <script src="includes/wow-js/wow.min.js" type="text/javascript"></script>
+        
+    <!--parallax-->
+    <script src="js/jquery.scrolly.js" type="text/javascript"></script>
+    <!--project count-->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
+    <script src="js/jquery.counterup.min.js" type="text/javascript"></script>
+    <!--custom scrollbar-->
+    <script src="js/jquery.nicescroll.min.js" type="text/javascript"></script>
+    
+    <!--customizable plugin edit according to your needs-->
+    <script src="js/custom.js" type="text/javascript"></script>
+    <script src="assets/javascript/javascript.js"></script>
+      <!-- Google Maps -->
+      <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDI4WkP2aEnUvW-xJTF5udyKKnTx2Z5cio&callback=initMap">
+    </script>
+    </body>
+</html>
