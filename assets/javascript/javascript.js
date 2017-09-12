@@ -297,22 +297,22 @@ function createMarkersInCircle(latLng, names, address) {
   var infoWindow = new google.maps.InfoWindow();
   var service = new google.maps.places.PlacesService(map);
 
-  for (var i = 0; i < latLng.length; i++) {
-
-    markerArray[i] = new google.maps.Marker({
+  latLng.forEach(function(number, i) {
+    item = new google.maps.Marker({
       position: latLng[i],
       icon: "assets/img/marker_POI.png",
       title: names[i],
       id: address[i]
     });
-    markerArray[i].setMap(map);
+    item.setMap(map);
+    markerArray.push(item);
 
-    google.maps.event.addListener(markerArray[i], 'click', function() {
-      
-      console.log(this.position)
-
-      var thisPosition = this.getPosition();
-      var thisAddress = this.id;
+    google.maps.event.addListener(item, 'click', function() {
+      // REPLACE this WITH item
+      console.log(item);
+      let thisPosition = latLng[i];
+      console.log(thisPosition);
+      var thisAddress = item.id;
       var stringAddress = JSON.stringify(thisAddress);
       $('#destination_input').val(this.id);
        console.log(thisPosition);
@@ -322,10 +322,13 @@ function createMarkersInCircle(latLng, names, address) {
       });
       console.log(waypts);
       $('#destination_address_html').append("<input type='text' class='form-control' value=" + stringAddress + ">");
-
-
     }); 
-  }; // end for loop
+  });
+  // for (var i = 0; i < latLng.length; i++) {
+  //   let item;
+
+
+  // }; // end for loop
 }; // end create marker function
 
 function removeMarkers(){
