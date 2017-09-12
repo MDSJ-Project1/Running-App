@@ -25,7 +25,7 @@ var waypts = [];
   const placesTypes = ["aquarium","art_gallery","bakery","bar","book_store","bowling_alley","cafe","casino","liquor_store","gym","movie_theater","museum","night_club","restaurant","zoo"];
   //generate a place div for each place type
   placesTypes.forEach(function(place){
-    var $placeOption = $("<a>"+ place+"</a>");
+    var $placeOption = $("<option>"+ place+"</option>");
     $placeOption.addClass("dropdown-item")
     $placeOption.val(place)
     // when place is clicked, set value and text of dropdown button to place
@@ -34,7 +34,7 @@ var waypts = [];
       $placesBttn.text(place)
 
     })
-    $("#places-dropdown").append($placeOption).append($("<br>"))
+    $("#dropdownMenuButton").append($placeOption)
 
   })
 })()
@@ -310,25 +310,23 @@ function createMarkersInCircle(latLng, names, address) {
     google.maps.event.addListener(item, 'click', function() {
       // REPLACE this WITH item
 
+      let thisName = names[i];	
+
       let thisPosition = latLng[i];
       console.log(thisPosition);
       let thisAddress = address[i];
       let stringAddress = JSON.stringify(thisAddress);
+      let stringPosition = JSON.stringify(thisPosition);
       // $('#destination_input').val(this.id);
+
       waypts.push({
         location: thisPosition,
         stopover: true 
       });
-      console.log($('#destination_address_html').children().length);
-      if ($('#destination_address_html').children().length == 1) {
-        $('#destination_input').val(stringAddress);
-        $('#destination_address_html').append("<input type='text' class='form-control waypoint'>");
-      } else if ($('#destination_address_html').children().length == 2) {
-        $(".waypoint").val(stringAddress)
-      } else {
-        $('#destination_address_html').append("<input type='text' class='form-control waypoint' value=" + stringAddress + ">");
-      }
 
+      $('#dest_input_div input').last().attr('value',thisName).attr('data', thisAddress).attr('data-location', stringPosition);
+
+      $('#dest_input_div').append("<input type='text' class='form-control waypoint'>");
         
     }); 
   });
@@ -441,13 +439,17 @@ function routeWithDestination(start, dest) {
       map: map
     });
     
+    console.log($('#dest_input_div').children()); 
 
     // pushes waypoints into array between start and destination
-    waypts.push({
+    var firstWaypoint = {
       location: dest,
-      stopover: true, 
-    });
-
+      stopover: true
+    }
+    // if(typeof waypts != "undefined" && waypts != null && waypts.length > 0) {
+    //   console.log(waypts);
+    //   waypts.push(firstWaypoint);
+    // };
     // waypts.push({
     //   location: "335 Highland Ave, Piedmont, CA 94611",
     //   stopover: true,  
@@ -461,6 +463,7 @@ function routeWithDestination(start, dest) {
       waypoints: waypts,
       travelMode: 'WALKING',
       avoidHighways: true,
+      optimizeWaypoints: true,
     };
 
     // Pass the directions request to the directions service.
@@ -469,14 +472,18 @@ function routeWithDestination(start, dest) {
     directionsService.route(request, function(routeResponse, status) {
       if (status == 'OK') {
         // Display the route on the map.
+        removeMarkers();
         directionsDisplay.setDirections(routeResponse);
-        console.log(routeResponse);                    
+        console.log(routeResponse);                
+
+        directionsDisplay.setPanel(document.getElementById('print_directions'));
 
         var legsArray = routeResponse.routes[0].legs;
         calcMilesCalories(legsArray);
       };
     });
 };
+
 
 
 function calcMilesCalories(legs) {
@@ -530,6 +537,45 @@ $('#route_button').on('click', function() {
     startAjax(true, initMap, milesToRun);
     // placeAPI(startInput);
     
+});
+
+$('#find_button').on('click', function() {
+  var startInput = $('#start_input').val().trim();
+  var caloriesToBurn = parseInt($("#calorie_field").val().trim());
+  weight = parseInt($("#weight_field").val().trim())
+  // http://www.livestrong.com/article/314404-how-many-calories-do-you-lose-per-mile/
+  var caloriesPerMile = weight * .75;
+  console.log(caloriesToBurn, weight, caloriesPerMile)
+
+
+  milesToRun = caloriesToBurn / caloriesPerMile;
+  console.log("milesToRUn", milesToRun);
+
+  startAjax(true, initMap, milesToRun);
+});
+
+
+function PrintElem() {
+
+  var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+
+  mywindow.document.write('<html><head><title>' + 'Running App'  + '</title>');
+  mywindow.document.write('</head><body >');
+  mywindow.document.write('<h1>' + 'Your Route' + '</h1>');
+  mywindow.document.write(document.getElementById('print_directions').innerHTML);
+  mywindow.document.write('</body></html>');
+
+  mywindow.document.close(); // necessary for IE >= 10
+  mywindow.focus(); // necessary for IE >= 10*/
+
+  mywindow.print();
+  mywindow.close();
+
+  return true;
+}
+
+$('#print_link').on('click', function() {
+  PrintElem();
 });
 
 // AJAX Erorr message, doesnt work /////////////////////////
