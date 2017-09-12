@@ -309,7 +309,8 @@ function createMarkersInCircle(latLng, names, address) {
 
     google.maps.event.addListener(item, 'click', function() {
       // REPLACE this WITH item
-      console.log(item);
+      let thisName = names[i];
+
       let thisPosition = latLng[i];
       console.log(thisPosition);
       let thisAddress = address[i];
@@ -320,8 +321,11 @@ function createMarkersInCircle(latLng, names, address) {
         location: thisPosition,
         stopover: true 
       });
-      console.log(waypts);
-      $('#destination_address_html').append("<input type='text' class='form-control' value=" + stringAddress + ">");
+
+      $('#dest_input_div input').last().attr('value',thisName).attr('data', thisAddress);
+
+      $('#dest_input_div').append("<input type='text' class='form-control waypoint'>");
+        
     }); 
   });
   // for (var i = 0; i < latLng.length; i++) {
@@ -435,11 +439,14 @@ function routeWithDestination(start, dest) {
     
 
     // pushes waypoints into array between start and destination
-    waypts.push({
+    var firstWaypoint = {
       location: dest,
-      stopover: true, 
-    });
-
+      stopover: true
+    }
+    // if(typeof waypts != "undefined" && waypts != null && waypts.length > 0) {
+    //   console.log(waypts);
+    //   waypts.push(firstWaypoint);
+    // };
     // waypts.push({
     //   location: "335 Highland Ave, Piedmont, CA 94611",
     //   stopover: true,  
@@ -461,6 +468,7 @@ function routeWithDestination(start, dest) {
     directionsService.route(request, function(routeResponse, status) {
       if (status == 'OK') {
         // Display the route on the map.
+        removeMarkers();
         directionsDisplay.setDirections(routeResponse);
         console.log(routeResponse);                    
 
