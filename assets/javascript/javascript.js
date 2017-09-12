@@ -24,7 +24,7 @@ var waypts = [];
   const placesTypes = ["aquarium","art_gallery","bakery","bar","book_store","bowling_alley","cafe","casino","liquor_store","gym","movie_theater","museum","night_club","restaurant","zoo"];
   //generate a place div for each place type
   placesTypes.forEach(function(place){
-    var $placeOption = $("<a>"+ place+"</a>");
+    var $placeOption = $("<a>"+ place + "</a>");
     $placeOption.addClass("dropdown-item")
     $placeOption.val(place)
     // when place is clicked, set value and text of dropdown button to place
@@ -265,7 +265,6 @@ function pullPlaceInfoName (latlngArr, idArr, addArray) {
       url: url3
       }).done(function(detailsResponse){
       // console.log('url3 works')
-      console.log(detailsResponse);
       var address = detailsResponse.result.formatted_address;
   
       var placeName = detailsResponse.result.name;
@@ -309,19 +308,24 @@ function createMarkersInCircle(latLng, names, address) {
 
     google.maps.event.addListener(item, 'click', function() {
       // REPLACE this WITH item
-      console.log(item);
+
       let thisPosition = latLng[i];
       console.log(thisPosition);
       let thisAddress = address[i];
       let stringAddress = JSON.stringify(thisAddress);
       // $('#destination_input').val(this.id);
-       console.log(thisPosition);
       waypts.push({
         location: thisPosition,
         stopover: true 
       });
-      console.log(waypts);
-      $('#destination_address_html').append("<input type='text' class='form-control' value=" + stringAddress + ">");
+      console.log($('#destination_address_html').hasChildNodes());
+      if ($('#destination_address_html').children(1) == undefined) {
+        console.log('blahbabha');
+        $('#destination_input').val(stringAddress);
+      } else {
+        console.log('append stuff');
+        $('#destination_address_html').append("<input type='text' class='form-control' value=" + stringAddress + ">");
+        }
     }); 
   });
   // for (var i = 0; i < latLng.length; i++) {

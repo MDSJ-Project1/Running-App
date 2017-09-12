@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta charset="utf-8">
+		<title>Team 2 | Project 1</title>
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<meta name="author" content="Perfect Point Marketing">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Color Pickr -->
+        <link href="includes/color-pickr/color-pickr.css" rel="stylesheet">
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<!-- WOW JS Animation -->
+		<link rel="stylesheet" href="includes/wow-js/animations.css" />
+		<!-- Litebox  -->
+		<link rel="stylesheet" href="includes/litebox/litebox.css" />
+		<!-- Owl Carousel -->
+		<link rel="stylesheet" href="includes/owl-carousel/owl.carousel.css" />
+        <!-- custom css -->
+<!--         <link href="css/style.css" rel="stylesheet" type="text/css" media="screen"> -->
+        <link href="css/media.css" rel="stylesheet" type="text/css" media="screen">
+        <link href="css/style.css" rel="stylesheet" type="text/css">
+
+        <!-- font awesome for icons -->
+        <link href="includes/font-awesome-4.2.0/css/font-awesome.min.css" rel="stylesheet">
+		<!-- Web Fonts -->
+		<link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>
+		<!-- Favicons -->
+		<link rel="apple-touch-icon-precomposed" href="/apple-touch-icon-precomposed.png">
+		<link rel="icon" href="/favicon.ico">
+		<link href="https://fonts.googleapis.com/css?family=Pathway+Gothic+One" rel="stylesheet">
+ 		<!-- firebase cdn -->
+  		<script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
+		<!-- Firebase UI -->
+		<script src="https://cdn.firebase.com/libs/firebaseui/2.3.0/firebaseui.js"></script>
+		<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.3.0/firebaseui.css" />
+ 		<!--   jQuery -->
+  		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<!--   bootstrap js -->
+    	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    	<!-- mapbox css -->
+  		<link href='https://api.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.css' rel='stylesheet'/>
+  		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
+  		<link rel="stylesheet" href="assets/css/stylesheet.css">
+		<!--[if lte IE 8]>
+			<link rel="stylesheet" type="text/css" href="css/fucking-ie-8-and-lower.css" />
+		<![endif]-->
+		
+		
+		
+		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+ <!--    <body onload="init()" id="body"> -->
+ <body>
+
+		<div id="preloader">
+			<div class="spinner">
+				<div class="cube"></div>
+				<div class="cube"></div>
+				<div class="cube"></div>
+				<div class="cube"></div>
+				<div class="cube"></div>
+				<div class="cube"></div>
+				<div class="cube"></div>
+				<div class="cube"></div>
+				<div class="cube"></div>
+			</div>			
+		</div><!--preloader end-->
+		
+		        <nav id="navigation">
+            <div class="navbar navbar-default navbar-static-top" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="index.html">Team <span>2</span></a>
+                    </div>
+                    <div class="navbar-collapse collapse">
+
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="#home">Home</a></li>
+                            <li><a href="#features">Features</a></li>
+                            <li><a href="#runningapp">Running App</a></li>
+                            <li><a href="#testimonials">Profile</a></li>
+                            <li><a href="#blog">History</a></li>
+                            <li><a href="#our-team">Team</a></li>
+                            <li><a href="#contact">Contact</a></li>
+                        </ul>
+                        </div>
+
+                    </div><!--/.nav-collapse -->
+                </div><!--/.container -->
+            </div><!--navbar-default-->
+        </nav><!--navigation section end here-->
+		<section id="home">
+			<div data-velocity="-.3" class="home-parallax"></div>
+			<div class="home-overlay"></div>
+			
+			<div class="welcome-text">
+				<div class="row wow animated fadeInDown">
+				<div class="row">
+				<div class="col-md-3"></div>
+					<div class="col-md-12 text-center hero-title">
+	<!-- 						<i class="fa fa-plane"></i> -->
+							<h2 class="page-title">Our App</h2>
+							<h3>Google Route</h3>
+								<div id="google_map">
+									<div id='map'></div>
+								</div>
+					</div>
+					<div class="col-md-3">
+									<div id="address_html">
+										<h6>Start Address:
+              							<input type="text" class="form-control" id="start_input" placeholder="111 Sesame St, Imagination, CA">
+              							</h6>
+			  						</div>
+			  						<div id="destination_address_html">
+			  							<h6>Destination Address:
+              							<input type="text" class="form-control" id="destination_input" placeholder="666 Sesame St, Imagination, CA">
+              							</h6>
+			  						</div>
+			  		</div>
+			  	</div>
+			  					
+			  					<!-- 	<div id="route_distance_html">
+            							<h6>Round Trip Distance: <span>0</span></h6>
+			  						</div>
+			  						<div id="calories_burned_html">
+            							<h6>Estimated Calories Burned: <span>0</span></h6>
+			  						</div> -->
+            				<button type="button" class="btn btn-primary" id="route_button">Submit Route</button>
+            			
+            						   <label>Weight</label>
+		                        <br>
+		          				<input type="number" class="form-control" id="weight_field" placeholder="160lb" value="160"
+		                        <label>Calorie</label>
+		                        <br>
+		          				<input type="number" class="form-control" id="calorie_field" placeholder="" value="600">
+
+		                        <br>	 
+                                <div class="dropdownbtn">
+                                	<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">Select a place type</button>
+                                	<div id="places-dropdown" aria-labelledby="dropdownMenuButton" ata-dropdown-content class="f-dropdown" aria-hidden="true">
+                                	</div>
+                              	</div>                      	
+
+		          				</div>
+		       
+			  				</div>
+					</div><!--hero title end-->	
+
+					</div>
+				</div>
+			</div>
+		</section><!--home section end-->
+		
+	
+		
+		<footer id="footer">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-9 col-sm-9">
+						<div class="footer-copyright">
+							<p>Copyright 2017 <a href="">Team 2</a> | All Rights Reserved | Powered by HTML, CSS &amp; jQuery</p>
+						</div>
+					</div><!--copyright col end-->
+					
+					<div class="col-md-3 col-sm-3">
+						<div class="company-name">
+							<p>Team <span>2</span></p>
+						</div>
+					</div><!--blogname col end-->
+				</div>
+			</div>
+		</footer>
+
+        <!--scripts and plugins -->
+        <!--must need plugin jquery-->
+        <script src="js/jquery.min.js"></script>        
+        <!--bootstrap js plugin-->
+        <script src="includes/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+		<!-- Google Maps API -->
+
+		<!-- Custom Google Map -->
+<!-- 		<script type="text/javascript">
+			var maps;
+			var geocoder;
+
+			function init() {
+				maps = [];
+				geocoder = new google.maps.Geocoder();
+
+				var styles = {
+				  'Red': [
+					{
+					  featureType: 'all',
+					  stylers: [{saturation:-100},{gamma:0.50}]
+					}
+				  ]
+				};
+
+				for (var s in styles) {
+				  var opt = {
+					mapTypeControlOptions: {
+					  mapTypeIds: [s]
+					},
+					disableDefaultUI: true,
+					navigationControl: true,
+					scrollwheel: false,
+					center: new google.maps.LatLng(37.871853, -122.258423),
+					zoom: 8,
+					mapTypeId: s
+				  };
+
+				  var div = document.getElementById('map');
+				  var map = new google.maps.Map(div, opt);
+				  var styledMapType = new google.maps.StyledMapType(styles[s], {name: s});
+				  map.mapTypes.set(s, styledMapType);
+				  
+				  var goldStar = 'img/marker.png';
+
+				  var marker = new google.maps.Marker({
+					position: map.getCenter(),
+					icon: goldStar,
+					map: map
+				  });				  
+				}
+			}
+		</script> -->		
+		<!--easying scroll effect-->
+		<script src="js/jquery.easing.1.3.min.js" type="text/javascript"></script>
+		<script src="js/jquery.sticky.js" type="text/javascript"></script>
+		<script src="js/jquery.nav.js" type="text/javascript"></script>
+		<!--owl carousel-->
+		<script src="includes/owl-carousel/owl.carousel.min.js" type="text/javascript"></script>
+		<!--wow animation-->
+		<script src="includes/wow-js/wow.min.js" type="text/javascript"></script>
+		
+		<!--Activating WOW Animation only for modern browser-->
+		<!--[if !IE]><!-->
+<!-- 		<script type="text/javascript">new WOW().init();</script> -->
+		<!--<![endif]-->		
+		
+		<!--Oh Yes, IE 9+ Supports animation, lets activate for IE 9+-->
+		<!--[if gte IE 9]>
+			<script type="text/javascript">new WOW().init();</script>
+		<![endif]-->		 
+		
+		<!--Opacity & Other IE fix for older browser-->
+		<!--[if lte IE 8]>
+			<script type="text/javascript" src="js/ie-opacity-polyfill.js"></script>
+		<![endif]-->
+
+		
+		<!--parallax-->
+		<script src="js/jquery.scrolly.js" type="text/javascript"></script>
+		<!--portfolio-filter-->
+		<script src="js/isotope.pkgd.min.js" type="text/javascript"></script>
+		<!--lightbox-->
+		<script src="includes/litebox/images-loaded.min.js" type="text/javascript"></script>
+		<script src="includes/litebox/litebox.min.js" type="text/javascript"></script>
+		<!--project count-->
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
+		<script src="js/jquery.counterup.min.js" type="text/javascript"></script>
+		<!--custom scrollbar-->
+		<script src="js/jquery.nicescroll.min.js" type="text/javascript"></script>
+		<!--Contact Form-->
+		<script src="includes/contact-form/app.js" type="text/javascript"></script>
+		<script src="includes/contact-form/validatr.js" type="text/javascript"></script>
+		
+		<!--customizable plugin edit according to your needs-->
+		<script src="js/custom.js" type="text/javascript"></script>
+		<script src="assets/javascript/javascript.js"></script>
+  		<!-- Google Maps -->
+  		<script async defer
+  		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDI4WkP2aEnUvW-xJTF5udyKKnTx2Z5cio&callback=initMap">
+		</script>
+    </body>
+</html>
