@@ -14,6 +14,8 @@ var cityCircle;
 var markerArray = [];
 var waypts = [];
 var objLocationArray = [];
+var directionsDisplayArr = [];
+
 // /////////////////////////////////////////////////////////////////////////////////////////////
 
 (function generatePlacesOptions(){
@@ -336,6 +338,14 @@ function removeMarkers(){
         markerArray[i].setMap(null);
     };
 };
+function removeRoutesAndWaypoints() {
+  //clears routes
+  directionsDisplayArr.forEach(function(route){
+      route.setMap(null)
+  })
+  //clears waypoints
+  waypts = [];
+}
 
 
 
@@ -432,6 +442,7 @@ function routeWithDestination(start, dest) {
     var directionsDisplay = new google.maps.DirectionsRenderer({
       map: map
     });
+    window.directionsDisplayArr.push(directionsDisplay)
     
     console.log($('#dest_input_div').children()); 
 
@@ -524,6 +535,7 @@ function calcMilesCalories(legs) {
 // ////////////////////////////////////////////////////////////////////////////////
 
 $('#route_button').on('click', function() {
+    removeRoutesAndWaypoints()
      console.log('clicked');
     var startInput = $('#start_input').val().trim();
     var destInput = $('#destination_input').val().trim();
