@@ -96,17 +96,27 @@ width:150px;
 #directions_word {
   color: black;
 }
+.undermap{
 
+}
+.undermap h6{
+
+}
+.undermap input {
+  text-align: center;
+}
 
 #print_directions {
+  margin: 10px;
   height: 400px;
-  overflow: auto;
+  width: auto;
+  overflow-y: scroll;
   background-color: white;
 };
 #print_directions {
   font-family: 'Roboto','sans-serif';
   line-height: 30px;
-  padding-left: 10px;
+  padding: 10px;
 };
 #print_link {
   margin-top: 20px;
@@ -122,7 +132,7 @@ position:relative;
 }
 
 .home-parallax, .parallax-bg, #home{
-background:url(../img/home_image.jpg) no-repeat fixed center top;
+background:url(../img/home_image.jpg) no-repeat center top;
 /*background-size*/
 -webkit-background-size:/*@@prefixmycss->No equivalent*/;
    -moz-background-size:cover;
