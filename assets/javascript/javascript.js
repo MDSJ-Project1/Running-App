@@ -505,6 +505,8 @@ function calcMilesCalories(legs) {
 
     var caloriesBurn = totalMiles * caloriesPerMile; 
     var caloriesBurned = Math.round(caloriesBurn * 100) / 100;
+    appState.caloriesBurned = caloriesBurned;
+    console.log(appState.caloriesBurned);
 
     $('#calories_burned_html').html("Estimated Calories Burned: " + caloriesBurned + "cal");
   };
@@ -640,23 +642,18 @@ function writeUserData(userId, name, email, imageUrl, phoneNumber) {
 
 //add click event to push data to user's data node
 function setupClickEvent(userId) {
-  $("#submit-calorie").on("click", function(event) {
+  $("#completed_route").on("click", function(event) {
     // Prevent default behavior
     event.preventDefault();
 
-    var input1 = $("#calorie_field").val().trim();
-    var input2 = $("#weight_field").val().trim();
     var date = moment().format("YYYY, MM, D");
     console.log(date);
-    // var input3 = $("#input-3").val().trim();
-    // var input4 = $("#input-4").val().trim();
 
     database.ref('users/' + userId + '/userData').push({
-      input1: input1,
-      input2: input2,
-      date: moment().format("YYYY, MM, D")
-      // input3: input3,
-      // input4: input4  
+    
+      date: moment().format("YYYY, MM, D"),
+      input1: appState.caloriesBurned
+
     });
     queryData();
   });
