@@ -149,7 +149,7 @@ if(navigator.geolocation) {
 }
 
 $("#dropdownMenuButton").change(function() {
-  console.log(this.val());
+  // console.log(this.val());
 })
 
 $("#button_submit").on("click", function(e) {
@@ -447,7 +447,7 @@ function routeWithDestination(start, dest) {
     }
     // if(typeof waypts != "undefined" && waypts != null && waypts.length > 0) {
     //   console.log(waypts);
-    //   waypts.push(firstWaypoint);
+      waypts.push(firstWaypoint);
     // };
     // waypts.push({
     //   location: "335 Highland Ave, Piedmont, CA 94611",
