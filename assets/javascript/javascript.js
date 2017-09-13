@@ -149,7 +149,7 @@ if(navigator.geolocation) {
 }
 
 $("#dropdownMenuButton").change(function() {
-  console.log(this.val());
+  // console.log(this.val());
 })
 
 $("#button_submit").on("click", function(e) {
