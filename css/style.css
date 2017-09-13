@@ -751,7 +751,9 @@ opacity:.7;
 color:#fff;
 text-decoration:none;
 }
-
+.btn-primary {
+  margin-left: 60px;
+}
 .searchresult {
   overflow: auto;
   margin: 20px 20px 20px 0px;
