@@ -93,11 +93,14 @@ width:150px;
 /* ------------------------------------	*/
 /*  			 1. Home				*/
 /* ------------------------------------	*/
+button {
+  margin-bottom: 10px;
+}
 #directions_word {
   color: black;
 }
 .undermap{
-
+  margin-left: 10%;
 }
 .undermap h6{
 
@@ -108,7 +111,7 @@ width:150px;
 
 #print_directions {
   margin: 10px;
-  height: 400px;
+  height: 200px;
   width: auto;
   overflow-y: scroll;
   background-color: white;
