@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "running-app-58fcf"
+    "default": "running-app-58fcf",
+    "testing": "running-app-58fcf"
   }
 }

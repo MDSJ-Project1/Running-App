@@ -611,7 +611,7 @@ $(document).ajaxError(function() {
 // FirebaseUI config.
 var uiConfig = {
   signInSuccessUrl: 'https://mdsj-project1.github.io/Running-App/',
-  // signInSuccessUrl: 'localhost:5008',
+  // signInSuccessUrl: 'localhost:5000',
   signInOptions: [
     // Leave the lines as is for the providers you want to offer your users.
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
@@ -756,35 +756,43 @@ initApp = function() {
       setupClickEvent(appState.uid);
 
       user.getIdToken().then(function(accessToken) {
-        document.getElementById('sign-in-status').textContent = 'Signed in';
-        document.getElementById('sign-in').textContent = 'Sign out';
-        document.getElementById('account-details').textContent = JSON.stringify({
-          displayName: displayName,
-          email: email,
-          emailVerified: emailVerified,
-          phoneNumber: phoneNumber,
-          photoURL: photoURL,
-          uid: uid,
-          accessToken: accessToken,
-          providerData: providerData
-        }, null, '  ');
-      });
-      //add sign out function
+        // document.getElementById('sign-in-status').textContent = 'Signed in';
+        // document.getElementById('sign-in').textContent = 'Sign out';
+        // document.getElementById('account-details').textContent = JSON.stringify({
+        //   displayName: displayName,
+        //   email: email,
+        //   emailVerified: emailVerified,
+        //   phoneNumber: phoneNumber,
+        //   photoURL: photoURL,
+        //   uid: appState.uid,
+        //   accessToken: accessToken,
+        //   providerData: providerData
+        // }, null, '  ');
 
-      $('#sign-in').on("click", function(){
-        event.preventDefault();
-        console.log("testing sign out button"); 
-        firebase.auth().signOut().then(function() {
-          // Sign-out successful.
-        }).catch(function(error) {
-          // An error happened.
+        // $("#account-details").html('<img src="'+photoURL+'+" alt="profile_picture" height="42" width="42">');
+        $("#profile-name").text(displayName);
+        document.getElementById("profile-image").src=photoURL;
+
+        $("#signed-in").html('<a href="#" id="log-out">Logout</a>');
+
+        $('#log-out').on("click", function(){
+          event.preventDefault();
+          console.log("testing sign out button"); 
+          firebase.auth().signOut().then(function() {
+            // Sign-out successful.
+          }).catch(function(error) {
+            // An error happened.
+          });
         });
       });
+      //add sign out function
     } else {
+
+      $("#signed-in").html('<a href="#" data-toggle="modal" data-target="#myModal">Login</a>');
       // User is signed out.
       document.getElementById('sign-in-status').textContent = 'Signed out';
       document.getElementById('sign-in').textContent = 'Sign in';
-      document.getElementById('account-details').textContent = 'null';
+      document.getElementById('account-details2').textContent = 'null';
     }
   }, function(error) {
     console.log(error);
