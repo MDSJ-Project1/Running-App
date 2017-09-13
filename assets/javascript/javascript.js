@@ -45,18 +45,14 @@ var directionsDisplayArr = [];
 function initMap(start, dest, miles) {
 
   if (start === undefined) {
-    console.log('original initMap function run')
+
   var uluru = {lat: 0, lng: 0};
   map = new google.maps.Map(document.getElementById('map'), {
     zoom: 1,
     center: uluru
   });
-
-  }
-  
-  console.log(start);
+  };
   if (start) {
-    console.log('recognize start');
     startMap(start, dest, miles);
   };
 };
@@ -131,9 +127,6 @@ if(navigator.geolocation) {
           lat: latitude,
           lng: longitude
         };
-        // initMap(inItLocation);
-        //grab the place type that was stored in dom
-        // placeAPI(location,placeType);
         
         $.ajax({
            method:"GET",
@@ -151,7 +144,7 @@ if(navigator.geolocation) {
 }
 
 $("#dropdownMenuButton").change(function() {
-  // console.log(this.val());
+
 })
 
 $("#button_submit").on("click", function(e) {
@@ -163,7 +156,6 @@ $("#button_submit").on("click", function(e) {
     var databaseWeightInput = $('#weight_field').val().trim();
     var databaseStartDateInput = $('#start_date_field').val().trim();
     var databaseCalorieInput = $('#calorie_field').val().trim();
-    console.log(databaseNameInput, databaseWeightInput, databaseStartDateInput, databaseCalorieInput);
 
     database.ref().push({
         name: databaseNameInput,
@@ -187,14 +179,10 @@ $("#button_submit").on("click", function(e) {
 // place API runs with startinput parameter, finds places within radius, 
 // 
 function createCircle(location, rad) {
-    console.log('circle stuff activated');
-
   radMeters = rad * 1609.34;
   if (cityCircle) {
-    console.log('if runs')
     cityCircle.setRadius(radMeters)
   } else {
-    console.log('else runs')
     cityCircle = new google.maps.Circle({
       strokeColor: '#1c4e9e',
       strokeOpacity: 0.8,
@@ -208,7 +196,9 @@ function createCircle(location, rad) {
   };
 };
 
-function placeAPI(location, type) {
+function placeAPI(location, radius) {
+  
+  radMeters = radius * 1609.34;
 
   var type = $("#dropdownMenuButton").val();
   var API_KEY = "AIzaSyDumcfn2C2_NC9TXx8QVQKbCfG8tG07QuY";
@@ -222,22 +212,21 @@ function placeAPI(location, type) {
   var url = PROXY_URL +
       "https://maps.googleapis.com/maps/api/place/nearbysearch/" +
       "json?location=" + locString + "&" +
-      "radius=8046.72" + "&" + //radius in meters
+      "radius=" + radMeters + "&" + //radius in meters
       "type=" + type + "&" +
       "rankBy=distance" + "&" +
       "key=" + API_KEY;
+
 
   $.ajax({
       method: "GET",
       url: url
   }).done(function(data) {
-
       var places = [];
       var placesIdArray = [];
       var placesLatLngArray = [];
       var placesNameArray = [];
       var placesAddressArray = [];
-      console.log(data);
       for (var i = 0; i < data.results.length; i++) {
         var placesData = data.results[i];
         var placesDataId = placesData.place_id;
@@ -248,7 +237,17 @@ function placeAPI(location, type) {
       }
 
       pullPlaceInfoName(placesLatLngArray, placesIdArray, placesAddressArray);
+
+            
+      if (data.status == "INVALID_REQUEST") {
+        $('#alertbox').html('<div class="alert alert-danger" role="alert">No Result! Please Input Info!</div>');
+
+      } else if (data.status == "ZERO_RESULTS") {
+      $('#alertbox').html('<div class="alert alert-danger" role="alert">No Results Found!</div>');
+      };
       }); 
+
+    $('#alertbox').empty();
 };
 
       // GETS PLACE DETAILS /////////////////////////////////////////////////////////////////////////
@@ -258,7 +257,6 @@ function pullPlaceInfoName (latlngArr, idArr, addArray) {
     var API_KEY = "AIzaSyDumcfn2C2_NC9TXx8QVQKbCfG8tG07QuY";
     var PROXY_URL = 'https://cors-anywhere.herokuapp.com/';
     var placesNameArray = [];
-    console.log(idArr);
   for (var i = 0; i < idArr.length; i++) {
     var placeID = idArr[i]
     var url3 = PROXY_URL + "https://maps.googleapis.com/maps/api/place/details/json?placeid=" + placeID + "&key=" + API_KEY;
@@ -266,7 +264,6 @@ function pullPlaceInfoName (latlngArr, idArr, addArray) {
       method: "GET",
       url: url3
       }).done(function(detailsResponse){
-      // console.log('url3 works')
       var address = detailsResponse.result.formatted_address;
   
       var placeName = detailsResponse.result.name;
@@ -288,7 +285,6 @@ function toObject (arr) { // <------------- Might not need function in places AP
   for (var i = 0; i < arr.length; i++) {
     objArray[i] = arr[i];
   };
-  console.log(objArray);
 }
 
 // latlang= array of coordinates.
@@ -314,7 +310,6 @@ function createMarkersInCircle(latLng, names, address) {
       let thisName = names[i];	
 
       let thisPosition = latLng[i];
-      console.log(thisPosition);
       let thisAddress = address[i];
       let stringAddress = JSON.stringify(thisAddress);
       let stringPosition = JSON.stringify(thisPosition);
@@ -351,7 +346,6 @@ function removeRoutesAndWaypoints() {
 
  
 function startAjax(blah, callback, miles) {
-    console.log(blah);
     var startInput = $('#start_input').val().trim();
 
     var key = "AIzaSyDI4WkP2aEnUvW-xJTF5udyKKnTx2Z5cio";
@@ -364,18 +358,12 @@ function startAjax(blah, callback, miles) {
 
         $.ajax({method:"GET", 
         url: url}).done(function(response){
-        console.log('first ajax run');
-        console.log(response);
         var startLocation = response.results[0].geometry.location;
         
         $('#address_html').val('Start Address:' + '<p>' + response.results[0].formatted_address);
-        console.log('first ajax end');
+        
         if (destInput) {
           $.get(url2, function(destResponse){
-
-            console.log('dest ajax activated');
-            console.log(destResponse);
-
             $('#destination_address_html').val('Destination Address:' + '<p>' + destResponse.results[0].formatted_address);
 
             var destLocation = destResponse.results[0].geometry.location;
@@ -383,7 +371,6 @@ function startAjax(blah, callback, miles) {
             callback(startLocation, destLocation, miles);
           });
         } else {
-          console.log('destinput undefined');
           callback(startLocation, undefined, miles); // runs initMap function
         }
         });
@@ -394,49 +381,30 @@ function startAjax(blah, callback, miles) {
 //when user deselects start_input field
 
 function startMap(start, dest, miles) {
-        console.log('start map function activated')
-        console.log(map);
-        map.setCenter(start);
-        map.setZoom(11);
-        console.log(map);
-        // map = new google.maps.Map(document.getElementById('map'), {
-        //   center: start,
-        //   zoom: 10
-        // });
+  map.setCenter(start);
+  map.setZoom(12);
 
-        var homeMarker = new google.maps.Marker({
-            position: start,
-            map: map,
-            title: 'start Location',
-            icon: "assets/img/home_icon.png"
-        });
 
-        if (dest == undefined) {
-          createCircle(start, miles);
-          placeAPI(start);
-          
-        // Ajax Places API
-          
-        // click function for blahin circle ////////////////////////////////////////////////
-        // google.maps.event.addListener(cityCircle, 'click', function(event) {
-        //   console.log('clicked');
-        //   marker = new google.maps.Marker({position: event.latLng, map: map});
-        //   console.log(event);
-        //   console.log(event.latLng);   // Get latlong info as object.
-        //   console.log( "Latitude: "+event.latLng.lat()+" "+", longitude: "+event.latLng.lng()); // Get separate lat long.
-        // });
-            };
-         // end circle stuff /////////////
-        if (dest) {
-          console.log('destination stuff activated');
-          routeWithDestination(start, dest);
-        };
+  var homeMarker = new google.maps.Marker({
+      position: start,
+      map: map,
+      title: 'start Location',
+      icon: "assets/img/home_icon.png"
+  });
+
+  if (dest == undefined) {
+    createCircle(start, miles);
+    placeAPI(start, miles);
+  };
+  if (dest) {
+    routeWithDestination(start, dest);
+  };
 };
  
 function routeWithDestination(start, dest) {
   
     map.setCenter(start);
-    map.setZoom(11);
+    map.setZoom(12);
 
 
     var directionsDisplay = new google.maps.DirectionsRenderer({
@@ -444,7 +412,7 @@ function routeWithDestination(start, dest) {
     });
     window.directionsDisplayArr.push(directionsDisplay)
     
-    console.log($('#dest_input_div').children()); 
+ 
 
     // pushes waypoints into array between start and destination
     // var waypoint = {
@@ -458,16 +426,15 @@ function routeWithDestination(start, dest) {
         objLocationArray.push(objDataLocation);
       }
     });
-    console.log(objLocationArray);
+
     objLocationArray.forEach(function(object, i) {
-      console.log('for each line 457 runs');
       waypoint = {
         location: object,
         stopover: true
       };
- 
       waypts.push(waypoint);
     });
+
     console.log(waypts);
 
     var request = {
@@ -486,9 +453,8 @@ function routeWithDestination(start, dest) {
       if (status == 'OK') {
         // Display the route on the map.
         removeMarkers();
+        console.log(routeResponse);
         directionsDisplay.setDirections(routeResponse);
-        console.log(routeResponse);                
-
         directionsDisplay.setPanel(document.getElementById('print_directions'));
 
         var legsArray = routeResponse.routes[0].legs;
@@ -501,11 +467,9 @@ function routeWithDestination(start, dest) {
 
 function calcMilesCalories(legs) {
     var sum = 0
-    console.log(legs);
     for (var i = 0; i < legs.length; i++) {
         var legsArray2 = legs[i].distance.value;
         sum += legsArray2;
-        console.log(sum);
     }
     // totalMiles converts meters to miles //////////////////
     var totalMiles = sum / 1609.34;
@@ -520,8 +484,6 @@ function calcMilesCalories(legs) {
     var caloriesBurn = totalMiles * caloriesPerMile; 
     var caloriesBurned = Math.round(caloriesBurn * 100) / 100;
     appState.caloriesBurned = caloriesBurned;
-    console.log(appState.caloriesBurned);
-
     $('#calories_burned_html').html("Estimated Calories Burned: " + caloriesBurned + "cal");
   };
 // ///////////////////////////////////////////////////////////////////////////////
@@ -536,7 +498,6 @@ function calcMilesCalories(legs) {
 
 $('#route_button').on('click', function() {
     removeRoutesAndWaypoints()
-     console.log('clicked');
     var startInput = $('#start_input').val().trim();
     var destInput = $('#destination_input').val().trim();
 
@@ -544,14 +505,9 @@ $('#route_button').on('click', function() {
     weight = parseInt($("#weight_field").val().trim())
     // http://www.livestrong.com/article/314404-how-many-calories-do-you-lose-per-mile/
     var caloriesPerMile = weight * .75;
-    console.log(caloriesToBurn, weight, caloriesPerMile)
-
 
     milesToRun = caloriesToBurn / caloriesPerMile;
-    console.log("milesToRUn", milesToRun);
-
     startAjax(true, initMap, milesToRun);
-    // placeAPI(startInput);
     
 });
 
@@ -561,14 +517,12 @@ $('#find_button').on('click', function() {
   weight = parseInt($("#weight_field").val().trim())
   // http://www.livestrong.com/article/314404-how-many-calories-do-you-lose-per-mile/
   var caloriesPerMile = weight * .75;
-  console.log(caloriesToBurn, weight, caloriesPerMile)
-
 
   milesToRun = caloriesToBurn / caloriesPerMile;
-  console.log("milesToRUn", milesToRun);
-
   startAjax(true, initMap, milesToRun);
 });
+
+
 
 
 function PrintElem() {
@@ -662,7 +616,6 @@ function setupClickEvent(userId) {
     event.preventDefault();
 
     var date = moment().format("YYYY, MM, D");
-    console.log(date);
 
     database.ref('users/' + userId + '/userData').push({
     
@@ -699,7 +652,6 @@ function makeChart(){
     ]
   });
   chart.render();
-  console.log(dateArray2);
 }
 
 //Query data and generate chart
@@ -714,19 +666,15 @@ function queryData(){
       // childData will be the actual contents of the child
       var childData = childSnapshot.val();
       var momentDate2 = moment(childData.date).format("YYYY, MM, D");
-      console.log("momentDate2 " +momentDate2);
       var userDate = childData.date;
-      console.log(userDate);
       var calorieData = JSON.parse(childData.input1);
 
       var dateObject = {x: new Date(momentDate2), y: calorieData};
-      console.log(dateObject);
       dateArray2.push(dateObject);
 
       // TODO: Do what i want to do with this dman date array here
     });
 
-  console.log(JSON.stringify(dateArray2));
   makeChart();
 
   })
@@ -745,10 +693,7 @@ initApp = function() {
       var phoneNumber = user.phoneNumber;
       var providerData = user.providerData;
 
-      console.log(appState.uid);
-
       database.ref('users/' + appState.uid + '/userData').on("value", function(snapshot){
-        console.log(snapshot.val());
       });
 
       //Query data and generate chart
@@ -756,14 +701,11 @@ initApp = function() {
 
       //check if user exists, otherwise write in new user data
       database.ref('users/' + appState.uid).once("value", function(snapshot){
-        console.log(snapshot.val());
         if (snapshot.val()){
-            console.log("data for user exists, do not write over user data")
         }
         else {
             //write user data to database if new user
         writeUserData(appState.uid, displayName, email, photoURL, phoneNumber);
-        console.log("no user data, adding new user");
         }
       });
       
@@ -788,7 +730,6 @@ initApp = function() {
 
       $('#sign-in').on("click", function(){
         event.preventDefault();
-        console.log("testing sign out button"); 
         firebase.auth().signOut().then(function() {
           // Sign-out successful.
         }).catch(function(error) {
@@ -802,7 +743,6 @@ initApp = function() {
       document.getElementById('account-details').textContent = 'null';
     }
   }, function(error) {
-    console.log(error);
   });
 };
 
