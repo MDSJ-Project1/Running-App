@@ -47,6 +47,7 @@
 
                         <ul class="nav navbar-nav navbar-right">
                             <li><a href="index.html#home">Home</a></li>
+                            <li><a href="#" data-toggle="modal" data-target="#instructions"">Instructions</a></li>
                             <li><a href="#" data-toggle="modal" data-target="#myResults"">Results</a></li>
                             <li><a href="#" data-toggle="modal" data-target="#myModal">Login</a></li>
                         </ul>
@@ -68,26 +69,26 @@
               <div id="map"></div>
               <div class="undermap">
                 <h6>Weight</h6>
-                  <input type="number" class="form-control" id="weight_field" placeholder="160lb" value="160">
+                  <input type="number" class="form-control" id="weight_field">
                 <h6>Calorie</h6>
-                  <input type="number" class="form-control" id="calorie_field" placeholder="" value="600">;
+                  <input type="number" class="form-control" id="calorie_field">;
                 </div>
             </div>
           <div class="col-md-3 wow animated fadeInDown">
             <div class="searchresult">
               <h3>Search</h3>
               <div id="address_html">
-                        <h6>Start Address:
-                                <input type="text" class="form-control" id="start_input" placeholder="111 Sesame St, Imagination, CA">
-                                </h6>
-                        </div>
-                        <div id="destination_address_html">
-                          <h6>Destination(s):
-                          </h6>
-                          <div id="dest_input_div">
-                                <input type="text" class="form-control waypoint" id="destination_input" placeholder="666 Sesame St, Imagination, CA">
-                                </div>
-                        </div>
+                <h6>Start Address:
+                  <input type="text" class="form-control" id="start_input">
+                </h6>
+              </div>
+              <div id="destination_address_html">
+                <h6>Destination(s):
+                </h6>
+                <div id="dest_input_div">
+                      <input type="text" class="form-control waypoint" id="destination_input">
+                </div>
+              </div>
               <div id="route_distance_html">
                 <h6>Round Trip Distance: <span>0</span></h6>
               </div>
@@ -180,6 +181,37 @@
       
     </div>
   </div>
+</div>
+
+<div class="container">
+
+  <!-- Modal -->
+<div class="modal fade" id="instructions" role="dialog">
+<div class="modal-dialog">
+
+  <!-- Modal content-->
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <h4 class="modal-title">Instructions</h4>
+    </div>
+    <div class="modal-body">
+      <h3>Getting Started</h3>
+      1. Allow geolocation or type in your starting address.<br>
+      2. Use the dropdown and the "Find Places Near You" button to find up to 20 results near your starting location.<br>
+      3. Click the markers to add the points of interest to your route<br>
+      4. Click Submit to generate your run.<br>
+      5. Go on your run!
+      <p>
+      Use the "Submit Completed Route" button to submit and track the amount of calories you burn per day.
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+  
+</div>
+</div>
 </div>
 
     <!--scripts and plugins -->
