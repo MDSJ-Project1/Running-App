@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Running App</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- 	bootstrap cdn-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!--   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"> -->
+  <!-- canvas.js -->
+  <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+  <!-- moment.js -->
+  <script src="https://cdn.jsdelivr.net/momentjs/2.18.1/moment.min.js"></script>
+  <!--   google font -->
+  <link href="https://fonts.googleapis.com/css?family=Pathway+Gothic+One" rel="stylesheet">
+  <!-- mapbox css -->
+  <link href='https://api.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.css' rel='stylesheet'/>
+  <!--   css -->
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="screen">
+    <link href="css/media.css" rel="stylesheet" type="text/css" media="screen">
+    <link href="assets/css/stylesheet.css" rel="stylesheet">
+
+  <!-- firebase cdn -->
+  <script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
+	<!-- Firebase UI -->
+	<script src="https://cdn.firebase.com/libs/firebaseui/2.3.0/firebaseui.js"></script>
+	<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.3.0/firebaseui.css" />
+  <!--   jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<!--   bootstrap js -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+  <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+	<!-- Team 2 Header -->
+	  <nav id="navigation">
+            <div class="navbar navbar-default navbar-static-top" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="index.html">Team <span>2</span></a>
+                    </div>
+                    <div class="navbar-collapse collapse">
+
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="index.html#home">Home</a></li>
+                            <li><a href="index.html#about">About</a></li>
+                            <li><a href="index.html#features">Features</a></li>
+                            <li><a href="index.html#portfolio">Portfolio</a></li>
+                            <li><a href="index.html#testimonials">Testimonials</a></li>
+                            <li><a href="index.html#our-team">Team</a></li>
+                            <li><a href="index.html#blog">History</a></li>
+                            <li><a href="index.html#contact">Contact</a></li>
+                            <li class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Login</li>
+                        </ul>
+
+                    </div><!--/.nav-collapse -->
+                </div><!--/.container -->
+            </div><!--navbar-default-->
+        </nav><!--navigation section end here-->
+
+<div class="container">
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Login</h4>
+        </div>
+        <div class="modal-body">
+          <div id="firebaseui-auth-container"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+	<!-- Submit form -->
+	<div class="container">
+	<div class="row">
+		<div class="col-xs-3">
+				<div class="panel-group">
+		      			<div class="panel panel-primary">
+		      				<div class="panel-heading">
+		      				    <h3 class="panel-title">Weight Control</h3>
+		      				</div>
+		      				<div class="panel-body">
+		          				<form class="navbar-form navbar-left" role="search">
+		          				<div class="form-group" id="myForm">
+		                        <label>Name</label>
+		                        <br>
+		          				<input type="text" class="form-control" id="name_field" placeholder="John Smith">
+		                        <br>
+		                        <label>Weight</label>
+		                        <br>
+		          				<input type="number" class="form-control" id="weight_field" placeholder="160lb" value="160">
+
+		                        <label>Calorie</label>
+		                        <br>
+		          				<input type="number" class="form-control" id="calorie_field" placeholder="" value="600">;
+<!-- 
+		                        <br>	 
+                              <div class="dropdown">
+                               <div class="dropdown-menu" id="places-dropdown" aria-labelledby="dropdownMenuButton">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  Select a place type
+                                </button>
+                               
+                                </div>
+                              </div>                         
+
+		                        <br>	
+ -->
+		          				</div>
+		          				</form>
+		      				</div> <!-- panel-body -->
+		      			</div> <!-- panel-primary -->
+		        </div> <!-- panel-group -->
+		</div>
+		<!-- Submit form -->
+
+		<!-- Google Map -->
+		<div class="col-xs-9">
+			<div class="panel panel-primary">
+			  <div class="panel-heading">
+			    <h3 class="panel-title">Google Route</h3>
+			  </div>
+			  <div class="panel-body">
+			  	<div id="google_map">
+			  		<div id="address_html">Start Address:
+              <input type="text" class="form-control" id="start_input" placeholder="111 Sesame St, Imagination, CA">
+			  		</div>
+			  		<div id="destination_address_html">Destination Address:
+              <input type="text" class="form-control" id="destination_input" placeholder="666 Sesame St, Imagination, CA">
+			  		</div>
+			  		<div id="route_distance_html">
+            Round Trip Distance:  0
+			  		</div>
+			  		<div id="calories_burned_html">
+            Estimated Calories Burned: 0
+			  		</div>
+            <button type="button" class="btn btn-primary" id="route_button">Submit Route</button>
+			  	</div>
+			  </div>
+			</div>`
+		</div>
+	</div>
+
+	</div> <!-- row -->
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="panel panel-primary">
+                <div class="panel-heading">
+                  <h3 class="panel-title">Current Runner</h3>
+                </div>
+                  <div class="panel-body">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Start Location</th>
+                          <th>End Location</th>
+                          <th>Calories Burned</th>
+                          <th>Round Trip Distance (Miles)</th>
+                        </tr>
+                      </thead>
+                      <tbody class="employee-data-body">
+                        <tr class="employee-data-row">
+                          <td class="start_location">Berekeley</td>
+                          <td class="end_location">San Jose</td>
+                          <td class="calories_burned">0000</td>
+                          <td class="round_trip_distance">6000</td>
+                          <button></button>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div> <!-- panel-body -->
+            </div> <!-- panel-primary -->
+		</div>
+	</div>
+  <div id="map"></div>
+	<script src="assets/javascript/javascript.js"></script>
+  <!-- Google Maps -->
+  <script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDI4WkP2aEnUvW-xJTF5udyKKnTx2Z5cio&libraries=places&callback=initMap">
+</script>
+
+</body>
+</html>
