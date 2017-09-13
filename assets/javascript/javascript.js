@@ -13,6 +13,8 @@ var milesToRun;
 var cityCircle;
 var markerArray = [];
 var waypts = [];
+var objLocationArray = [];
+var directionsDisplayArr = [];
 
 // /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -318,11 +320,6 @@ function createMarkersInCircle(latLng, names, address) {
       let stringPosition = JSON.stringify(thisPosition);
       // $('#destination_input').val(this.id);
 
-      waypts.push({
-        location: thisPosition,
-        stopover: true 
-      });
-
       $('#dest_input_div input').last().attr('value',thisName).attr('data', thisAddress).attr('data-location', stringPosition);
 
       $('#dest_input_div').append("<input type='text' class='form-control waypoint'>");
@@ -341,6 +338,14 @@ function removeMarkers(){
         markerArray[i].setMap(null);
     };
 };
+function removeRoutesAndWaypoints() {
+  //clears routes
+  directionsDisplayArr.forEach(function(route){
+      route.setMap(null)
+  })
+  //clears waypoints
+  waypts = [];
+}
 
 
 
@@ -427,7 +432,7 @@ function startMap(start, dest, miles) {
           routeWithDestination(start, dest);
         };
 };
-
+ 
 function routeWithDestination(start, dest) {
   
     map.setCenter(start);
@@ -437,24 +442,33 @@ function routeWithDestination(start, dest) {
     var directionsDisplay = new google.maps.DirectionsRenderer({
       map: map
     });
+    window.directionsDisplayArr.push(directionsDisplay)
     
     console.log($('#dest_input_div').children()); 
 
     // pushes waypoints into array between start and destination
-    var firstWaypoint = {
-      location: dest,
-      stopover: true
-    }
-    // if(typeof waypts != "undefined" && waypts != null && waypts.length > 0) {
-    //   console.log(waypts);
-      waypts.push(firstWaypoint);
-    // };
-    // waypts.push({
-    //   location: "335 Highland Ave, Piedmont, CA 94611",
-    //   stopover: true,  
-    // });
-
-    // Sets start as dest and origin for round trip
+    // var waypoint = {
+    //   location: dest,
+    //   stopover: true
+    // }
+    $('#dest_input_div').children('input').each(function () {
+      let stringDataLocation = this.getAttribute("data-location");
+      let objDataLocation = JSON.parse(stringDataLocation);
+      if (objDataLocation != null) {
+        objLocationArray.push(objDataLocation);
+      }
+    });
+    console.log(objLocationArray);
+    objLocationArray.forEach(function(object, i) {
+      console.log('for each line 457 runs');
+      waypoint = {
+        location: object,
+        stopover: true
+      };
+ 
+      waypts.push(waypoint);
+    });
+    console.log(waypts);
 
     var request = {
       destination: start,
@@ -521,6 +535,7 @@ function calcMilesCalories(legs) {
 // ////////////////////////////////////////////////////////////////////////////////
 
 $('#route_button').on('click', function() {
+    removeRoutesAndWaypoints()
      console.log('clicked');
     var startInput = $('#start_input').val().trim();
     var destInput = $('#destination_input').val().trim();
