@@ -49,7 +49,7 @@ line-height:23px;
 overflow: scroll;
 }
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{
-  color: black;
+color: black;
 font-weight:700;
 font-family:'PT Sans', sans-serif;
 }
@@ -98,6 +98,10 @@ width:150px;
 /* ------------------------------------	*/
 #home p {
   color: black;
+}
+.left {
+  text-align: left;
+  margin-left: 5%;
 }
 .searchresult input {
   text-align: center;
