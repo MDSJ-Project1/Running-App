@@ -240,7 +240,7 @@ function placeAPI(location, radius) {
 
             
       if (data.status == "INVALID_REQUEST") {
-        $('#alertbox').html('<div class="alert alert-danger" role="alert">No Result! Please Input Info!</div>');
+        $('#alertbox').html('<div class="alert alert-danger" role="alert">No Result! Please Enter Weight & Calories!</div>');
 
       } else if (data.status == "ZERO_RESULTS") {
       $('#alertbox').html('<div class="alert alert-danger" role="alert">No Results Found!</div>');
