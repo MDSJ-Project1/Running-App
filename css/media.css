@@ -47,6 +47,9 @@ background-image:none;
 	.plan-link{
 	margin-bottom:30px;
 	}
+	.undermap{
+  margin-left: 0px;
+}
 }
 @media (min-width: 992px){
 	.navbar-default .navbar-nav > li > a{
@@ -124,5 +127,8 @@ background-image:none;
 	}
 	.parallax-bg{
 	background-image:url(../img/running_image.gif);
+	}
+	.undermap{
+  	margin-left: 5%;
 	}
 }
