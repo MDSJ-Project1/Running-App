@@ -263,7 +263,7 @@ text-decoration:none;
   margin-top: 10px;
 }
 .searchresult {
-  overflow: auto;
+  overflow: hidden;
   margin: 20px 20px 20px 0px;
   max-height: auto;
 }
