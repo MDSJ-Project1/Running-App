@@ -367,7 +367,6 @@ function startAjax(blah, callback, miles) {
             $('#destination_address_html').val('Destination Address:' + '<p>' + destResponse.results[0].formatted_address);
 
             var destLocation = destResponse.results[0].geometry.location;
-            console.log(destInput, 'destlocation' + destLocation)
             callback(startLocation, destLocation, miles);
           });
         } else {
@@ -419,7 +418,6 @@ function routeWithDestination(start, dest) {
       location: dest,
       stopover: true
     }
-    console.log($('#dest_input_div').children().length);
     if ($('#dest_input_div').children().length < 2) {
       waypts.push(destWaypoint);
     } else {
@@ -440,8 +438,6 @@ function routeWithDestination(start, dest) {
       waypts.push(waypoint);
     });
 
-    console.log(waypts);
-
     var request = {
       destination: start,
       origin: start,
@@ -458,7 +454,6 @@ function routeWithDestination(start, dest) {
       if (status == 'OK') {
         // Display the route on the map.
         removeMarkers();
-        console.log(routeResponse);
         directionsDisplay.setDirections(routeResponse);
         directionsDisplay.setPanel(document.getElementById('print_directions'));
 
@@ -724,7 +719,6 @@ initApp = function() {
 
         $('#log-out').on("click", function(){
           event.preventDefault();
-          console.log("testing sign out button"); 
           firebase.auth().signOut().then(function() {
             // Sign-out successful.
           }).catch(function(error) {

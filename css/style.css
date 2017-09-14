@@ -86,6 +86,13 @@ width:75px;
 margin-bottom: 10px;
 margin-top: 10px;
 }
+#account-details {
+  text-align: center;
+  font-size: 16pt;
+}
+#account-details img {
+  width: 50%;
+}
 .hero-title p:after{
 background:none repeat scroll 0 0 #c2cdd0;
 bottom:0;
