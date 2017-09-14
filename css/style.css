@@ -96,6 +96,9 @@ width:150px;
 /* ------------------------------------	*/
 /*  			 1. Home				*/
 /* ------------------------------------	*/
+#home p {
+  color: black;
+}
 .searchresult input {
   text-align: center;
   margin-left: 5%;
