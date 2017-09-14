@@ -32,6 +32,16 @@ Author: Perfect Point Marketing
 /* ------------------------------------	*/
 /*  		   General CSS				*/
 /* ------------------------------------	*/
+/*.modal-open {
+  overflow: auto;
+}*/
+.modal-body {
+  height: 300px;
+}
+.canvasjs-chart-canvas {
+  height: 300px !important;
+}
+
 html, body{
 height:100%;
 font-size:13px;
