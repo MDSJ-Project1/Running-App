@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Run It Down</title>
+	<title>Running App</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <!-- 	bootstrap cdn-->
@@ -41,13 +41,14 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="index.html">Run It Down<span></span></a>
+                        <a class="navbar-brand" href="index.html">Team <span>2</span></a>
                     </div>
                     <div class="navbar-collapse collapse">
 
                         <ul class="nav navbar-nav navbar-right">
-                        		<li><a href="#" data-toggle="modal" data-target="#instructions"">Instructions</a></li>
-                            <li><a href="#" data-toggle="modal" data-target="#myProfile"">Profile</a></li> 
+                            <li><a href="index.html#home">Home</a></li>
+                            <li><a href="#" data-toggle="modal" data-target="#myProfile"">Profile</a></li>
+                            <li><a href="#" data-toggle="modal" data-target="#instructions"">Instructions</a></li>
                             <li><a href="#" data-toggle="modal" data-target="#myResults"">Results</a></li>
                             <li id="signed-in"><a href="#" data-toggle="modal" data-target="#myModal">Login</a></li>
                         </ul>
@@ -65,48 +66,51 @@
       <div data-velocity="-.3" class="home-parallax"></div>
       <div class="row">
         <div class="col-md-12 text-center hero-title">
-            <h2 class="title">Plan Your Run</h2>
-            <p>Input your weight and the amount of calories you want to burn to get started</p>
-            <div id="alertbox"></div>
+            <h2 class="title">Google Map</h2>
         <div class="row">
             <div class="col-md-8">
-                <h3></h3>
+                <h3>Maps</h3>
               <div id="map"></div>
               <div class="container">
               <div class="undermap">
               <div class="row">
-                <div class="container">
-                <div class="col-md-4 col-xs-6">
-                <h6><span>Weight</span></h6>
-                  <input type="number" class="form-control" id="weight_field">
+                <div class="col-md-4">
+                <h6>Weight</h6>
+<<<<<<< HEAD
+                  <input type="number" class="form-control" id="weight_field" placeholder="160lb" value="160">
                 </div>
-                <div class="col-md-4 col-xs-6">
-                <h6><span>Calories</span></h6>
+                <div class="col-md-4">
+=======
+                  <input type="number" class="form-control" id="weight_field">
+>>>>>>> 5404c7c996e3fb2e68aff2d43bafe969c63c2090
+                <h6>Calorie</h6>
                   <input type="number" class="form-control" id="calorie_field">;
                 </div>
                 <div class="col-md-4"></div>
               </div>
               </div>
               </div>
-              </div>
             </div>
           <div class="col-md-4 wow animated fadeInDown">
             <div class="searchresult">
+              <h3>Search</h3>
               <div id="address_html">
-                <h6 class="left"><span>Start Address:</span></h6>
+                <h6>Start Address:
                   <input type="text" class="form-control" id="start_input">
+                </h6>
               </div>
               <div id="destination_address_html">
-                <h6 class="left"><span>Destination Address:</span></h6>
+                <h6>Destination(s):
+                </h6>
                 <div id="dest_input_div">
                       <input type="text" class="form-control waypoint" id="destination_input">
                 </div>
               </div>
               <div id="route_distance_html">
-                <h6><span>Round Trip Distance: 0</span></h6>
+                <h6>Round Trip Distance: <span>0</span></h6>
               </div>
               <div id="calories_burned_html">
-                <h6><span>Estimated Calories Burned: <span id="calorie_number">0</span></span></h6>
+                <h6>Estimated Calories Burned: <span id="calorie_number">0</span></h6>
               </div>
               <br>
           <select class="select dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -123,7 +127,7 @@
                   <br>
                 <button id="print_link">Print Directions</button>
                 <br>
-                <button class="btn-success" id="completed_route">Submit Completed Route</button>
+                <<button id="completed_route">Submit Completed Route</button>
             </div>
       </div>
 
@@ -185,7 +189,7 @@
           <h4 class="modal-title">Results</h4>
         </div>
         <div class="modal-body">
-          <div id="chartContainer" style="height: 400px; width: 100%;"></div>
+          <div id="chartContainer" style="height: 300px; width: 100%;"></div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -256,7 +260,10 @@
     <script src="js/jquery.easing.1.3.min.js" type="text/javascript"></script>
     <script src="js/jquery.sticky.js" type="text/javascript"></script>
     <script src="js/jquery.nav.js" type="text/javascript"></script>
-  
+    <!--owl carousel-->
+    <!--wow animation-->
+    <!--parallax-->
+    <script src="js/jquery.scrolly.js" type="text/javascript"></script>
     <!--project count-->
     <script src="http://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
     <script src="js/jquery.counterup.min.js" type="text/javascript"></script>

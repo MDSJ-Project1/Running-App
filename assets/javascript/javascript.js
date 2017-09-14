@@ -367,7 +367,7 @@ function startAjax(blah, callback, miles) {
             $('#destination_address_html').val('Destination Address:' + '<p>' + destResponse.results[0].formatted_address);
 
             var destLocation = destResponse.results[0].geometry.location;
-
+            console.log(destInput, 'destlocation' + destLocation)
             callback(startLocation, destLocation, miles);
           });
         } else {
@@ -415,10 +415,14 @@ function routeWithDestination(start, dest) {
  
 
     // pushes waypoints into array between start and destination
-    // var waypoint = {
-    //   location: dest,
-    //   stopover: true
-    // }
+    var destWaypoint= {
+      location: dest,
+      stopover: true
+    }
+    console.log($('#dest_input_div').children().length);
+    if ($('#dest_input_div').children().length < 2) {
+      waypts.push(destWaypoint);
+    } else {
     $('#dest_input_div').children('input').each(function () {
       let stringDataLocation = this.getAttribute("data-location");
       let objDataLocation = JSON.parse(stringDataLocation);
@@ -426,6 +430,7 @@ function routeWithDestination(start, dest) {
         objLocationArray.push(objDataLocation);
       }
     });
+    }
 
     objLocationArray.forEach(function(object, i) {
       waypoint = {
@@ -552,21 +557,6 @@ $('#print_link').on('click', function() {
 $(document).ajaxError(function() {
   alert('Route not found, please try again');
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // Login
 // And
@@ -747,9 +737,9 @@ initApp = function() {
 
       $("#signed-in").html('<a href="#" data-toggle="modal" data-target="#myModal">Login</a>');
       // User is signed out.
-      document.getElementById('sign-in-status').textContent = 'Signed out';
-      document.getElementById('sign-in').textContent = 'Sign in';
-      document.getElementById('account-details2').textContent = 'null';
+      // document.getElementById('sign-in-status').textContent = 'Signed out';
+      // document.getElementById('sign-in').textContent = 'Sign in';
+      // document.getElementById('account-details2').textContent = 'null';
     }
   }, function(error) {
   });
