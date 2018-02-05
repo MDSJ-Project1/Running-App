@@ -6,7 +6,7 @@ Directions automatically optimizes POIs and plots a round trip.
 
 [WebSite](https://mdsj-project1.github.io/Running-App/)
 
-![Alt Text](https://github.com/MDSJ-Project1/Running-App/blob/master/ezgif.com-video-to-gif.gif)
+![RunItDownGif](https://github.com/MDSJ-Project1/Running-App/blob/master/ezgif.com-video-to-gif.gif)
 
 ##Things To Do Next:
 	1. Clean up UI
